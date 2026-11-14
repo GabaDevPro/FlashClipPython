@@ -1,0 +1,30 @@
+/* Ctrl+P: uma página 16:9 por slide, sem controles. */
+.impressao { display: none; }
+
+@page {
+  size: 1920px 1080px;
+  margin: 0;
+}
+
+@media print {
+  html, body {
+    width: 1920px;
+    height: auto;
+    overflow: visible;
+    background: none;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  body > *:not(.impressao) { display: none !important; }
+  .impressao { display: block; }
+  .pagina {
+    position: relative;
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    break-after: page;
+    page-break-after: always;
+  }
+  .pagina:last-child { break-after: auto; page-break-after: auto; }
+  .pagina .cronometro__tempo { animation: none; }
+}

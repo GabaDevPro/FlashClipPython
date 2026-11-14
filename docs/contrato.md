@@ -112,18 +112,14 @@ PI.config = {
 - Exportar gera `placar-AAAA-MM-DD-HHMM.json` com este objeto. Importar valida estrutura, tipos e tamanho (até 200 jogadores, nome até 40 caracteres) antes de trocar o estado.
 - Nomes entram no DOM só por `textContent`.
 
-## 7. Mensagens entre janelas
+## 7. Sincronia entre a janela principal e o painel
 
-A janela principal (`index.html`) é a dona do estado. O painel (`apresentador.html`) envia comandos e desenha o estado que recebe.
+As duas janelas (`index.html` e `apresentador.html`) leem e escrevem o mesmo estado no localStorage (`pi:estado:v1`). Cada mudança grava o estado inteiro; a outra janela recebe o evento `storage`, valida o JSON com `PI.estado.importar` (o que não passa é ignorado) e redesenha. O teste de file:// mediu 0 a 1 ms entre janelas; no painel, ida e volta com redesenho ficou em 78 ms.
 
-Técnica (teste de 2026-11-14 em `docs/decisoes.md`): `window.open` + `postMessage(msg, "*")`. Em file:// `event.origin` é `"null"`, então quem recebe confere `event.source` e o formato. O painel manda `pi:ola` a cada 1 s para a principal recarregada reaprender a janela. Sem `window.opener`, o painel usa o plano B: comandos na chave `pi:comando` do localStorage e estado pelo evento `storage`.
+- A tecla P abre o painel com `window.open('apresentador.html')`. O painel também funciona aberto à mão, sem `window.opener`.
+- Recarregar qualquer janela não perde nada: o estado está no localStorage.
+- Só a janela principal toca o aviso sonoro do cronômetro; a roleta anima só na principal.
+- `estado.roleta.ultimo` (`{ id, em }`) marca o último sorteio; a principal anima quando `em` muda.
+- `estado.melhorJogada` guarda o id escolhido no painel e aparece no slide 51.
 
-| Mensagem | Sentido | Formato |
-|---|---|---|
-| Olá | painel para principal | `{ tipo: "pi:ola", versao: 1 }` |
-| Estado | principal para painel | `{ tipo: "pi:estado", versao: 1, estado }` |
-| Comando | painel para principal | `{ tipo: "pi:comando", versao: 1, comando, dados }` |
-
-Comandos: `ir` (`{ slide }`), `proximo`, `anterior`, `cronometro` (`{ acao: "iniciar" | "pausar" | "mais1" | "zerar" }`), `jogador` (`{ acao: "adicionar" | "renomear" | "remover" | "acertou", id, nome }`), `resultado` (`{ atividade, top3 }`), `roleta` (`{ acao: "girar" | "semRepetir" | "limpar" }`), `melhorJogada` (`{ id }`), `som` (`{ ligado }`).
-
-Quem recebe confere a origem (janela conhecida) e o formato. Mensagem fora do contrato é ignorada.
+Teclas da janela principal: setas, Page Up/Down, espaço, Home/End, G + número, F, ?, C (cronômetro), M (+1 min), Z (zerar), S (som), L (placar), R (roleta), P (painel). O painel aceita as mesmas, menos F, ? e P.

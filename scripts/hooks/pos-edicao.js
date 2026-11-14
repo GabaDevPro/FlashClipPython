@@ -38,7 +38,11 @@ if (checagem.status !== 0) {
 
 const testes = rodar(['--test', 'tests/**/*.test.js']);
 if (testes.status !== 0) {
-  process.stderr.write(`Testes rápidos falharam depois de editar ${arquivo}\n${testes.stdout}${testes.stderr}`);
+  // Só a parte das falhas, que já traz o erro completo de cada teste.
+  const saida = testes.stdout + testes.stderr;
+  const inicio = saida.indexOf('✖ failing tests');
+  const resumo = inicio >= 0 ? saida.slice(inicio) : saida.split('\n').slice(-60).join('\n');
+  process.stderr.write(`Testes rápidos falharam depois de editar ${arquivo}\n${resumo}`);
   process.exit(SAIDA_BLOQUEIO);
 }
 

@@ -4,6 +4,7 @@
 // salva um PNG de cada um e lista erros de console e requisições que não são file://.
 // Uso: node scripts/capturar.js --largura 1920 --altura 1080 --saida capturas/1920 [--slides 1,15,25] [--navegador caminho]
 //      [--antes "expressão JS"] roda na página antes das capturas (ex.: montar um placar de teste).
+//      [--pdf arquivo.pdf] gera o PDF como o Ctrl+P (dispara beforeprint e imprime com o tamanho do @page).
 
 const { spawn } = require('node:child_process');
 const fs = require('node:fs');
@@ -25,7 +26,8 @@ function argumentos() {
     slides: valor('slides', ''),
     navegador: valor('navegador', CHROME),
     html: valor('html', 'index.html'),
-    antes: valor('antes', '')
+    antes: valor('antes', ''),
+    pdf: valor('pdf', '')
   };
 }
 
@@ -90,6 +92,15 @@ async function main() {
     await espera(1500);
     await avaliar(cdp, 'document.fonts.ready.then(() => true)');
     if (op.antes) { await avaliar(cdp, op.antes); await espera(300); }
+    if (op.pdf) {
+      await avaliar(cdp, "window.dispatchEvent(new Event('beforeprint')); true");
+      await espera(500);
+      const pdf = await cdp.enviar('Page.printToPDF', { preferCSSPageSize: true, printBackground: true });
+      fs.writeFileSync(path.resolve(op.pdf), Buffer.from(pdf.result.data, 'base64'));
+      process.stdout.write(JSON.stringify({ pdf: path.resolve(op.pdf), erros, externas }, null, 2) + String.fromCharCode(10));
+      cdp.fechar();
+      return;
+    }
     const numeros = await avaliar(cdp, 'PI.app.slides().map(s => String(s.n))');
     const pedidos = op.slides ? op.slides.split(',').map((s) => s.trim()) : numeros;
     for (const n of pedidos) {

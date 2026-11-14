@@ -14,7 +14,8 @@
     m: 'mais1', M: 'mais1',
     z: 'zerar', Z: 'zerar',
     s: 'som', S: 'som',
-    l: 'placar', L: 'placar'
+    l: 'placar', L: 'placar',
+    r: 'roleta', R: 'roleta'
   };
 
   function limitar(indice, total) {

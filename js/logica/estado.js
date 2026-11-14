@@ -65,8 +65,10 @@
   }
 
   function erroRoleta(r) {
+    var ultimoOk = !ehObjeto(r) || r.ultimo === undefined || r.ultimo === null ||
+      (ehObjeto(r.ultimo) && typeof r.ultimo.id === 'string' && ehNumero(r.ultimo.em));
     var ok = ehObjeto(r) && typeof r.semRepetir === 'boolean' && Array.isArray(r.sorteados) &&
-      r.sorteados.every(function (s) { return typeof s === 'string'; });
+      r.sorteados.every(function (s) { return typeof s === 'string'; }) && ultimoOk;
     return ok ? null : 'roleta inválida';
   }
 

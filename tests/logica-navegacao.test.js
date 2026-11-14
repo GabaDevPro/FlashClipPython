@@ -39,7 +39,7 @@ test('Home, End, F, ? e P têm ações próprias', () => {
 });
 
 test('C, M, Z, S e L controlam cronômetro, som e placar, em maiúscula ou minúscula', () => {
-  const esperado = { c: 'cronometro', m: 'mais1', z: 'zerar', s: 'som', l: 'placar' };
+  const esperado = { c: 'cronometro', m: 'mais1', z: 'zerar', s: 'som', l: 'placar', r: 'roleta' };
   for (const [tecla, acao] of Object.entries(esperado)) {
     assert.equal(nav.interpretarTecla(tecla, null).acao, acao, tecla);
     assert.equal(nav.interpretarTecla(tecla.toUpperCase(), null).acao, acao, tecla.toUpperCase());

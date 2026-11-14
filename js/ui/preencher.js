@@ -42,9 +42,22 @@
     lista.replaceChildren.apply(lista, mostrar.map(linha));
   }
 
+  function nomeDe(estado, id) {
+    var j = estado.jogadores.filter(function (x) { return x.id === id; })[0];
+    return j ? j.nome : '';
+  }
+
+  function preencherExtras(no, estado) {
+    var resultado = no.querySelector('.roleta__resultado');
+    if (resultado && estado.roleta.ultimo) { resultado.textContent = nomeDe(estado, estado.roleta.ultimo.id); }
+    var mj = no.querySelector('[data-melhor-jogada] .melhor-jogada__nome');
+    if (mj && estado.melhorJogada) { mj.textContent = nomeDe(estado, estado.melhorJogada); }
+  }
+
   function preencher(no, estado, config) {
     preencherTop3(no, estado, config);
     preencherRanking(no, estado, config);
+    preencherExtras(no, estado);
   }
 
   PI.preencher = preencher;

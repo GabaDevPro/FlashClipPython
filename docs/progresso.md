@@ -29,3 +29,13 @@ Diário curto por sessão: feito, pendente, próximo passo.
 - Verificado no navegador embutido: 6 jogadores e top 3 das 8 atividades pela interface; totais e desempate certos nos slides 13, 37, 51 e 52; recarregar mantém placar e cronômetro (diferença de 1 ms); JSON quebrado e inválido recusados com mensagem; importar, zerar e desfazer funcionam. Capturas por file:// sem erro e sem requisição externa.
 - Não verificado: o som do aviso, que precisa de alguém ouvindo. Teste: som do notebook ligado, slide 12, tecla C, e esperar os 5 minutos (ou Z e C de novo para recomeçar).
 - Próximo: F09 painel do apresentador e sincronia, F10 roleta, F11 QR e ministrantes, F12 PDF; depois `click-path-audit` e `security-reviewer`.
+
+## 2026-11-14 (sábado), sessão 1, F09 a F12
+
+- Walter decidiu: sem QR code nem sistema de envio (ministrantes conferem nas carteiras) e prêmio de chocolate para o 1º lugar. Registrado em `docs/decisoes.md`.
+- Feito: `js/logica/cronograma.js` e `roleta.js` em TDD (81 testes, 100% de linhas). Painel do apresentador (`apresentador.html`, tecla P) com slide atual e próximo, fala, interação e resposta, cronômetro, relógio da aula (etapa prevista e adiantado ou atrasado), roleta, melhor jogada e placar. Sincronia pelo estado no localStorage e evento `storage` (contrato, seção 7).
+- Feito: roleta (tecla R ou botão do painel) entre quem acertou alguma atividade, sem repetir; gira no slide 37 e aparece por cima do slide 53. PDF pelo Ctrl+P (`css/impressao.css`, `js/ui/impressao.js`).
+- Verificado: painel para principal em 1 ms e principal para painel em 78 ms; painel cabe em 1366x768; três sorteios sem repetir; PDF com 57 páginas 16:9 gerado por `node scripts/capturar.js --pdf capturas/python-imobiliario.pdf`; 57 capturas por file:// sem erro e sem requisição externa.
+- Não verificado: o PDF página a página (não há renderizador de PDF aqui; o Walter abre o arquivo); o painel aberto por file:// com a tecla P numa janela real (testado em localhost; a técnica de janelas já passou no teste de file://).
+- Pendente do grupo: as falas e interações das atividades ainda dizem "enviam no sistema"; ajustar quando o grupo reescrever.
+- Próximo: `click-path-audit` e `security-reviewer`; depois F13 animações e F14 README.

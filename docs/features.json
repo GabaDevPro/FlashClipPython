@@ -103,7 +103,7 @@
       "Fechar o painel não derruba a principal; recarregar a principal não perde o estado",
       "Verificação do painel em 1366x768; aria-live no cronômetro do painel"
     ],
-    "passa": false
+    "passa": true
   },
   {
     "id": "F10",
@@ -114,7 +114,7 @@
       "Teste unitário: com a opção ligada, não repete vencedor; sem candidatos, avisa",
       "Roleta funciona nos slides 37 e 53"
     ],
-    "passa": false
+    "passa": true
   },
   {
     "id": "F11",
@@ -125,18 +125,18 @@
       "Slide 55 mostra o link do Forms ou link pendente",
       "Sem foto, o ministrante aparece como peão na cor dele"
     ],
-    "passa": false
+    "passa": true
   },
   {
     "id": "F12",
     "descricao": "PDF pelo Ctrl+P: uma página 16:9 por slide, sem controles, com gabaritos, ranking como ranking ao vivo",
     "prioridade": "P1",
     "passos_de_teste": [
-      "Ctrl+P gera 57 páginas 16:9 (56 mais o 18b)",
+      "Ctrl+P gera 57 páginas 16:9 (56 mais o 18b); verificado com scripts/capturar.js --pdf",
       "Nenhum controle, cronômetro interativo ou painel aparece no PDF",
       "Slides de ranking mostram ranking ao vivo"
     ],
-    "passa": false
+    "passa": true
   },
   {
     "id": "F13",

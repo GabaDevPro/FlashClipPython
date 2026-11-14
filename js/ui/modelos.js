@@ -183,6 +183,11 @@
     });
     s.appendChild(el('div', 'resposta__grade', [codigos(slide, { semSaida: true }), el('div', 'resposta__lado', [premio, longa ? top3 : null])]));
     if (!longa) { s.appendChild(top3); }
+    if (slide.atividade === 'boss') {
+      var mj = el('p', 'melhor-jogada', [txt('span', 'rotulo', 'MELHOR JOGADA'), txt('strong', 'melhor-jogada__nome', 'a escolher')]);
+      mj.setAttribute('data-melhor-jogada', '');
+      s.querySelector('.resposta__lado').appendChild(mj);
+    }
     return s;
   };
 

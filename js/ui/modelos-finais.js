@@ -13,6 +13,8 @@
         ' A230 230 0 0 1 ' + (260 + r * Math.cos(a1)).toFixed(1) + ' ' + (260 + r * Math.sin(a1)).toFixed(1) + ' Z"/>';
     }).join('') + '</g><circle cx="260" cy="260" r="230" class="arte-aro"/><circle cx="260" cy="260" r="62" class="arte-miolo"/><polygon points="260,500 236,548 284,548" class="arte-ponteiro"/></svg>';
 
+  A.roleta = roleta;
+
   M.recap = function (slide) {
     var s = A.base(slide, 'recap');
     s.appendChild(A.titulo(slide));
@@ -26,6 +28,7 @@
   };
 
   function roleta() {
+    // Roda grande do sorteio (slide 37 e camada sobre o slide 53).
     return el('div', 'roleta', [P.svg(RODA, 'roleta__roda'), txt('span', 'roleta__miolo', 'SORTEIO'), txt('p', 'roleta__resultado', '')]);
   }
 

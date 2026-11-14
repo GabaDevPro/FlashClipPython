@@ -51,6 +51,13 @@ test('validar recusa estrutura, tipos e referências erradas com motivo claro', 
   }
 });
 
+test('validar aceita o último sorteio da roleta e recusa formato errado', () => {
+  const com = Object.assign(valido(), { roleta: { semRepetir: true, sorteados: ['j1'], ultimo: { id: 'j1', em: 5 } } });
+  assert.deepEqual(est.validar(com, ATIVIDADES), { ok: true });
+  const errado = Object.assign(valido(), { roleta: { semRepetir: true, sorteados: [], ultimo: { id: 3 } } });
+  assert.match(est.validar(errado, ATIVIDADES).erro, /roleta/);
+});
+
 test('validar recusa mais de 200 jogadores e nome com mais de 40 caracteres', () => {
   const muitos = Object.assign(valido(), { jogadores: Array.from({ length: 201 }, (_, i) => ({ id: 'j' + (i + 1), nome: 'J' + i, acertou: false, ordem: i + 1 })), resultados: {} });
   assert.match(est.validar(muitos, ATIVIDADES).erro, /200/);

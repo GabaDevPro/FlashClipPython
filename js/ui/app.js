@@ -14,6 +14,8 @@
     ['Z', 'zerar o cronômetro'],
     ['S', 'ligar ou desligar o som do aviso'],
     ['L', 'abrir o placar'],
+    ['R', 'girar a roleta do sorteio'],
+    ['P', 'abrir o painel do apresentador (segunda janela)'],
     ['F', 'tela cheia'],
     ['?', 'mostrar ou esconder esta ajuda'],
     ['Clique no slide', 'próximo slide']
@@ -46,6 +48,7 @@
     PI.preencher(no, estado, ctx.config);
     palco.replaceChildren(no);
     PI.cronometroUi.tick();
+    PI.roletaUi.aoMudar(estado, palco);
     document.title = 'Slide ' + slide.n + ' · ' + slide.titulo;
     raiz.history.replaceState(null, '', '#' + slide.n);
   }
@@ -98,8 +101,15 @@
     mais1: function () { mudarCronometro(PI.cronometro.mais1); },
     zerar: function () { mudarCronometro(PI.cronometro.zerar); },
     som: alternarSom,
-    placar: function () { PI.placarUi.abrir(slides[indiceAtual()].atividade); }
+    placar: function () { PI.placarUi.abrir(slides[indiceAtual()].atividade); },
+    roleta: function () { PI.roletaUi.sortearAgora(); },
+    painel: abrirPainel
   };
+
+  function abrirPainel() {
+    var janela = raiz.open('apresentador.html', 'pi-painel', 'width=1366,height=768');
+    if (!janela) { PI.loja.avisar('O navegador bloqueou a janela do painel. Libere pop-ups para este arquivo e aperte P de novo.', 'erro'); }
+  }
 
   function executar(r) {
     modoIr = r.modoIr;
@@ -150,6 +160,7 @@
     palco.addEventListener('click', aoClicar);
     var doEndereco = PI.conteudo.indicePorNumero(slides, decodeURIComponent(raiz.location.hash.slice(1)));
     PI.cronometroUi.iniciar();
+    PI.roletaUi.iniciar();
     ir(doEndereco >= 0 ? doEndereco : PI.loja.obter().slide);
   }
 

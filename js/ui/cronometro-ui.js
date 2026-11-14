@@ -7,6 +7,7 @@
   var NOTAS = [0, 0.35, 0.7];
   var audio = null;
   var ultimo = { chave: null, restante: 0 };
+  var comSom = true;
 
   function prepararAudio() {
     var Contexto = raiz.AudioContext || raiz.webkitAudioContext;
@@ -74,11 +75,12 @@
     var c = estado.cronometro;
     var restante = atualizarMostradores(c, Date.now());
     var chave = c.alvo + ':' + c.terminaEm;
-    if (c.rodando && chave === ultimo.chave && ultimo.restante > 0 && restante === 0 && estado.som) { tocarAviso(); }
+    if (comSom && c.rodando && chave === ultimo.chave && ultimo.restante > 0 && restante === 0 && estado.som) { tocarAviso(); }
     ultimo = { chave: chave, restante: restante };
   }
 
-  function iniciar() {
+  function iniciar(opcoes) {
+    comSom = !(opcoes && opcoes.semSom);
     document.addEventListener('keydown', prepararAudio, true);
     document.addEventListener('pointerdown', prepararAudio, true);
     raiz.setInterval(tick, TICK_MS);
