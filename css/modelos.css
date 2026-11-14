@@ -252,6 +252,33 @@
 .encerramento__peoes { position: absolute; right: 120px; bottom: 90px; display: flex; gap: 20px; }
 .slide--encerramento > .nota { position: absolute; right: 200px; top: 220px; transform: rotate(6deg); }
 
+/* Linhas do ranking ligadas ao placar */
+.ranking__linha {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 14px 40px 14px 16px;
+  background: var(--cor-carta);
+  border: var(--borda-tinta) solid var(--cor-tinta);
+  border-radius: var(--raio-carta);
+}
+.ranking__posicao {
+  width: 72px;
+  height: 72px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--cor-fundo);
+  border: var(--borda-tinta) solid var(--cor-tinta);
+  font: 700 44px/1 var(--fonte-titulo);
+}
+.ranking__nome { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: var(--texto-destaque); font-size: 44px; }
+.ranking__valor { font: 700 48px/1 var(--fonte-titulo); white-space: nowrap; }
+.slide--ranking:not(.slide--ranking-final) .ranking__linha:first-child { background: var(--cor-casa-amarelo); }
+.slide--ranking:not(.slide--ranking-final) .ranking__linha:first-child .ranking__posicao { background: var(--cor-tinta); color: var(--cor-carta); }
+.top3__carta--vazia .top3__nome { color: var(--cor-texto-suave); font-weight: 400; }
+
 /* Código sem ligaduras: != e >= aparecem como o aluno digita, não como ≠ e ≥.
    Fica no fim do último CSS porque o atalho `font:` das classes acima zera essa propriedade. */
 :is(pre, code, .codigo__texto, .diagrama__condicao, .tabela-itens dt, .ilustracao__etiqueta) {

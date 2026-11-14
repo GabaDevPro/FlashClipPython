@@ -38,6 +38,14 @@ test('Home, End, F, ? e P têm ações próprias', () => {
   assert.equal(nav.interpretarTecla('p', null).acao, 'painel');
 });
 
+test('C, M, Z, S e L controlam cronômetro, som e placar, em maiúscula ou minúscula', () => {
+  const esperado = { c: 'cronometro', m: 'mais1', z: 'zerar', s: 'som', l: 'placar' };
+  for (const [tecla, acao] of Object.entries(esperado)) {
+    assert.equal(nav.interpretarTecla(tecla, null).acao, acao, tecla);
+    assert.equal(nav.interpretarTecla(tecla.toUpperCase(), null).acao, acao, tecla.toUpperCase());
+  }
+});
+
 test('tecla desconhecida não faz nada', () => {
   assert.deepEqual(nav.interpretarTecla('x', null), { acao: null, modoIr: null });
 });

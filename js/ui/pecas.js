@@ -68,10 +68,12 @@
     return c;
   }
 
-  function cronometro(tempo, estado) {
+  function cronometro(tempo, estado, alvo) {
     var c = el('div', 'cronometro cronometro--' + (estado || 'normal') + (tempo.length > 4 ? ' cronometro--longo' : ''),
       [txt('span', 'cronometro__rotulo', 'TEMPO'), txt('span', 'cronometro__tempo', tempo)]);
     c.setAttribute('data-cronometro', '');
+    c.setAttribute('data-alvo', alvo || '');
+    c.setAttribute('role', 'timer');
     return c;
   }
 

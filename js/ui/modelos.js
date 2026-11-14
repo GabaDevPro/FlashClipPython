@@ -157,12 +157,12 @@
     s.appendChild(titulo(slide, 'titulo-atividade'));
     var esquerda = el('div', 'enunciado__texto', [textos(slide), slide.itens ? numerada(slide.itens, 4) : null, denso ? null : codigos(slide)]);
     if (slide.apoio) {
-      s.appendChild(P.cronometro(minutosDe(ctx, slide), 'canto'));
+      s.appendChild(P.cronometro(minutosDe(ctx, slide), 'canto', slide.atividade));
       s.appendChild(esquerda);
       return s;
     }
     var extra = denso ? codigos(slide) : el('div', 'enunciado__premio', [P.dado(3), P.dado(4), el('div', '', [P.nota(premioDe(ctx, slide)), txt('span', 'rotulo', 'para o 1º lugar')])]);
-    s.appendChild(el('div', 'enunciado__grade', [esquerda, el('div', 'enunciado__lado', [P.cronometro(minutosDe(ctx, slide), 'normal'), extra])]));
+    s.appendChild(el('div', 'enunciado__grade', [esquerda, el('div', 'enunciado__lado', [P.cronometro(minutosDe(ctx, slide), 'normal', slide.atividade), extra])]));
     return s;
   };
 
@@ -171,7 +171,8 @@
     var longa = linhas > 4;
     var s = base(slide, 'resposta' + (longa ? ' slide--resposta-longa' : ''));
     s.appendChild(titulo(slide));
-    var premio = el('div', 'resposta__premio', [P.nota(premioDe(ctx, slide)), txt('span', 'rotulo', 'prêmio do 1º lugar')]);
+    var textoPremio = ctx.config.atividades[slide.atividade].premio;
+    var premio = el('div', 'resposta__premio', [P.nota(premioDe(ctx, slide)), txt('span', 'rotulo', textoPremio ? 'Prêmio do 1º: ' + textoPremio : 'prêmio do 1º lugar')]);
     var top3 = el('ol', 'top3');
     top3.setAttribute('data-top3', slide.atividade);
     ['1º', '2º', '3º'].forEach(function (pos, i) {

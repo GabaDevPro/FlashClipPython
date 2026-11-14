@@ -9,7 +9,12 @@
     Home: 'inicio', End: 'fim',
     f: 'telaCheia', F: 'telaCheia',
     '?': 'ajuda',
-    p: 'painel', P: 'painel'
+    p: 'painel', P: 'painel',
+    c: 'cronometro', C: 'cronometro',
+    m: 'mais1', M: 'mais1',
+    z: 'zerar', Z: 'zerar',
+    s: 'som', S: 'som',
+    l: 'placar', L: 'placar'
   };
 
   function limitar(indice, total) {

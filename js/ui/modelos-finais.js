@@ -45,7 +45,7 @@
   M.intervalo = function (slide, ctx) {
     var s = A.base(slide, 'intervalo');
     s.appendChild(A.titulo(slide, 'titulo-capa'));
-    s.appendChild(P.cronometro(A.minutosDe(ctx, slide), 'normal'));
+    s.appendChild(P.cronometro(A.minutosDe(ctx, slide), 'normal', slide.cronometro));
     s.appendChild(A.textos(slide, 'slide__texto--grande'));
     s.appendChild(el('div', 'intervalo__arte', [P.nota('R$ 100'), P.dado(2)]));
     return s;

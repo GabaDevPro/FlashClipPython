@@ -153,9 +153,20 @@
 }
 .cronometro--normal,
 .cronometro--alerta { width: 640px; height: 520px; }
-.cronometro--alerta { background: var(--cor-destaque); }
-.cronometro--alerta .cronometro__rotulo { background: var(--cor-tinta); }
-.cronometro--alerta .cronometro__tempo { color: var(--cor-carta); }
+.cronometro--alerta,
+.cronometro--em-alerta { background: var(--cor-destaque); }
+.cronometro--alerta .cronometro__rotulo,
+.cronometro--em-alerta .cronometro__rotulo { background: var(--cor-tinta); }
+.cronometro--alerta .cronometro__tempo,
+.cronometro--em-alerta .cronometro__tempo,
+.cronometro--em-alerta.cronometro--canto .cronometro__rotulo { color: var(--cor-carta); }
+.cronometro--em-alerta.cronometro--canto { border-left-color: var(--cor-tinta); }
+.cronometro--em-alerta.cronometro--canto .cronometro__rotulo { background: none; }
+.cronometro--fim .cronometro__tempo { animation: piscar 1s steps(2, jump-none) infinite; }
+@keyframes piscar { 50% { opacity: 0.35; } }
+@media (prefers-reduced-motion: reduce) {
+  .cronometro--fim .cronometro__tempo { animation: none; text-decoration: underline; }
+}
 .cronometro--canto {
   flex-direction: row;
   width: 300px;

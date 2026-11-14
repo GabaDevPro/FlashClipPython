@@ -3,6 +3,7 @@
 // Abre index.html por file:// num Chrome ou Edge headless, passa pelos slides pedidos,
 // salva um PNG de cada um e lista erros de console e requisições que não são file://.
 // Uso: node scripts/capturar.js --largura 1920 --altura 1080 --saida capturas/1920 [--slides 1,15,25] [--navegador caminho]
+//      [--antes "expressão JS"] roda na página antes das capturas (ex.: montar um placar de teste).
 
 const { spawn } = require('node:child_process');
 const fs = require('node:fs');
@@ -23,7 +24,8 @@ function argumentos() {
     saida: path.resolve(valor('saida', path.join(RAIZ, 'capturas', 'slides'))),
     slides: valor('slides', ''),
     navegador: valor('navegador', CHROME),
-    html: valor('html', 'index.html')
+    html: valor('html', 'index.html'),
+    antes: valor('antes', '')
   };
 }
 
@@ -84,6 +86,7 @@ async function main() {
     await cdp.enviar('Page.reload', { ignoreCache: true });
     await espera(1500);
     await avaliar(cdp, 'document.fonts.ready.then(() => true)');
+    if (op.antes) { await avaliar(cdp, op.antes); await espera(300); }
     const numeros = await avaliar(cdp, 'PI.app.slides().map(s => String(s.n))');
     const pedidos = op.slides ? op.slides.split(',').map((s) => s.trim()) : numeros;
     for (const n of pedidos) {

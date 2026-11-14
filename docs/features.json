@@ -56,7 +56,7 @@
       "Recarregar no meio mantém o tempo restante",
       "Nos slides 18b, 49 e 50 o cronômetro aparece pequeno no canto e continua contando"
     ],
-    "passa": false
+    "passa": true
   },
   {
     "id": "F06",
@@ -68,7 +68,7 @@
       "Teste unitário: corrigir o top 3 de uma atividade substitui o anterior; desfazer volta ao estado anterior",
       "Nomes só entram no DOM por textContent"
     ],
-    "passa": false
+    "passa": true
   },
   {
     "id": "F07",
@@ -79,7 +79,7 @@
       "Slide 37 mostra os 5 mais ricos em ordem",
       "Slide 52 destaca o 1º como Magnata da Liga"
     ],
-    "passa": false
+    "passa": true
   },
   {
     "id": "F08",
@@ -91,7 +91,7 @@
       "Exportar e importar restaura o mesmo estado; JSON inválido mostra mensagem clara",
       "Zerar partida pede confirmação"
     ],
-    "passa": false
+    "passa": true
   },
   {
     "id": "F09",

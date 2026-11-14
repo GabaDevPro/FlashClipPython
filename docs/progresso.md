@@ -20,3 +20,12 @@ Diário curto por sessão: feito, pendente, próximo passo.
 - Diferenças em relação ao Figma: código longo usa 30 a 32px (mínimo 28); a resposta com código longo mostra o top 3 em coluna; código e saída lado a lado quando passam de 8 linhas; comentário do editor mais claro (`#ada899`, também no Figma); ilustrações em SVG embutido no JS, não em `assets/svg/`.
 - Não verificado: a tecla F (tela cheia) só funciona com tecla real, e o teste automático não a cobre.
 - Próximo: F05 cronômetro (TDD), F06 placar e ranking, F07 respostas ligadas ao placar, F08 persistência.
+- Walter confirmou a tela cheia (tecla F) no navegador dele.
+
+## 2026-11-14 (sábado), sessão 1, F05 a F08
+
+- Feito: `js/logica/cronometro.js`, `placar.js` e `estado.js` em TDD (66 testes, 100% de linhas). Teclas novas: C inicia ou pausa, M soma 1 minuto, Z zera, S som, L placar.
+- Feito: cronômetro ao vivo pelo horário de término (alerta vermelho no último minuto, pisca no fim, pequeno no canto dos slides de apoio, aviso sonoro por Web Audio); painel do placar (tecla L) com jogadores, lista colada de quem acertou, top 3 por atividade, ranking, desfazer, exportar, importar e zerar; slides de resposta e ranking ligados ao placar; tudo salvo no localStorage (`pi:estado:v1`).
+- Verificado no navegador embutido: 6 jogadores e top 3 das 8 atividades pela interface; totais e desempate certos nos slides 13, 37, 51 e 52; recarregar mantém placar e cronômetro (diferença de 1 ms); JSON quebrado e inválido recusados com mensagem; importar, zerar e desfazer funcionam. Capturas por file:// sem erro e sem requisição externa.
+- Não verificado: o som do aviso (precisa de ouvido humano; abra uma atividade, aperte C, depois M algumas vezes não, deixe acabar ou teste com um tempo curto).
+- Próximo: F09 painel do apresentador e sincronia, F10 roleta, F11 QR e ministrantes, F12 PDF; depois `click-path-audit` e `security-reviewer`.

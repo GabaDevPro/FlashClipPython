@@ -1,0 +1,74 @@
+/* Telas do ministrante fora do palco: placar e avisos. Tamanho em px da tela, não do palco. */
+
+.avisos {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 30;
+  max-width: 520px;
+  padding: 14px 20px;
+  background: var(--cor-tinta);
+  color: var(--cor-carta);
+  border-left: 8px solid var(--cor-casa-verde);
+  border-radius: 6px;
+  font: 700 18px/1.4 var(--fonte-texto);
+}
+.avisos--erro { border-left-color: var(--cor-destaque); }
+
+.placar-ui {
+  position: fixed;
+  inset: 24px;
+  z-index: 20;
+  overflow: auto;
+  padding: 24px 32px 32px;
+  background: var(--cor-carta);
+  color: var(--cor-tinta);
+  border: var(--borda-forte) solid var(--cor-tinta);
+  border-radius: var(--raio-carta);
+  font: 400 18px/1.4 var(--fonte-texto);
+}
+.placar-ui__topo { display: flex; align-items: center; justify-content: space-between; }
+.placar-ui h2 { margin: 0; font: 700 32px/1.1 var(--fonte-titulo); }
+.placar-ui h3 { margin: 0 0 12px; font: 700 22px/1.2 var(--fonte-titulo); }
+.placar-ui__status { min-height: 1.4em; margin: 8px 0 16px; color: var(--cor-casa-verde); font-weight: 700; }
+.placar-ui__status--erro { color: var(--cor-destaque); }
+.placar-ui__grade { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; }
+.placar-ui__secao { margin-bottom: 24px; }
+.placar-ui__linha { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 8px; }
+.placar-ui__jogadores { max-height: 52vh; overflow: auto; margin: 12px 0; padding: 0; list-style: none; }
+.placar-ui__campo {
+  min-width: 0;
+  flex: 1;
+  padding: 8px 10px;
+  font: inherit;
+  color: var(--cor-tinta);
+  background: #fffdf7;
+  border: 2px solid var(--cor-tinta);
+  border-radius: 4px;
+}
+textarea.placar-ui__campo { width: 100%; margin: 8px 0; resize: vertical; }
+.placar-ui__marca { display: flex; align-items: center; gap: 4px; white-space: nowrap; }
+.placar-ui__botao {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  font: 700 16px/1.2 var(--fonte-texto);
+  color: var(--cor-carta);
+  background: var(--cor-tinta);
+  border: 2px solid var(--cor-tinta);
+  border-radius: 4px;
+  cursor: pointer;
+}
+.placar-ui__botao--leve { color: var(--cor-tinta); background: transparent; }
+.placar-ui__botao--perigo { background: var(--cor-destaque); border-color: var(--cor-destaque); }
+.placar-ui__arquivo { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.placar-ui__nota { margin: 4px 0 8px; color: var(--cor-texto-suave); }
+.placar-ui__ranking { margin: 0; padding-left: 28px; }
+.placar-ui :focus-visible,
+.placar-ui__botao:focus-within { outline: 3px solid var(--cor-casa-azul); outline-offset: 2px; }
+.placar-ui summary { cursor: pointer; font-weight: 700; }
+
+@media (max-width: 900px) {
+  .placar-ui__grade { grid-template-columns: 1fr; }
+}
