@@ -1,0 +1,271 @@
+/* Peças: casa, dado, nota, peão, carta, cronômetro, código, ilustrações. */
+
+/* Casa da borda do tabuleiro */
+.borda-tabuleiro { position: absolute; inset: 0; }
+.borda-tabuleiro .casa {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  background: var(--cor-carta);
+  border: var(--borda-tinta) solid var(--cor-tinta);
+}
+.casa__faixa { position: absolute; border: var(--borda-tinta) solid var(--cor-tinta); }
+.casa--topo .casa__faixa { left: -3px; right: -3px; bottom: -3px; height: 32px; }
+.casa--base .casa__faixa { left: -3px; right: -3px; top: -3px; height: 32px; }
+.casa--esquerda .casa__faixa { top: -3px; bottom: -3px; right: -3px; width: 32px; }
+.casa--direita .casa__faixa { top: -3px; bottom: -3px; left: -3px; width: 32px; }
+
+/* Dado */
+.dado {
+  width: 140px;
+  height: 140px;
+  padding: 14px;
+  display: grid;
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  background: var(--cor-dado);
+  border: var(--borda-forte) solid var(--cor-tinta);
+  border-radius: var(--raio-dado);
+}
+.dado__ponto {
+  width: 24px;
+  height: 24px;
+  place-self: center;
+  border-radius: 50%;
+  background: var(--cor-tinta);
+}
+.dado--destaque .dado__ponto { background: var(--cor-destaque); }
+
+/* Nota de dinheiro */
+.nota {
+  position: relative;
+  width: 360px;
+  height: 170px;
+  flex: none;
+  background: var(--cor-dinheiro);
+  border: var(--borda-tinta) solid var(--cor-tinta);
+}
+.nota::before {
+  content: "";
+  position: absolute;
+  inset: 13px;
+  border: 2px solid var(--cor-tinta);
+}
+.nota__roseta,
+.nota__roseta::after {
+  position: absolute;
+  border: 2px solid var(--cor-tinta);
+  border-radius: 50%;
+}
+.nota__roseta { left: 128px; top: 33px; width: 100px; height: 100px; }
+.nota__roseta::after { content: ""; inset: 10px; }
+.nota__valor {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 900 56px/1 var(--fonte-titulo);
+}
+.nota__canto { position: absolute; left: 26px; top: 22px; font: var(--texto-rotulo); }
+
+/* Peão */
+.peao { width: 120px; height: 170px; stroke: var(--cor-tinta); stroke-width: 4; }
+
+/* Carta de propriedade */
+.carta {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--cor-carta);
+  border: var(--borda-tinta) solid var(--cor-tinta);
+  border-radius: var(--raio-carta);
+}
+.carta__faixa {
+  min-height: 120px;
+  padding: 18px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-align: center;
+  color: var(--cor-tinta);
+  border-bottom: var(--borda-tinta) solid var(--cor-tinta);
+}
+.carta__faixa--marrom { background: var(--cor-casa-marrom); color: var(--cor-carta); }
+.carta__faixa--celeste { background: var(--cor-casa-celeste); }
+.carta__faixa--rosa { background: var(--cor-casa-rosa); color: var(--cor-carta); }
+.carta__faixa--laranja { background: var(--cor-casa-laranja); }
+.carta__faixa--vermelho { background: var(--cor-casa-vermelho); color: var(--cor-carta); }
+.carta__faixa--amarelo { background: var(--cor-casa-amarelo); }
+.carta__faixa--verde { background: var(--cor-casa-verde); color: var(--cor-carta); }
+.carta__faixa--azul { background: var(--cor-casa-azul); color: var(--cor-carta); }
+.carta__rotulo { font: var(--texto-rotulo); letter-spacing: var(--espacamento-rotulo); }
+.carta__titulo { font: 700 44px/1.05 var(--fonte-titulo); }
+.carta__corpo {
+  flex: 1;
+  padding: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.carta__texto { margin: 0; font: var(--texto-corpo); font-size: 40px; }
+.selo {
+  position: absolute;
+  left: 50%;
+  bottom: 44px;
+  padding: 14px 22px;
+  transform: translateX(-50%) rotate(-8deg);
+  border: var(--borda-forte) solid var(--cor-destaque);
+  color: var(--cor-destaque);
+  font: 700 32px/1 var(--fonte-texto);
+  letter-spacing: var(--espacamento-rotulo);
+}
+
+/* Cronômetro */
+.cronometro {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--cor-carta);
+  border: var(--borda-forte) solid var(--cor-tinta);
+  border-radius: var(--raio-carta);
+  font-variant-numeric: tabular-nums;
+}
+.cronometro__rotulo {
+  padding: 34px 0 30px;
+  text-align: center;
+  background: var(--cor-destaque);
+  color: var(--cor-carta);
+  border-bottom: var(--borda-forte) solid var(--cor-tinta);
+  font: var(--texto-rotulo);
+  font-size: 34px;
+  letter-spacing: 0.22em;
+}
+.cronometro__tempo {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: var(--numero-cronometro);
+}
+.cronometro--normal,
+.cronometro--alerta { width: 640px; height: 520px; }
+.cronometro--alerta { background: var(--cor-destaque); }
+.cronometro--alerta .cronometro__rotulo { background: var(--cor-tinta); }
+.cronometro--alerta .cronometro__tempo { color: var(--cor-carta); }
+.cronometro--canto {
+  flex-direction: row;
+  width: 300px;
+  height: 120px;
+  border-left: 34px solid var(--cor-destaque);
+}
+.cronometro--canto .cronometro__rotulo {
+  position: absolute;
+  padding: 12px 20px;
+  background: none;
+  border: 0;
+  color: var(--cor-texto-suave);
+  font-size: 20px;
+}
+.cronometro--canto .cronometro__tempo { padding-top: 16px; font-size: 72px; }
+.cronometro--longo .cronometro__tempo { font-size: 210px; }
+.cronometro--canto.cronometro--longo .cronometro__tempo { font-size: 60px; }
+
+/* Bloco de código */
+.codigo {
+  margin: 0;
+  overflow: hidden;
+  background: var(--cor-editor-fundo);
+  color: var(--cor-editor-texto);
+  border-radius: var(--raio-carta);
+}
+.codigo__rotulo {
+  display: block;
+  padding: 30px var(--espaco-editor) 0;
+  font: var(--codigo-rotulo);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cor-editor-rotulo);
+}
+.codigo__texto {
+  margin: 0;
+  padding: 22px var(--espaco-editor) 34px;
+  font: var(--codigo-corpo);
+  white-space: pre;
+  tab-size: 4;
+}
+.codigo--m .codigo__texto { font-size: 32px; line-height: 1.45; }
+.codigo--p .codigo__texto { font-size: 30px; line-height: 1.38; }
+.codigo__saida { border-top: 2px solid var(--cor-editor-divisoria); }
+.codigo--lado { display: grid; grid-template-columns: 1fr minmax(320px, auto); }
+.codigo--lado .codigo__saida { border-top: 0; border-left: 2px solid var(--cor-editor-divisoria); }
+.tk-palavra-chave { color: var(--cor-editor-palavra-chave); }
+.tk-funcao { color: var(--cor-editor-funcao); }
+.tk-string { color: var(--cor-editor-texto-string); }
+.tk-numero { color: var(--cor-editor-numero); }
+.tk-comentario { color: var(--cor-editor-comentario); }
+.tk-lacuna { color: var(--cor-editor-numero); border-bottom: 4px solid var(--cor-editor-numero); }
+
+/* Ilustrações em SVG */
+.arte-nota { fill: var(--cor-dinheiro); stroke: var(--cor-tinta); stroke-width: 4; }
+.arte-linha { fill: none; stroke: var(--cor-tinta); stroke-width: 2; }
+.arte-envelope, .arte-caixa { fill: var(--cor-carta); stroke: var(--cor-tinta); stroke-width: 5; }
+.arte-etiqueta { fill: var(--cor-dado); stroke: var(--cor-tinta); stroke-width: 4; }
+.arte-traco { fill: none; stroke: var(--cor-tinta); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+.arte-losango { fill: var(--cor-casa-amarelo); stroke: var(--cor-tinta); stroke-width: 6; stroke-linejoin: round; }
+.ilustracao { position: relative; width: 640px; height: 473px; }
+.ilustracao__svg { width: 100%; height: 100%; }
+.ilustracao__etiqueta {
+  position: absolute;
+  left: 195px;
+  top: 339px;
+  width: 250px;
+  height: 86px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 700 46px/1 var(--fonte-codigo);
+}
+
+/* Diagramas de decisão */
+.diagrama { position: relative; }
+.diagrama--if-else { width: 720px; height: 520px; }
+.diagrama--elif { width: 760px; height: 540px; }
+.diagrama__formas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.diagrama__condicao,
+.diagrama__saida,
+.diagrama__rotulo { position: absolute; text-align: center; }
+.diagrama__condicao { font: 400 30px/1.3 var(--fonte-codigo); }
+.diagrama__saida { font: 700 32px/1.25 var(--fonte-texto); }
+.diagrama__rotulo { font: var(--texto-rotulo); letter-spacing: var(--espacamento-rotulo); }
+.diagrama__rotulo--verdade { color: var(--cor-casa-verde); }
+.diagrama__rotulo--falso { color: var(--cor-destaque); }
+
+/* Roleta */
+.roleta { position: relative; width: 520px; height: 640px; }
+.roleta__roda { width: 520px; height: 560px; }
+.fatia--marrom { fill: var(--cor-casa-marrom); }
+.fatia--celeste { fill: var(--cor-casa-celeste); }
+.fatia--rosa { fill: var(--cor-casa-rosa); }
+.fatia--laranja { fill: var(--cor-casa-laranja); }
+.fatia--vermelho { fill: var(--cor-casa-vermelho); }
+.fatia--amarelo { fill: var(--cor-casa-amarelo); }
+.fatia--verde { fill: var(--cor-casa-verde); }
+.fatia--azul { fill: var(--cor-casa-azul); }
+.roleta__fatias path { stroke: var(--cor-tinta); stroke-width: 4; }
+.arte-aro { fill: none; stroke: var(--cor-tinta); stroke-width: 8; }
+.arte-miolo { fill: var(--cor-carta); stroke: var(--cor-tinta); stroke-width: 6; }
+.arte-ponteiro { fill: var(--cor-tinta); }
+.roleta__miolo {
+  position: absolute;
+  left: 198px;
+  top: 248px;
+  width: 124px;
+  text-align: center;
+  font: var(--texto-rotulo);
+  font-size: 22px;
+}
+.roleta__resultado { margin: 8px 0 0; text-align: center; font: 700 52px/1.2 var(--fonte-titulo); }

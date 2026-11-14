@@ -1,0 +1,79 @@
+/* Tokens da Direção A (Tabuleiro de papel), vindos das variáveis e estilos de texto do Figma
+   "Python Imobiliário - Flash Clip" (coleção "Python Imobiliário", modo "Projetor").
+   Medidas em px do palco de 1920x1080. */
+
+@font-face {
+  font-family: "Fraunces";
+  src: url("../assets/fontes/fraunces.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: block;
+}
+@font-face {
+  font-family: "Atkinson Hyperlegible Next";
+  src: url("../assets/fontes/atkinson-hyperlegible-next.ttf") format("truetype");
+  font-weight: 200 800;
+  font-display: block;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("../assets/fontes/jetbrains-mono.ttf") format("truetype");
+  font-weight: 100 800;
+  font-display: block;
+}
+
+:root {
+  /* Cores */
+  --cor-fundo: #f1eadb;
+  --cor-carta: #fbf7ee;
+  --cor-dado: #fffdf7;
+  --cor-tinta: #1d1b17;
+  --cor-texto-suave: #5b5548;
+  --cor-destaque: #d7322b;
+  --cor-dinheiro: #cfe3c4;
+  --cor-casa-marrom: #8b4a2b;
+  --cor-casa-celeste: #7cc4e4;
+  --cor-casa-rosa: #d9447c;
+  --cor-casa-laranja: #ee8a2c;
+  --cor-casa-vermelho: #d7322b;
+  --cor-casa-amarelo: #f2c230;
+  --cor-casa-verde: #2e9e5b;
+  --cor-casa-azul: #1f4fa8;
+  --cor-editor-fundo: #1e1f24;
+  --cor-editor-texto: #eee8da;
+  --cor-editor-rotulo: #a29e93;
+  --cor-editor-divisoria: #363840;
+  --cor-editor-palavra-chave: #f08a4b;
+  --cor-editor-funcao: #6fb6f2;
+  --cor-editor-texto-string: #a6d57a;
+  --cor-editor-numero: #f2c94c;
+  --cor-editor-comentario: #ada899;
+
+  /* Espaços, raios e bordas */
+  --espaco-margem-x: 96px;
+  --espaco-margem-y: 54px;
+  --espaco-p: 16px;
+  --espaco-m: 32px;
+  --espaco-g: 64px;
+  --espaco-editor: 44px;
+  --raio-carta: 6px;
+  --raio-dado: 16px;
+  --borda-tinta: 3px;
+  --borda-forte: 6px;
+
+  /* Famílias */
+  --fonte-titulo: "Fraunces", Georgia, serif;
+  --fonte-texto: "Atkinson Hyperlegible Next", "Segoe UI", sans-serif;
+  --fonte-codigo: "JetBrains Mono", Consolas, monospace;
+
+  /* Estilos de texto do Figma */
+  --titulo-capa: 900 176px/0.92 var(--fonte-titulo);
+  --titulo-slide: 700 76px/1.05 var(--fonte-titulo);
+  --titulo-atividade: 700 92px/1 var(--fonte-titulo);
+  --numero-cronometro: 900 250px/1 var(--fonte-titulo);
+  --texto-corpo: 400 46px/1.35 var(--fonte-texto);
+  --texto-destaque: 700 46px/1.35 var(--fonte-texto);
+  --texto-rotulo: 700 24px/1.2 var(--fonte-texto);
+  --codigo-corpo: 400 36px/1.5 var(--fonte-codigo);
+  --codigo-rotulo: 700 22px/1.2 var(--fonte-texto);
+  --espacamento-rotulo: 0.12em;
+}

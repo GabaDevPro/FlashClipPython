@@ -10,7 +10,7 @@
       "Screenshots em 1920x1080, 1366x768 e 1024x768 sem rolagem nem corte",
       "Troca de slide em menos de 100 ms"
     ],
-    "passa": false
+    "passa": true
   },
   {
     "id": "F02",
@@ -22,7 +22,7 @@
       "Nada importante a menos de 5% da borda do palco; nenhum emoji",
       "Rede sem requisição externa (fontes e SVG locais)"
     ],
-    "passa": false
+    "passa": true
   },
   {
     "id": "F03",
@@ -33,7 +33,7 @@
       "Texto, fala, interação e resposta batem com docs/roteiro.md",
       "python scripts/conferir-gabaritos.py passa, incluindo os erros dos slides 11 e 30"
     ],
-    "passa": false
+    "passa": true
   },
   {
     "id": "F04",
@@ -44,7 +44,7 @@
       "Teste unitário: texto com < > & é escapado",
       "Slide 51 (maior código) cabe no palco sem rolagem"
     ],
-    "passa": false
+    "passa": true
   },
   {
     "id": "F05",

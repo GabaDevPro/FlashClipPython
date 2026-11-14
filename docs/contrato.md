@@ -84,7 +84,7 @@ PI.config = {
 };
 ```
 
-Link vazio mostra "link pendente". Foto vazia desenha o peão na cor do ministrante.
+Link vazio mostra "link pendente". Foto vazia desenha o peão na cor do ministrante. Os slides `ministrantes` (2) e `encerramento` (56) mostram os nomes de `ministrantes` direto do config, sem repetir na seção.
 
 ## 6. Estado (localStorage, chave `pi:estado:v1`)
 

@@ -25,11 +25,11 @@ PI.config = {
   ],
   links: { envio: "", forms: "" },
   ministrantes: [
-    { nome: "Ministrante 1", secao: "", foto: "", cor: "#D7322B" },
-    { nome: "Ministrante 2", secao: "", foto: "", cor: "#1F4FA8" },
-    { nome: "Ministrante 3", secao: "", foto: "", cor: "#2E9E5B" },
-    { nome: "Ministrante 4", secao: "", foto: "", cor: "#EE8A2C" },
-    { nome: "Ministrante 5", secao: "", foto: "", cor: "#D9447C" }
+    { nome: "Enzo Kauê Batista Ferreira", secao: "", foto: "", cor: "#D7322B" },
+    { nome: "Carlos Antonio Pessoa Neto", secao: "", foto: "", cor: "#1F4FA8" },
+    { nome: "João Pedro Silva Sousa", secao: "", foto: "", cor: "#2E9E5B" },
+    { nome: "Walter Lucas Barros da Conceição", secao: "", foto: "", cor: "#EE8A2C" },
+    { nome: "Gabriel Rodrigues Costa Ferreira", secao: "", foto: "", cor: "#D9447C" }
   ],
   aula: { inicio: "19:10" }
 };

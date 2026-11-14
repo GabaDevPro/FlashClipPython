@@ -30,7 +30,7 @@ PI.secao({
       itens: [
         { titulo: "Tutorial oficial do Python em português", texto: "docs.python.org/pt-br/3/tutorial" },
         { titulo: "Curso de Python do Curso em Vídeo", texto: "YouTube" },
-        { titulo: "Pratique com desafios curtos" }
+        { titulo: "Praticar com desafios curtos" }
       ]
     },
     {

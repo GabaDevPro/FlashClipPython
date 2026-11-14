@@ -14,3 +14,6 @@ coverage/
 
 # Fonte de sistema usada só no teste de file://
 tests/navegador/fonte-teste*
+
+# Capturas de verificação
+capturas/

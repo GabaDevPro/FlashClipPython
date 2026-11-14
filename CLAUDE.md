@@ -15,7 +15,9 @@ Apresentação interativa do minicurso de Python do grupo do Walter: 56 slides (
 - Só `<script src>` clássico. Sem ES modules, sem `fetch`, sem CDN, sem fonte remota.
 - Cada módulo de `js/logica/` registra a API em `window.PI` e, se `module` existir, em `module.exports` (roda no navegador e no Node).
 - Sincronia entre janelas, fontes e localStorage: técnica em `docs/decisoes.md` e `docs/contrato.md`.
-- O navegador embutido abre arquivo local como `data:` (sem localStorage). Para ver a tela, sirva a pasta em `localhost` com um servidor estático mínimo em Node; para provar o file:// de verdade, `node scripts/testar-file-headless.js <navegador> <porta> <html>` (Edge e Chrome instalados).
+- O navegador embutido abre arquivo local como `data:` (sem localStorage). Para ver a tela nele: `preview_start` com a configuração `apresentacao` (`.claude/launch.json`, `scripts/servidor.js`, porta 8137).
+- Verificação por file:// de verdade: `node scripts/capturar.js --largura 1920 --altura 1080 --saida capturas/1920x1080 [--slides 1,15] [--navegador <exe do Edge>]` salva um PNG por slide e lista erros de console e requisições externas (pasta `capturas/` fora do git). Sincronia entre janelas: `node scripts/testar-file-headless.js`.
+- Código sem ligaduras (`!=` não vira ≠): a regra fica no fim de `css/modelos.css`.
 
 ## Onde fica cada coisa
 
