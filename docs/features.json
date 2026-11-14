@@ -1,0 +1,162 @@
+[
+  {
+    "id": "F01",
+    "descricao": "Palco 16:9 que escala de 1024x768 a 1920x1080 com faixas, e navegação por setas, PageUp/PageDown, espaço, Home/End, clique, F (tela cheia), G + número e ? (atalhos)",
+    "prioridade": "P0",
+    "passos_de_teste": [
+      "Abrir index.html por file:// e ver a capa sem erro no console",
+      "Avançar e voltar com setas, PageUp/PageDown e espaço; Home e End vão ao primeiro e ao último slide",
+      "G 2 0 Enter vai ao slide 20; ? mostra os atalhos; F liga a tela cheia",
+      "Screenshots em 1920x1080, 1366x768 e 1024x768 sem rolagem nem corte",
+      "Troca de slide em menos de 100 ms"
+    ],
+    "passa": false
+  },
+  {
+    "id": "F02",
+    "descricao": "Modelos visuais (RF03) a partir do Figma: tokens em css/tokens.css, SVGs em assets/svg/, fontes locais, um modelo CSS por layout do contrato",
+    "prioridade": "P0",
+    "passos_de_teste": [
+      "Cada layout do contrato tem um slide de exemplo renderizado",
+      "Screenshot de cada modelo comparado com get_screenshot do frame aprovado no Figma",
+      "Nada importante a menos de 5% da borda do palco; nenhum emoji",
+      "Rede sem requisição externa (fontes e SVG locais)"
+    ],
+    "passa": false
+  },
+  {
+    "id": "F03",
+    "descricao": "Conteúdo dos 56 slides (mais o 18b) em conteudo/secoes/, um arquivo por seção, seguindo docs/contrato.md, com gabaritos conferidos",
+    "prioridade": "P0",
+    "passos_de_teste": [
+      "Contagem: 56 slides numerados mais o 18b, na ordem do roteiro",
+      "Texto, fala, interação e resposta batem com docs/roteiro.md",
+      "python scripts/conferir-gabaritos.py passa, incluindo os erros dos slides 11 e 30"
+    ],
+    "passa": false
+  },
+  {
+    "id": "F04",
+    "descricao": "Realce de sintaxe Python em js/logica/realce.js, sem biblioteca; código a 28px ou mais no palco de 1920x1080, fundo escuro, recuo de 4 espaços visível",
+    "prioridade": "P0",
+    "passos_de_teste": [
+      "Teste unitário: palavras-chave, strings, números, comentários, funções embutidas e operadores viram tokens certos",
+      "Teste unitário: texto com < > & é escapado",
+      "Slide 51 (maior código) cabe no palco sem rolagem"
+    ],
+    "passa": false
+  },
+  {
+    "id": "F05",
+    "descricao": "Cronômetro por atividade com tempos do config: iniciar, pausar, +1 min, zerar; alerta no último minuto; aviso sonoro por Web Audio com opção de silenciar; pequeno no canto nos slides de apoio; conta pelo horário de término e sobrevive a recarregar",
+    "prioridade": "P0",
+    "passos_de_teste": [
+      "Teste unitário com relógio falso: iniciar, pausar, retomar, +1 min, zerar, terminar",
+      "Cronômetro de 5:00 termina com menos de 1 s de erro e toca o aviso",
+      "Recarregar no meio mantém o tempo restante",
+      "Nos slides 18b, 49 e 50 o cronômetro aparece pequeno no canto e continua contando"
+    ],
+    "passa": false
+  },
+  {
+    "id": "F06",
+    "descricao": "Placar: cadastro de jogadores, top 3 de cada atividade (R$ 300/200/100; boss R$ 500/300/100), desfazer e corrigir; ranking com desempate por mais 1ºs lugares e depois ordem de cadastro",
+    "prioridade": "P0",
+    "passos_de_teste": [
+      "Teste unitário: top 3 das 8 atividades gera a soma certa",
+      "Teste unitário: empate resolvido por número de 1ºs lugares e depois por ordem de cadastro",
+      "Teste unitário: corrigir o top 3 de uma atividade substitui o anterior; desfazer volta ao estado anterior",
+      "Nomes só entram no DOM por textContent"
+    ],
+    "passa": false
+  },
+  {
+    "id": "F07",
+    "descricao": "Slides de resposta mostram o top 3 e o prêmio do 1º; ranking parcial mostra os 5 mais ricos; ranking final destaca o Magnata da Liga",
+    "prioridade": "P0",
+    "passos_de_teste": [
+      "Registrar o top 3 da atividade 1 e ver os nomes no slide 13",
+      "Slide 37 mostra os 5 mais ricos em ordem",
+      "Slide 52 destaca o 1º como Magnata da Liga"
+    ],
+    "passa": false
+  },
+  {
+    "id": "F08",
+    "descricao": "Persistência no localStorage, exportar e importar o placar em JSON, zerar partida com confirmação, apagar nomes",
+    "prioridade": "P0",
+    "passos_de_teste": [
+      "Teste unitário: validação aceita estado válido e recusa JSON quebrado, tipos errados e tamanho acima do limite",
+      "Fechar e reabrir o navegador mantém o placar",
+      "Exportar e importar restaura o mesmo estado; JSON inválido mostra mensagem clara",
+      "Zerar partida pede confirmação"
+    ],
+    "passa": false
+  },
+  {
+    "id": "F09",
+    "descricao": "Painel do apresentador em segunda janela (tecla P): slide atual e próximo, fala, interação, resposta, cronômetro, relógio da aula com etapa prevista e atraso, controles do placar e da roleta; sincronia nos dois sentidos",
+    "prioridade": "P1",
+    "passos_de_teste": [
+      "Teste unitário do cronograma: etapa prevista e adiantado ou atrasado para um horário dado",
+      "Navegar em qualquer janela atualiza a outra em menos de 200 ms",
+      "Fechar o painel não derruba a principal; recarregar a principal não perde o estado",
+      "Verificação do painel em 1366x768; aria-live no cronômetro do painel"
+    ],
+    "passa": false
+  },
+  {
+    "id": "F10",
+    "descricao": "Roleta de sorteio entre jogadores marcados como acertou alguma atividade (clique ou lista colada), com opção de não repetir vencedor",
+    "prioridade": "P1",
+    "passos_de_teste": [
+      "Teste unitário com sorteio determinístico: só sorteia entre os marcados",
+      "Teste unitário: com a opção ligada, não repete vencedor; sem candidatos, avisa",
+      "Roleta funciona nos slides 37 e 53"
+    ],
+    "passa": false
+  },
+  {
+    "id": "F11",
+    "descricao": "QR codes offline a partir dos links do config (slides 4 e 55) e ministrantes do config com avatar de peão quando não há foto",
+    "prioridade": "P1",
+    "passos_de_teste": [
+      "Com link, o QR lido no celular abre o link certo",
+      "Sem link, o slide mostra link pendente",
+      "Sem foto, o ministrante aparece como peão na cor dele"
+    ],
+    "passa": false
+  },
+  {
+    "id": "F12",
+    "descricao": "PDF pelo Ctrl+P: uma página 16:9 por slide, sem controles, com gabaritos, ranking como ranking ao vivo",
+    "prioridade": "P1",
+    "passos_de_teste": [
+      "Ctrl+P gera 57 páginas 16:9 (56 mais o 18b)",
+      "Nenhum controle, cronômetro interativo ou painel aparece no PDF",
+      "Slides de ranking mostram ranking ao vivo"
+    ],
+    "passa": false
+  },
+  {
+    "id": "F13",
+    "descricao": "Animações: dinheiro subindo no placar, cartas virando no top 3, dados rolando ao iniciar o cronômetro, roleta girando; todas respeitam prefers-reduced-motion",
+    "prioridade": "P2",
+    "passos_de_teste": [
+      "Cada animação roda sem engasgo no navegador embutido",
+      "Com prefers-reduced-motion, as animações viram troca direta"
+    ],
+    "passa": false
+  },
+  {
+    "id": "F14",
+    "descricao": "README em português (abrir sem Node, onde fica o texto de cada slide, como testar) e ajuda de atalhos na tecla ?",
+    "prioridade": "P1",
+    "passos_de_teste": [
+      "Um colega sem Node segue o README e abre a apresentação",
+      "README explica onde editar o texto de cada slide",
+      "Textos do README e da ajuda revisados com /humanizer"
+    ],
+    "passa": false
+  }
+]

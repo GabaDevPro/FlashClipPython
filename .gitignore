@@ -1,0 +1,16 @@
+# Material da professora (tem telefone e e-mail dela) e fotos dos ministrantes
+docs/referencias/
+assets/fotos/
+
+# Backups do placar (nomes dos alunos)
+placar-*.json
+
+# Node e cobertura
+node_modules/
+coverage/
+
+# Configuração local do Claude Code
+.claude/settings.local.json
+
+# Fonte de sistema usada só no teste de file://
+tests/navegador/fonte-teste*

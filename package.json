@@ -1,0 +1,11 @@
+{
+  "name": "flashclip-python-imobiliario",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Apresentação interativa do minicurso Python Imobiliário (Flash Clip). Abre com duplo clique em index.html; Node só para os testes.",
+  "scripts": {
+    "test": "node --test --experimental-test-coverage --test-coverage-include=js/logica/** --test-coverage-lines=80 tests/**/*.test.js",
+    "test:rapido": "node --test tests/**/*.test.js",
+    "gabaritos": "python scripts/conferir-gabaritos.py"
+  }
+}

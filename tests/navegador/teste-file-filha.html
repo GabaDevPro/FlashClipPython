@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Teste de file:// (filha)</title>
+<style>
+  :root { color-scheme: light; }
+  body { margin: 0; padding: 24px; background: #fffdf8; color: #1d1d1b; font: 18px/1.5 system-ui, sans-serif; }
+</style>
+</head>
+<body>
+<h1>Janela filha</h1>
+<p id="estado">Avisando a janela principal...</p>
+<script>
+(function () {
+  'use strict';
+
+  var CHAVE_PING = 'pi:teste:ping';
+  var CHAVE_PONG = 'pi:teste:pong';
+  var INTERVALO_OLA_MS = 1000;
+  var estado = document.getElementById('estado');
+  var mensagens = 0;
+
+  function avisarPrincipal() {
+    if (!window.opener || window.opener.closed) {
+      estado.textContent = 'Sem janela principal (window.opener ausente).';
+      return;
+    }
+    window.opener.postMessage({ tipo: 'pi:ola', versao: 1 }, '*');
+  }
+
+  window.addEventListener('message', function (e) {
+    if (e.source !== window.opener) { return; }
+    if (e.data && e.data.tipo === 'pi:teste:ping') {
+      mensagens += 1;
+      estado.textContent = 'Pings recebidos da principal: ' + mensagens;
+      e.source.postMessage({ tipo: 'pi:teste:pong' }, '*');
+    }
+  });
+
+  window.addEventListener('storage', function (e) {
+    if (e.key === CHAVE_PING && e.newValue) {
+      localStorage.setItem(CHAVE_PONG, e.newValue + '|' + Math.random());
+    }
+  });
+
+  if (typeof BroadcastChannel !== 'undefined') {
+    try {
+      new BroadcastChannel('pi-teste').postMessage({ de: 'filha', em: Date.now() });
+    } catch (erro) {
+      estado.textContent = 'BroadcastChannel falhou: ' + erro.message;
+    }
+  }
+
+  // A principal pode ter sido recarregada: o aviso periódico refaz a ligação.
+  avisarPrincipal();
+  setInterval(avisarPrincipal, INTERVALO_OLA_MS);
+})();
+</script>
+</body>
+</html>

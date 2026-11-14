@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Teste de file://</title>
+<link rel="stylesheet" href="fonte-teste-base64.css">
+<style>
+  @font-face { font-family: "FonteTesteUrl"; src: url("fonte-teste.ttf") format("truetype"); }
+  :root { color-scheme: light; }
+  body { margin: 0; padding: 32px; background: #f4f1ea; color: #1d1d1b; font: 18px/1.5 system-ui, sans-serif; }
+  h1 { margin: 0 0 8px; font-size: 28px; }
+  p { margin: 0 0 16px; max-width: 70ch; }
+  button { font: inherit; padding: 8px 16px; margin: 0 8px 16px 0; cursor: pointer; }
+  button:focus-visible { outline: 3px solid #1d4ed8; outline-offset: 2px; }
+  table { border-collapse: collapse; width: 100%; max-width: 980px; background: #fffdf8; }
+  th, td { border: 1px solid #cfc8b8; padding: 8px 12px; text-align: left; vertical-align: top; }
+  td.ok { color: #116329; font-weight: 700; }
+  td.falha { color: #a40e26; font-weight: 700; }
+  td.pendente { color: #6b5d00; font-weight: 700; }
+  .amostra { font-size: 32px; }
+</style>
+</head>
+<body>
+<h1>Teste de file://</h1>
+<p>Abra este arquivo com duplo clique (Chrome e Edge). Clique em "Abrir janela filha", espere 3 segundos e depois recarregue esta página (F5) com a filha aberta. Os resultados ficam na tabela.</p>
+<button id="abrir" type="button">Abrir janela filha</button>
+<button id="limpar" type="button">Zerar contador do localStorage</button>
+<p class="amostra"><span style="font-family: FonteTesteUrl, monospace">Fonte por url</span> | <span style="font-family: FonteTesteB64, monospace">Fonte em base64</span></p>
+<table>
+  <thead><tr><th>Teste</th><th>Resultado</th><th>Detalhe</th></tr></thead>
+  <tbody id="resultados"></tbody>
+</table>
+<script>
+(function () {
+  'use strict';
+
+  var CHAVE_CONTADOR = 'pi:teste:recargas';
+  var CHAVE_PING = 'pi:teste:ping';
+  var CHAVE_PONG = 'pi:teste:pong';
+  var TEMPO_LIMITE_MS = 3000;
+  var linhas = {};
+  var filha = null;
+  var pingEnviadoEm = 0;
+  var abriuAqui = false;
+
+  function marcar(id, nome, estado, detalhe) {
+    var linha = linhas[id];
+    if (!linha) {
+      linha = document.createElement('tr');
+      linha.appendChild(document.createElement('td'));
+      linha.appendChild(document.createElement('td'));
+      linha.appendChild(document.createElement('td'));
+      document.getElementById('resultados').appendChild(linha);
+      linhas[id] = linha;
+    }
+    linha.cells[0].textContent = nome;
+    linha.cells[1].textContent = estado === 'ok' ? 'OK' : estado === 'falha' ? 'FALHA' : 'pendente';
+    linha.cells[1].className = estado;
+    linha.cells[2].textContent = detalhe || '';
+  }
+
+  function testarLocalStorage() {
+    try {
+      var atual = Number(localStorage.getItem(CHAVE_CONTADOR) || '0') + 1;
+      localStorage.setItem(CHAVE_CONTADOR, String(atual));
+      var estado = atual > 1 ? 'ok' : 'pendente';
+      marcar('ls', 'localStorage persiste entre recargas', estado,
+        'Carregamentos contados: ' + atual + (atual > 1 ? '' : '. Recarregue a página para confirmar.'));
+    } catch (erro) {
+      marcar('ls', 'localStorage persiste entre recargas', 'falha', erro.message);
+    }
+  }
+
+  function testarFonte(familia, id, nome) {
+    marcar(id, nome, 'pendente', 'carregando');
+    document.fonts.load('32px "' + familia + '"').then(function (faces) {
+      var ok = faces.length > 0 && document.fonts.check('32px "' + familia + '"');
+      marcar(id, nome, ok ? 'ok' : 'falha', ok ? 'fonte carregada' : 'fonte não carregou (faces: ' + faces.length + ')');
+    }).catch(function (erro) {
+      marcar(id, nome, 'falha', erro.message);
+    });
+  }
+
+  function testarBroadcastChannel() {
+    if (typeof BroadcastChannel === 'undefined') {
+      marcar('bc', 'BroadcastChannel existe', 'falha', 'API ausente');
+      return;
+    }
+    try {
+      var canal = new BroadcastChannel('pi-teste');
+      canal.onmessage = function (e) {
+        marcar('bc', 'BroadcastChannel entre janelas', 'ok', 'resposta da filha: ' + JSON.stringify(e.data));
+      };
+      marcar('bc', 'BroadcastChannel entre janelas', 'pendente', 'abra a janela filha');
+    } catch (erro) {
+      marcar('bc', 'BroadcastChannel entre janelas', 'falha', erro.message);
+    }
+  }
+
+  function enviarPing() {
+    if (!filha || filha.closed) { return; }
+    pingEnviadoEm = performance.now();
+    filha.postMessage({ tipo: 'pi:teste:ping' }, '*');
+    localStorage.setItem(CHAVE_PING, String(Date.now()));
+  }
+
+  window.addEventListener('message', function (e) {
+    var dados = e.data || {};
+    if (dados.tipo === 'pi:ola') {
+      if (!filha) { filha = e.source; }
+      marcar('origem', 'Origem da mensagem (event.origin)', 'ok', JSON.stringify(e.origin));
+      marcar('reconexao', 'Filha se reconecta depois de recarregar a principal',
+        abriuAqui ? 'pendente' : 'ok',
+        abriuAqui ? 'recarregue esta página com a filha aberta' : 'a filha avisou pela referência window.opener; event.source guardado');
+      enviarPing();
+      return;
+    }
+    if (dados.tipo === 'pi:teste:pong' && e.source === filha) {
+      var ms = Math.round(performance.now() - pingEnviadoEm);
+      marcar('pm', 'postMessage principal e filha (ida e volta)', ms < 200 ? 'ok' : 'falha', ms + ' ms');
+    }
+  });
+
+  window.addEventListener('storage', function (e) {
+    if (e.key !== CHAVE_PONG || !e.newValue) { return; }
+    var ms = Date.now() - Number(e.newValue.split('|')[0]);
+    marcar('st', 'Evento storage entre janelas (ida e volta)', ms < 200 ? 'ok' : 'falha', ms + ' ms');
+  });
+
+  document.getElementById('abrir').addEventListener('click', function () {
+    filha = window.open('teste-file-filha.html', 'pi-teste-filha', 'width=520,height=420');
+    if (!filha) {
+      marcar('popup', 'window.open com clique', 'falha', 'popup bloqueado');
+      return;
+    }
+    abriuAqui = true;
+    marcar('popup', 'window.open com clique', 'ok', 'janela aberta');
+    setTimeout(function () {
+      if (!linhas.pm || linhas.pm.cells[1].className !== 'ok') {
+        marcar('pm', 'postMessage principal e filha (ida e volta)', 'falha', 'sem resposta em ' + TEMPO_LIMITE_MS + ' ms');
+      }
+    }, TEMPO_LIMITE_MS);
+  });
+
+  document.getElementById('limpar').addEventListener('click', function () {
+    localStorage.removeItem(CHAVE_CONTADOR);
+    testarLocalStorage();
+  });
+
+  marcar('protocolo', 'Protocolo da página', location.protocol === 'file:' ? 'ok' : 'falha', location.href);
+  testarLocalStorage();
+  testarFonte('FonteTesteUrl', 'fonte-url', 'Fonte local por @font-face com url relativa');
+  testarFonte('FonteTesteB64', 'fonte-b64', 'Fonte embutida em base64');
+  testarBroadcastChannel();
+})();
+</script>
+</body>
+</html>
