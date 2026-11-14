@@ -11,7 +11,7 @@ const PASTA_SECOES = path.join(RAIZ, 'conteudo', 'secoes');
 const ARQUIVO_CONFIG = path.join(RAIZ, 'conteudo', 'config.js');
 
 const LAYOUTS = [
-  'capa', 'ministrantes', 'regras', 'qr', 'algoritmo', 'atualizacao', 'conceito',
+  'capa', 'ministrantes', 'regras', 'instrucoes', 'algoritmo', 'atualizacao', 'conceito',
   'cartas', 'erro', 'enunciado', 'resposta', 'recap', 'ranking', 'intervalo',
   'impacto', 'premios', 'proximos', 'encerramento',
 ];
@@ -112,11 +112,16 @@ test('os slides 37 e 52 mostram o ranking', () => {
   assert.equal(porNumero(52).ranking, 'final');
 });
 
-test('os slides 4 e 55 mostram o QR code dos links de envio e do Forms', () => {
-  assert.equal(porNumero(4).qr, 'envio');
-  assert.equal(porNumero(55).qr, 'forms');
-  assert.ok(porNumero(4).qr in config.links);
-  assert.ok(porNumero(55).qr in config.links);
+test('sem QR code: o slide 4 mostra como mostrar a resposta e o 55 mostra o link do Forms em texto', () => {
+  assert.equal(porNumero(4).layout, 'instrucoes');
+  assert.equal(porNumero(55).layout, 'instrucoes');
+  assert.equal(porNumero(55).link, 'forms');
+  assert.ok(porNumero(55).link in config.links);
+  assert.ok(slides.every((s) => s.qr === undefined));
+});
+
+test('o prêmio do 1º lugar de cada atividade é chocolate', () => {
+  assert.ok(Object.values(config.atividades).every((a) => /chocolate/i.test(a.premio)));
 });
 
 test('o config tem as 8 atividades e 5 ministrantes com cores diferentes', () => {

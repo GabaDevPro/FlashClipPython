@@ -39,9 +39,9 @@
     }));
   }
 
-  function premioDe(ctx, slide) {
+  function textoPremio(ctx, slide) {
     var a = ctx.config.atividades[slide.atividade];
-    return a ? 'R$ ' + a.premios[0] : '';
+    return a && a.premio ? a.premio : 'prêmio';
   }
 
   function minutosDe(ctx, slide) {
@@ -84,14 +84,18 @@
     return s;
   };
 
-  M.qr = function (slide, ctx) {
-    var s = base(slide, 'qr');
+  M.instrucoes = function (slide, ctx) {
+    var s = base(slide, 'instrucoes');
     s.appendChild(titulo(slide));
-    var link = ctx.config.links[slide.qr] || '';
-    var caixa = el('div', 'qr' + (link ? '' : ' qr--pendente'), link ? [] : [txt('span', 'rotulo', 'QR CODE'), txt('strong', '', 'link pendente')]);
-    caixa.setAttribute('data-qr', slide.qr);
-    var lado = el('div', 'qr__lado', [textos(slide), slide.itens ? numerada(slide.itens, 1) : null]);
-    s.appendChild(el('div', 'qr__grade', [el('div', '', [caixa, txt('p', 'qr__link', link || 'link: pendente')]), lado]));
+    if (slide.link) {
+      var link = ctx.config.links[slide.link] || '';
+      var caixa = el('div', 'link' + (link ? '' : ' link--pendente'), [txt('span', 'rotulo', 'ACESSE'), txt('strong', 'link__texto', link || 'link pendente')]);
+      s.appendChild(el('div', 'instrucoes__link', [textos(slide, 'slide__texto--grande'), caixa]));
+      return s;
+    }
+    if (slide.texto) { s.appendChild(textos(slide)); }
+    if (slide.itens) { s.appendChild(numerada(slide.itens, 1)); }
+    s.appendChild(el('div', 'instrucoes__arte', [P.peao('var(--cor-casa-laranja)'), P.dado(5)]));
     return s;
   };
 
@@ -161,7 +165,7 @@
       s.appendChild(esquerda);
       return s;
     }
-    var extra = denso ? codigos(slide) : el('div', 'enunciado__premio', [P.dado(3), P.dado(4), el('div', '', [P.nota(premioDe(ctx, slide)), txt('span', 'rotulo', 'para o 1º lugar')])]);
+    var extra = denso ? codigos(slide) : el('div', 'enunciado__premio', [P.dado(3), P.dado(4), el('div', '', [P.chocolate(), txt('span', 'rotulo', textoPremio(ctx, slide) + ' para o 1º lugar')])]);
     s.appendChild(el('div', 'enunciado__grade', [esquerda, el('div', 'enunciado__lado', [P.cronometro(minutosDe(ctx, slide), 'normal', slide.atividade), extra])]));
     return s;
   };
@@ -171,8 +175,7 @@
     var longa = linhas > 4;
     var s = base(slide, 'resposta' + (longa ? ' slide--resposta-longa' : ''));
     s.appendChild(titulo(slide));
-    var textoPremio = ctx.config.atividades[slide.atividade].premio;
-    var premio = el('div', 'resposta__premio', [P.nota(premioDe(ctx, slide)), txt('span', 'rotulo', textoPremio ? 'Prêmio do 1º: ' + textoPremio : 'prêmio do 1º lugar')]);
+    var premio = el('div', 'resposta__premio', [P.chocolate(), txt('span', 'rotulo', 'prêmio do 1º lugar: ' + textoPremio(ctx, slide))]);
     var top3 = el('ol', 'top3');
     top3.setAttribute('data-top3', slide.atividade);
     ['1º', '2º', '3º'].forEach(function (pos, i) {

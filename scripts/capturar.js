@@ -59,7 +59,10 @@ function conectar(wsUrl, aoEvento) {
 
 async function avaliar(cdp, expressao) {
   const r = await cdp.enviar('Runtime.evaluate', { expression: expressao, returnByValue: true, awaitPromise: true });
-  if (r.result && r.result.exceptionDetails) { throw new Error(r.result.exceptionDetails.text); }
+  if (r.result && r.result.exceptionDetails) {
+    const d = r.result.exceptionDetails;
+    throw new Error(`${expressao.slice(0, 60)}: ${(d.exception && d.exception.description) || d.text}`);
+  }
   return r.result.result.value;
 }
 

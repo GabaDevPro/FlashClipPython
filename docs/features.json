@@ -118,11 +118,11 @@
   },
   {
     "id": "F11",
-    "descricao": "QR codes offline a partir dos links do config (slides 4 e 55) e ministrantes do config com avatar de peão quando não há foto",
+    "descricao": "Sem QR code (decisão do Walter): slide 4 com as instruções de como mostrar a resposta, slide 55 com o link do Forms em texto; ministrantes do config com avatar de peão quando não há foto",
     "prioridade": "P1",
     "passos_de_teste": [
-      "Com link, o QR lido no celular abre o link certo",
-      "Sem link, o slide mostra link pendente",
+      "Slide 4 mostra os 3 passos sem QR code",
+      "Slide 55 mostra o link do Forms ou link pendente",
       "Sem foto, o ministrante aparece como peão na cor dele"
     ],
     "passa": false

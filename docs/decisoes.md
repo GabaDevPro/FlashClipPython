@@ -30,3 +30,9 @@ Página: `tests/navegador/teste-file.html` (com `teste-file-filha.html`). Rodada
 ### Falta conferir
 
 - Duplo clique no Chrome e no Edge do Walter, com janela visível (o teste foi headless). Abra `tests/navegador/teste-file.html`, clique em "Abrir janela filha", espere 3 s e aperte F5: todas as linhas devem ficar OK. Os arquivos `fonte-teste*` ficam fora do git; sem eles as duas linhas de fonte falham.
+
+## 2026-11-14: sem QR code e prêmio de chocolate (pedido do Walter)
+
+- Não haverá sistema de envio nem QR code: a aula é para leigos, e os ministrantes acompanham nas carteiras quando alguém diz que terminou. O slide 4 virou "Como mostrar sua resposta" (escrever e testar no compilador; terminou, levante a mão; um ministrante confere na tela), a partir do plano B do roteiro. O slide 55 mostra o link do Forms em texto (ou "link pendente"). Layout `qr` virou `instrucoes`; o campo `qr` virou `link`.
+- O prêmio físico do 1º lugar de cada atividade é chocolate (`config.atividades[x].premio`). A nota de dinheiro ao lado de "prêmio do 1º lugar" virou uma barra de chocolate. A pontuação do ranking continua em dinheiro fictício (tema do Magnata), até o Walter dizer o contrário.
+- A F11 deixa de ter QR code e fica só com os ministrantes do config (foto opcional, peão na cor dele).

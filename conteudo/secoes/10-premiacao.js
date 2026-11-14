@@ -35,10 +35,10 @@ PI.secao({
     },
     {
       n: 55,
-      layout: "qr",
+      layout: "instrucoes",
       titulo: "Avaliação",
       texto: ["Avaliação e frequência"],
-      qr: "forms",
+      link: "forms",
       fala: "Dar os 10 minutos do Forms antes do coffee break."
     },
     {

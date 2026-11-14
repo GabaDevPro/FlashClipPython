@@ -68,6 +68,23 @@
 }
 .nota__canto { position: absolute; left: 26px; top: 22px; font: var(--texto-rotulo); }
 
+/* Chocolate (prêmio do 1º lugar) */
+.chocolate { position: relative; width: 360px; height: 170px; flex: none; }
+.chocolate__svg { width: 100%; height: 100%; }
+.arte-chocolate { fill: #5b3a24; stroke: var(--cor-tinta); stroke-width: 4; }
+.arte-gomos rect { fill: #6f4a30; stroke: #3b2415; stroke-width: 3; }
+.arte-embalagem { fill: var(--cor-destaque); stroke: var(--cor-tinta); stroke-width: 4; stroke-linejoin: round; }
+.chocolate__rotulo {
+  position: absolute;
+  left: 59.5%;
+  top: 44%;
+  width: 37.7%;
+  text-align: center;
+  color: var(--cor-carta);
+  font: 700 19px/1 var(--fonte-texto);
+  letter-spacing: 0.08em;
+}
+
 /* Peão */
 .peao { width: 120px; height: 170px; stroke: var(--cor-tinta); stroke-width: 4; }
 

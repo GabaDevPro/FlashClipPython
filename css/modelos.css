@@ -72,23 +72,26 @@
 .lista-numerada__textos strong { font: var(--texto-destaque); font-size: 50px; }
 .lista-numerada__textos strong + span { font-size: 38px; color: var(--cor-texto-suave); }
 
-/* QR */
-.qr__grade { display: grid; grid-template-columns: 520px 1fr; gap: 120px; align-items: start; }
-.qr {
-  width: 520px;
-  height: 520px;
+/* Instruções (slides 4 e 55) */
+.slide--instrucoes .lista-numerada { gap: 56px; margin-top: 40px; }
+.slide--instrucoes .lista-numerada__casa { width: 130px; height: 130px; font-size: 84px; }
+.slide--instrucoes .lista-numerada__textos { font-size: 56px; }
+.instrucoes__arte { position: absolute; right: 150px; bottom: 120px; display: flex; align-items: flex-end; gap: 40px; }
+.instrucoes__arte .dado { transform: rotate(12deg); }
+.instrucoes__link { display: flex; flex-direction: column; gap: 48px; }
+.link {
+  align-self: flex-start;
+  min-width: 900px;
+  padding: 40px 56px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   gap: 12px;
   background: var(--cor-carta);
   border: var(--borda-forte) solid var(--cor-tinta);
 }
-.qr--pendente { border-style: dashed; }
-.qr--pendente strong { color: var(--cor-destaque); font: var(--texto-destaque); font-size: 36px; }
-.qr__link { margin: 20px 0 0; font: var(--texto-corpo); font-size: 30px; color: var(--cor-texto-suave); }
-.qr__lado { padding-top: 30px; }
+.link--pendente { border-style: dashed; }
+.link__texto { font: var(--texto-destaque); font-size: 56px; overflow-wrap: anywhere; }
+.link--pendente .link__texto { color: var(--cor-destaque); }
 
 /* Atualização */
 .mensagem {
@@ -133,7 +136,7 @@
 .enunciado__premio { display: flex; align-items: flex-start; gap: 20px; margin-top: 40px; }
 .enunciado__premio .dado:first-child { transform: rotate(-10deg); }
 .enunciado__premio .dado:nth-child(2) { transform: rotate(8deg); margin-top: 24px; }
-.enunciado__premio .nota { transform: rotate(3deg) scale(0.82); transform-origin: left top; }
+.enunciado__premio .chocolate { transform: rotate(3deg) scale(0.82); transform-origin: left top; }
 .enunciado__premio .rotulo { display: block; margin-top: -14px; }
 .slide--denso .cronometro--normal { height: 400px; }
 .slide--denso .cronometro__tempo { font-size: 190px; }
@@ -148,7 +151,7 @@
 .resposta__grade { display: grid; grid-template-columns: 1100px 1fr; gap: 64px; align-items: start; }
 .resposta__lado { display: flex; flex-direction: column; align-items: center; gap: 16px; }
 .resposta__premio { display: flex; flex-direction: column; align-items: center; gap: 16px; }
-.resposta__premio .nota { transform: rotate(-3deg); }
+.resposta__premio .chocolate { transform: rotate(-3deg); }
 .top3 {
   position: absolute;
   left: 96px;
@@ -201,7 +204,7 @@
 }
 .slide--resposta-longa .top3__nome { flex: 1; min-width: 0; margin: 0 16px; font-size: 32px; text-align: left; overflow-wrap: break-word; }
 .slide--resposta-longa .top3__valor { margin: 0 20px 0 0; font-size: 40px; white-space: nowrap; }
-.slide--resposta-longa .resposta__premio .nota { transform: rotate(-3deg) scale(0.8); }
+.slide--resposta-longa .resposta__premio .chocolate { transform: rotate(-3deg) scale(0.8); }
 
 /* Ranking */
 .ranking__grade { display: grid; grid-template-columns: 1fr 520px; gap: 64px; align-items: start; }

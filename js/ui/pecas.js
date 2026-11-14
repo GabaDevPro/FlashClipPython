@@ -50,6 +50,19 @@
     return n;
   }
 
+  function chocolate() {
+    var c = el('div', 'chocolate', [
+      svg('<svg viewBox="0 0 360 170" aria-hidden="true"><rect x="10" y="20" width="250" height="130" rx="8" class="arte-chocolate"/>' +
+        '<g class="arte-gomos"><rect x="24" y="34" width="68" height="46" rx="4"/><rect x="100" y="34" width="68" height="46" rx="4"/>' +
+        '<rect x="176" y="34" width="68" height="46" rx="4"/><rect x="24" y="90" width="68" height="46" rx="4"/>' +
+        '<rect x="100" y="90" width="68" height="46" rx="4"/><rect x="176" y="90" width="68" height="46" rx="4"/></g>' +
+        '<path d="M200 12 L350 12 L350 158 L200 158 L214 140 L200 122 L214 104 L200 86 L214 68 L200 50 L214 32 Z" class="arte-embalagem"/></svg>', 'chocolate__svg'),
+      txt('span', 'chocolate__rotulo', 'CHOCOLATE')
+    ]);
+    c.setAttribute('aria-hidden', 'true');
+    return c;
+  }
+
   function peao(cor) {
     var s = svg('<svg viewBox="0 0 120 170" aria-hidden="true"><circle cx="60" cy="38" r="30"/><path d="M40 70 Q60 62 80 70 L92 138 L28 138 Z"/><rect x="14" y="134" width="92" height="28" rx="6"/></svg>', 'peao');
     s.style.fill = cor;
@@ -145,7 +158,7 @@
 
   raiz.PI = raiz.PI || {};
   raiz.PI.pecas = {
-    CASAS: CASAS, el: el, txt: txt, svg: svg, casa: casa, dado: dado, nota: nota, peao: peao, carta: carta,
+    CASAS: CASAS, el: el, txt: txt, svg: svg, casa: casa, dado: dado, nota: nota, chocolate: chocolate, peao: peao, carta: carta,
     cronometro: cronometro, blocoCodigo: blocoCodigo, cabecalho: cabecalho, faixaCasas: faixaCasas,
     bordaTabuleiro: bordaTabuleiro, posicionar: posicionar
   };

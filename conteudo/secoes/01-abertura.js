@@ -31,15 +31,14 @@ PI.secao({
     },
     {
       n: 4,
-      layout: "qr",
-      titulo: "Como enviar suas respostas",
+      layout: "instrucoes",
+      titulo: "Como mostrar sua resposta",
       itens: [
         { rotulo: "1", texto: "Escreva e teste no compilador." },
-        { rotulo: "2", texto: "Copie o código." },
-        { rotulo: "3", texto: "Cole no sistema e envie." }
+        { rotulo: "2", texto: "Terminou? Levante a mão." },
+        { rotulo: "3", texto: "Um ministrante confere o código na sua tela." }
       ],
-      qr: "envio",
-      interacao: "Aquecimento sem pontos: todos entram no sistema com o próprio nome e enviam um teste. Assim os problemas de acesso aparecem antes da primeira atividade valendo."
+      interacao: "Aquecimento sem pontos: todos abrem o compilador e rodam um print de teste. Assim os problemas de acesso aparecem antes da primeira atividade valendo. Sem sistema de envio: os ministrantes passam nas carteiras e anotam a ordem de quem terminou."
     },
     {
       n: 5,

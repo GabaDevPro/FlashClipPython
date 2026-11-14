@@ -1,14 +1,14 @@
 PI.config = {
   titulo: "Python Imobiliário",
   atividades: {
-    "1":    { nome: "Atividade 1",  minutos: 5,  premios: [300, 200, 100], premio: "" },
-    "2":    { nome: "Atividade 2",  minutos: 7,  premios: [300, 200, 100], premio: "" },
-    "3":    { nome: "Atividade 3",  minutos: 9,  premios: [300, 200, 100], premio: "" },
-    "4a":   { nome: "Atividade 4a", minutos: 5,  premios: [300, 200, 100], premio: "" },
-    "4b":   { nome: "Atividade 4b", minutos: 7,  premios: [300, 200, 100], premio: "" },
-    "5a":   { nome: "Atividade 5a", minutos: 6,  premios: [300, 200, 100], premio: "" },
-    "5b":   { nome: "Atividade 5b", minutos: 7,  premios: [300, 200, 100], premio: "" },
-    "boss": { nome: "Boss",         minutos: 15, premios: [500, 300, 100], premio: "" }
+    "1":    { nome: "Atividade 1",  minutos: 5,  premios: [300, 200, 100], premio: "chocolate" },
+    "2":    { nome: "Atividade 2",  minutos: 7,  premios: [300, 200, 100], premio: "chocolate" },
+    "3":    { nome: "Atividade 3",  minutos: 9,  premios: [300, 200, 100], premio: "chocolate" },
+    "4a":   { nome: "Atividade 4a", minutos: 5,  premios: [300, 200, 100], premio: "chocolate" },
+    "4b":   { nome: "Atividade 4b", minutos: 7,  premios: [300, 200, 100], premio: "chocolate" },
+    "5a":   { nome: "Atividade 5a", minutos: 6,  premios: [300, 200, 100], premio: "chocolate" },
+    "5b":   { nome: "Atividade 5b", minutos: 7,  premios: [300, 200, 100], premio: "chocolate" },
+    "boss": { nome: "Boss",         minutos: 15, premios: [500, 300, 100], premio: "chocolate" }
   },
   tempos: { intervalo: 5 },
   cronograma: [

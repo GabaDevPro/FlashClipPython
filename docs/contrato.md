@@ -36,16 +36,16 @@ Regras do arquivo: só objetos literais e template strings sem `${}`. Nada de l�
 | `apoio` | booleano | não | Slide de apoio (versão fácil, lacunas, dicas): cronômetro pequeno no canto |
 | `ranking` | `"parcial"` ou `"final"` | não | Slides 37 e 52 |
 | `roleta` | booleano | não | Slide com sorteio (37 e 53) |
-| `qr` | texto | não | Chave do link em `config.links` (`"envio"`, `"forms"`) |
+| `link` | texto | não | Chave do link em `config.links` mostrado em texto (`"forms"`). Não há QR code |
 | `diagrama` | texto | não | `"if-else"` ou `"elif"` |
 | `ilustracao` | texto | não | Nome do SVG em `assets/svg/` sem extensão |
 | `cronometro` | texto | não | Id de tempo avulso do config (`"intervalo"`) |
 
 ## 3. Modelos (`layout`)
 
-`capa`, `ministrantes`, `regras`, `qr`, `algoritmo`, `atualizacao`, `conceito`, `cartas`, `erro`, `enunciado`, `resposta`, `recap`, `ranking`, `intervalo`, `impacto`, `premios`, `proximos`, `encerramento`.
+`capa`, `ministrantes`, `regras`, `instrucoes`, `algoritmo`, `atualizacao`, `conceito`, `cartas`, `erro`, `enunciado`, `resposta`, `recap`, `ranking`, `intervalo`, `impacto`, `premios`, `proximos`, `encerramento`.
 
-`cartas` cobre os slides 7 e 16 (quatro cartas). `recap` é o slide 36 (módulos como propriedades compradas). `qr` cobre os slides 4 e 55.
+`cartas` cobre os slides 7 e 16 (quatro cartas). `recap` é o slide 36 (módulos como propriedades compradas). `instrucoes` cobre os slides 4 (como mostrar a resposta) e 55 (Forms).
 
 ## 4. Bloco de código
 
@@ -73,8 +73,8 @@ Regras do arquivo: só objetos literais e template strings sem `${}`. Nada de l�
 PI.config = {
   titulo: "Python Imobiliário",
   atividades: {
-    "1":    { nome: "Atividade 1",  minutos: 5,  premios: [300, 200, 100], premio: "" },
-    "boss": { nome: "Boss",         minutos: 15, premios: [500, 300, 100], premio: "" }
+    "1":    { nome: "Atividade 1",  minutos: 5,  premios: [300, 200, 100], premio: "chocolate" },
+    "boss": { nome: "Boss",         minutos: 15, premios: [500, 300, 100], premio: "chocolate" }
   },
   tempos: { intervalo: 5 },
   cronograma: [ { bloco: 1, inicioMin: 0, fimMin: 7, etapa: "Abertura" } ],
@@ -84,7 +84,7 @@ PI.config = {
 };
 ```
 
-Link vazio mostra "link pendente". Foto vazia desenha o peão na cor do ministrante. Os slides `ministrantes` (2) e `encerramento` (56) mostram os nomes de `ministrantes` direto do config, sem repetir na seção.
+`premios` são os pontos em dinheiro fictício do ranking; `premio` é o prêmio físico do 1º lugar (chocolate). Link vazio mostra "link pendente". Foto vazia desenha o peão na cor do ministrante. Os slides `ministrantes` (2) e `encerramento` (56) mostram os nomes de `ministrantes` direto do config, sem repetir na seção.
 
 ## 6. Estado (localStorage, chave `pi:estado:v1`)
 
