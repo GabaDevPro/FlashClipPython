@@ -9,6 +9,7 @@
     '05-condicionais': 'verde', '06-recap': 'amarelo', '07-intervalo': 'amarelo', '08-lacos': 'rosa',
     '09-boss': 'marrom', '10-premiacao': 'azul'
   };
+  var FANTASMA = '<svg viewBox="0 0 120 140" aria-hidden="true"><path d="M10 62 C10 30 34 8 60 8 C86 8 110 30 110 62 L110 130 L96 118 L82 130 L68 118 L54 130 L40 118 L26 130 L10 118 Z" class="arte-fantasma"/><ellipse cx="44" cy="58" rx="8" ry="11" class="arte-olho"/><ellipse cx="76" cy="58" rx="8" ry="11" class="arte-olho"/><ellipse cx="60" cy="88" rx="7" ry="9" class="arte-olho"/></svg>';
   var ENVELOPE = '<svg viewBox="0 0 460 340" aria-hidden="true"><g transform="rotate(-7 210 90)"><rect x="70" y="20" width="290" height="140" class="arte-nota"/><rect x="84" y="34" width="262" height="112" class="arte-linha"/></g><g transform="rotate(5 250 80)"><rect x="110" y="10" width="290" height="140" class="arte-nota"/><rect x="124" y="24" width="262" height="112" class="arte-linha"/></g><rect x="20" y="96" width="420" height="234" class="arte-envelope"/><path d="M20 96 L230 226 L440 96" class="arte-traco"/><rect x="140" y="244" width="180" height="62" class="arte-etiqueta"/></svg>';
 
   function corDe(slide) { return COR_SECAO[slide.secaoId] || 'celeste'; }
@@ -118,9 +119,17 @@
     return s;
   };
 
+  // Camada decorativa por cima do slide: não mexe na grade do código.
+  function fantasmas() {
+    var camada = el('div', 'fantasmas', [1, 2, 3].map(function (i) { return el('div', 'fantasma fantasma--' + i, [P.svg(FANTASMA, '')]); }));
+    camada.setAttribute('aria-hidden', 'true');
+    return camada;
+  }
+
   M.conceito = function (slide) {
     var s = base(slide, 'conceito');
     s.appendChild(titulo(slide));
+    if (slide.ilustracao === 'fantasmas') { s.appendChild(fantasmas()); }
     var arte = null;
     if (slide.ilustracao === 'envelope') {
       arte = el('div', 'ilustracao', [P.svg(ENVELOPE, 'ilustracao__svg'), txt('span', 'ilustracao__etiqueta', 'saldo')]);

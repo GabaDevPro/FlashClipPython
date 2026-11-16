@@ -15,6 +15,7 @@ PI.secao({
     {
       n: 9,
       layout: "conceito",
+      ilustracao: "fantasmas",
       titulo: "print: a maldição do Hello World",
       codigo: [
         {

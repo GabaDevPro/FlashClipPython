@@ -287,6 +287,14 @@
 .arte-aro { fill: none; stroke: var(--cor-tinta); stroke-width: 8; }
 .arte-miolo { fill: var(--cor-carta); stroke: var(--cor-tinta); stroke-width: 6; }
 .arte-ponteiro { fill: var(--cor-tinta); }
+.arte-fantasma { fill: var(--cor-dado); stroke: var(--cor-tinta); stroke-width: var(--borda-forte); stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.arte-olho { fill: var(--cor-tinta); }
+.fantasmas { position: absolute; inset: 0; pointer-events: none; }
+.fantasma { position: absolute; }
+.fantasma svg { display: block; width: 100%; height: auto; overflow: visible; }
+.fantasma--1 { left: 1500px; top: 300px; width: 240px; rotate: -8deg; }
+.fantasma--2 { left: 1650px; top: 650px; width: 160px; rotate: 10deg; scale: -1 1; }
+.fantasma--3 { left: 1120px; top: 700px; width: 120px; rotate: -5deg; }
 .roleta__miolo {
   position: absolute;
   left: 198px;

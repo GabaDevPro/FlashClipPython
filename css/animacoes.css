@@ -24,6 +24,11 @@
 }
 .dado--rolando { animation: rolar-dado 700ms cubic-bezier(0.3, 0.6, 0.4, 1); }
 
+@keyframes flutuar { to { translate: 0 -24px; } }
+.fantasma { animation: flutuar 2.4s ease-in-out infinite alternate; }
+.fantasma--2 { animation-duration: 2.9s; animation-delay: -0.9s; }
+.fantasma--3 { animation-duration: 2.1s; animation-delay: -1.6s; }
+
 @media (prefers-reduced-motion: reduce) {
-  .slide--entrando, .carta--virando, .ranking__linha--subindo, .dado--rolando { animation: none; }
+  .slide--entrando, .carta--virando, .ranking__linha--subindo, .dado--rolando, .fantasma { animation: none; }
 }
