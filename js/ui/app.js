@@ -46,8 +46,9 @@
     }
     var no = modelo(slide, ctx);
     PI.preencher(no, estado, ctx.config);
+    var antigo = palco.lastElementChild;
     palco.replaceChildren(no);
-    PI.efeitos.aplicar(no, indiceAtual(), estado);
+    PI.efeitos.aplicar(no, indiceAtual(), estado, antigo);
     PI.cronometroUi.tick();
     PI.roletaUi.aoMudar(estado, palco);
     document.title = 'Slide ' + slide.n + ' · ' + slide.titulo;

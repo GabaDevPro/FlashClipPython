@@ -1,9 +1,10 @@
-/* Animações da janela principal (F13): entrada do slide, cartas do top 3, dinheiro subindo no ranking
+/* Animações da janela principal (F13): tabuleiro deslizando na troca de slide, cartas do top 3, dinheiro subindo no ranking
    e dados rolando ao iniciar o cronômetro. A roleta anima em roleta-ui.js. */
 (function (raiz) {
   'use strict';
 
   var PI = raiz.PI;
+  var DESLIZAR_MS = 450;
   var INTERVALO_CARTAS_MS = 260;
   var INTERVALO_LINHAS_MS = 70;
   var ATRASO_MAGNATA_MS = 300;
@@ -12,6 +13,8 @@
   var FACE_MS = 90;
   // O slide é redesenhado a cada mudança de estado: compara com o desenho anterior e anima só o que mudou.
   var antes = { indice: null, rodando: null, nomes: [], valores: {} };
+  // Atraso das animações de dentro do slide enquanto o tabuleiro desliza.
+  var base = 0;
 
   function reduzir() {
     return !!(raiz.matchMedia && raiz.matchMedia('(prefers-reduced-motion: reduce)').matches);
@@ -20,7 +23,7 @@
   function lista(no, seletor) { return Array.prototype.slice.call(no.querySelectorAll(seletor)); }
 
   function animar(el, classe, atrasoMs) {
-    el.style.animationDelay = atrasoMs + 'ms';
+    el.style.animationDelay = (base + atrasoMs) + 'ms';
     el.classList.add(classe);
   }
 
@@ -46,7 +49,7 @@
       if (t < 1) { raiz.requestAnimationFrame(passo); }
     }
     el.textContent = PI.dinheiro(de);
-    raiz.requestAnimationFrame(passo);
+    raiz.setTimeout(function () { raiz.requestAnimationFrame(passo); }, base);
   }
 
   // Ao entrar, as linhas sobem e o dinheiro conta do zero; no mesmo slide, conta do valor anterior.
@@ -85,11 +88,25 @@
     });
   }
 
-  // Chamado por app.js depois de pôr o slide novo no palco.
-  function aplicar(no, indice, estado) {
+  // Avançar arrasta o tabuleiro para a esquerda: o antigo sai pela esquerda e o novo entra pela direita.
+  // Voltar faz o contrário. O antigo volta ao palco só durante o movimento, escondido do leitor de tela.
+  function deslizar(no, antigo, avancando) {
+    var sentido = avancando ? 'avancar' : 'voltar';
+    antigo.setAttribute('aria-hidden', 'true');
+    antigo.classList.remove('slide--entrando-avancar', 'slide--entrando-voltar');
+    antigo.classList.add('slide--saindo-' + sentido);
+    no.parentNode.insertBefore(antigo, no);
+    no.classList.add('slide--entrando-' + sentido);
+    raiz.setTimeout(function () { antigo.remove(); }, DESLIZAR_MS);
+  }
+
+  // Chamado por app.js depois de pôr o slide novo no palco; antigo é o slide que estava antes.
+  function aplicar(no, indice, estado, antigo) {
     var slideNovo = indice !== antes.indice;
     var rodando = estado.cronometro.rodando;
-    if (slideNovo) { no.classList.add('slide--entrando'); }
+    var desliza = slideNovo && antes.indice !== null && !!antigo && !reduzir();
+    base = desliza ? DESLIZAR_MS : 0;
+    if (desliza) { deslizar(no, antigo, indice > antes.indice); }
     virarCartas(no, slideNovo);
     subirDinheiro(no, slideNovo);
     if (!slideNovo && rodando && antes.rodando === false) { rolarDados(no); }
