@@ -106,15 +106,15 @@ Tempo: 3 min de explicação, 5 min para tentar e 2 min de ranking e prêmio.
 - **Na tela:** Mensagem do dono do jogo: "Preciso que o banqueiro dê boas-vindas aos jogadores."
 - **Fala:** Apresenta a história: a cada atividade, o dono do jogo pede uma atualização.
 
-#### Slide 9: print: o banqueiro anuncia
+#### Slide 9: print: a maldição do Hello World
 
 - **Na tela:** O código e a saída lado a lado.
-- **Fala:** O print é o banqueiro falando em voz alta: o que está dentro dos parênteses e entre aspas aparece na tela.
+- **Fala:** Reza a lenda que quem começa uma linguagem sem imprimir Hello, World! fica amaldiçoado. Para quebrar a maldição, o banqueiro fala em voz alta: o print mostra na tela o que está dentro dos parênteses e entre aspas.
 
 **Exemplo**
 
 ```python
-print("Passou pelo ponto de partida!")
+print("Hello, World!")
 ```
 
 #### Slide 10: Comentários: o caderninho do banqueiro

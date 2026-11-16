@@ -15,17 +15,17 @@ PI.secao({
     {
       n: 9,
       layout: "conceito",
-      titulo: "print: o banqueiro anuncia",
+      titulo: "print: a maldição do Hello World",
       codigo: [
         {
           rotulo: "Exemplo",
           linguagem: "python",
-          texto: `print("Passou pelo ponto de partida!")`,
-          saida: `Passou pelo ponto de partida!`,
-          testes: [{ saida: `Passou pelo ponto de partida!` }]
+          texto: `print("Hello, World!")`,
+          saida: `Hello, World!`,
+          testes: [{ saida: `Hello, World!` }]
         }
       ],
-      fala: "O print é o banqueiro falando em voz alta: o que está dentro dos parênteses e entre aspas aparece na tela."
+      fala: "Reza a lenda que quem começa uma linguagem sem imprimir Hello, World! fica amaldiçoado. Para quebrar a maldição, o banqueiro fala em voz alta: o print mostra na tela o que está dentro dos parênteses e entre aspas."
     },
     {
       n: 10,
