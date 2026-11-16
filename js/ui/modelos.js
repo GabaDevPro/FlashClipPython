@@ -66,11 +66,16 @@
     var s = base(slide, 'ministrantes');
     s.appendChild(titulo(slide));
     s.appendChild(el('ul', 'ministrantes', ctx.config.ministrantes.map(function (m) {
+      // Com foto, o peão fica em pé em cima do card; sem foto, continua dentro dele.
       var foto = m.foto ? el('img', 'ministrante__foto') : P.peao(m.cor);
       if (m.foto) { foto.src = m.foto; foto.alt = ''; }
       var c = el('div', 'ministrante__casa', [foto]);
       c.style.setProperty('--cor-peao', m.cor);
-      return el('li', 'ministrante', [c, txt('strong', 'ministrante__nome', m.nome), m.secao ? txt('span', 'ministrante__secao', m.secao) : null]);
+      var peao = m.foto ? P.peao(m.cor) : null;
+      if (peao) { peao.classList.add('ministrante__peao'); }
+      // assets/fotos/ fica fora do git: sem o arquivo, volta o peão dentro do card.
+      if (m.foto) { foto.onerror = function () { c.replaceChildren(P.peao(m.cor)); peao.style.visibility = 'hidden'; }; }
+      return el('li', 'ministrante', [peao, c, txt('strong', 'ministrante__nome', m.nome), m.secao ? txt('span', 'ministrante__secao', m.secao) : null]);
     })));
     return s;
   };

@@ -27,6 +27,7 @@
   border-top: 56px solid var(--cor-peao);
 }
 .ministrante__foto { width: 100%; height: 100%; object-fit: cover; }
+.ministrante__peao { position: relative; z-index: 1; width: 84px; height: 119px; margin-bottom: -16px; }
 .ministrante__nome { margin-top: 28px; font: var(--texto-destaque); font-size: 36px; line-height: 1.2; }
 .ministrante__secao { margin-top: 8px; font: var(--texto-corpo); font-size: 28px; color: var(--cor-texto-suave); }
 
