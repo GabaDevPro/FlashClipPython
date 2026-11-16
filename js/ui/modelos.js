@@ -166,6 +166,8 @@
     var s = base(slide, 'erro');
     s.appendChild(titulo(slide, 'titulo-atividade'));
     s.appendChild(el('div', 'erro__codigo', [codigos(slide)]));
+    // Na tela principal a saída espera um avanço para aparecer (app.js); painel e PDF mostram direto.
+    if (slide.revelarSaida) { s.querySelectorAll('.codigo__saida').forEach(function (x) { x.setAttribute('data-revelar', ''); }); }
     return s;
   };
 

@@ -83,6 +83,7 @@ IndentationError: expected an indented block after 'if' statement on line 3`,
           testes: [{ erro: "IndentationError" }]
         }
       ],
+      revelarSaida: true,
       interacao: "Rode o exemplo sem os 4 espaços e mostre o IndentationError. A plateia diz o que falta."
     },
     {

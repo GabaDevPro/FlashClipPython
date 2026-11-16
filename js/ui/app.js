@@ -24,6 +24,7 @@
   var slides = PI.conteudo.achatarSecoes(PI.secoes());
   var ctx = { config: PI.config };
   var modoIr = null;
+  var revelado = false;
   var palco, avisoIr, ajuda;
 
   function escalar() {
@@ -46,6 +47,7 @@
     }
     var no = modelo(slide, ctx);
     PI.preencher(no, estado, ctx.config);
+    if (revelado) { no.querySelectorAll('[data-revelar]').forEach(function (x) { x.classList.add('revelado'); }); }
     var antigo = palco.lastElementChild;
     palco.replaceChildren(no);
     PI.efeitos.aplicar(no, indiceAtual(), estado, antigo);
@@ -57,6 +59,7 @@
 
   function ir(indice) {
     var novo = PI.navegacao.limitar(indice, slides.length);
+    if (novo !== indiceAtual()) { revelado = false; }
     PI.loja.atualizar(function (e) {
       return PI.cronometroUi.aoEntrar(Object.assign({}, e, { slide: novo }), slides[novo], ctx.config);
     });
@@ -92,8 +95,17 @@
     ir(i);
   }
 
+  // Slide com parte escondida (data-revelar): o primeiro avanço mostra, o segundo troca de slide.
+  function revelar() {
+    var pendentes = palco.querySelectorAll('[data-revelar]:not(.revelado)');
+    if (!pendentes.length) { return false; }
+    pendentes.forEach(function (x) { x.classList.add('revelado', 'revelando'); });
+    revelado = true;
+    return true;
+  }
+
   var ACOES = {
-    proximo: function () { ir(PI.navegacao.proximo(indiceAtual(), slides.length)); },
+    proximo: function () { if (!revelar()) { ir(PI.navegacao.proximo(indiceAtual(), slides.length)); } },
     anterior: function () { ir(PI.navegacao.anterior(indiceAtual())); },
     inicio: function () { ir(0); },
     fim: function () { ir(slides.length - 1); },

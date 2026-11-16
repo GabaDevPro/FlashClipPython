@@ -38,6 +38,7 @@ Regras do arquivo: só objetos literais e template strings sem `${}`. Nada de l�
 | `roleta` | booleano | não | Slide com sorteio (37 e 53) |
 | `link` | texto | não | Chave do link em `config.links` mostrado em texto (`"forms"`). Não há QR code |
 | `diagrama` | texto | não | `"if-else"` ou `"elif"` |
+| `revelarSaida` | booleano | não | Modelo `erro`: na janela principal a saída do código só aparece no primeiro avanço; painel e PDF mostram direto |
 | `ilustracao` | texto | não | `"envelope"` (arte ao lado do código) ou `"fantasmas"` (camada decorativa por cima); SVG embutido em `js/ui/modelos.js` |
 | `cronometro` | texto | não | Id de tempo avulso do config (`"intervalo"`) |
 

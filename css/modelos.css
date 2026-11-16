@@ -124,6 +124,7 @@
 
 /* Erro */
 .erro__codigo { width: fit-content; min-width: 1300px; max-width: 100%; }
+#palco [data-revelar]:not(.revelado) { display: none; }
 .erro__codigo .codigo { outline: var(--borda-forte) solid var(--cor-destaque); outline-offset: 6px; }
 
 /* Enunciado */

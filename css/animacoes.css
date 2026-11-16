@@ -36,6 +36,9 @@
 .fantasma--2 { animation-duration: 2.9s; animation-delay: -0.9s; }
 .fantasma--3 { animation-duration: 2.1s; animation-delay: -1.6s; }
 
+@keyframes revelar { from { opacity: 0; translate: 0 -16px; } }
+.revelando { animation: revelar 320ms cubic-bezier(0.2, 0.7, 0.2, 1); }
+
 @media (prefers-reduced-motion: reduce) {
-  .slide--entrando-avancar, .slide--entrando-voltar, .slide--saindo-avancar, .slide--saindo-voltar, .carta--virando, .ranking__linha--subindo, .dado--rolando, .fantasma { animation: none; }
+  .revelando, .slide--entrando-avancar, .slide--entrando-voltar, .slide--saindo-avancar, .slide--saindo-voltar, .carta--virando, .ranking__linha--subindo, .dado--rolando, .fantasma { animation: none; }
 }
