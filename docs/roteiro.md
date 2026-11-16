@@ -383,6 +383,15 @@ else:
 
 - **Interação:** Rode o exemplo sem os 4 espaços e mostre o IndentationError. A plateia diz o que falta.
 
+**Saída**
+
+```text
+  File "main.py", line 4
+    print("Dupla! Jogue de novo")
+    ^^^^^
+IndentationError: expected an indented block after 'if' statement on line 3
+```
+
 #### Slide 31: Atividade 4a: enunciado
 
 - **Na tela:** Peça o saldo do jogador e o preço da propriedade. Se o saldo for maior ou igual ao preço, imprima "Compra aprovada". Senão, imprima "Saldo insuficiente". Cronômetro de 5 minutos.

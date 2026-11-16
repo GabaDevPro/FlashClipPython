@@ -91,6 +91,8 @@
   }
 
   var LINHAS_LADO_A_LADO = 8;
+  // Saída larga (ex.: mensagem de erro do Python) não cabe na coluna da direita: vai embaixo do código.
+  var COLUNAS_SAIDA_LADO = 24;
   var COLUNAS_G = 40, COLUNAS_M = 44;
 
   function tamanhoCodigo(linhas, colunas) {
@@ -108,9 +110,10 @@
     var mostrarSaida = bloco.saida !== undefined && bloco.saida !== null && !(opcoes && opcoes.semSaida);
     var cod = medidas(bloco.texto);
     var sai = mostrarSaida ? medidas(bloco.saida) : { linhas: 0, colunas: 0 };
-    var ladoALado = mostrarSaida && cod.linhas + sai.linhas > LINHAS_LADO_A_LADO;
+    var ladoALado = mostrarSaida && cod.linhas + sai.linhas > LINHAS_LADO_A_LADO && sai.colunas <= COLUNAS_SAIDA_LADO;
     var linhas = ladoALado ? Math.max(cod.linhas, sai.linhas) : cod.linhas + sai.linhas;
-    var b = el('figure', 'codigo ' + tamanhoCodigo(linhas, cod.colunas) + (ladoALado ? ' codigo--lado' : ''));
+    var colunas = ladoALado ? cod.colunas : Math.max(cod.colunas, sai.colunas);
+    var b = el('figure', 'codigo ' + tamanhoCodigo(linhas, colunas) + (ladoALado ? ' codigo--lado' : ''));
     var pre = el('pre', 'codigo__texto');
     var code = el('code');
     if (bloco.linguagem === 'python') {

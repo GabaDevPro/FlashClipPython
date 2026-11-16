@@ -76,6 +76,10 @@ if dado1 == dado2:
 print("Dupla! Jogue de novo")
 else:
 print("Vez do próximo jogador")`,
+          saida: `  File "main.py", line 4
+    print("Dupla! Jogue de novo")
+    ^^^^^
+IndentationError: expected an indented block after 'if' statement on line 3`,
           testes: [{ erro: "IndentationError" }]
         }
       ],

@@ -123,7 +123,7 @@
 .tabela-itens dd { margin: 0; font: var(--texto-corpo); font-size: 36px; }
 
 /* Erro */
-.erro__codigo { max-width: 1300px; }
+.erro__codigo { width: fit-content; min-width: 1300px; max-width: 100%; }
 .erro__codigo .codigo { outline: var(--borda-forte) solid var(--cor-destaque); outline-offset: 6px; }
 
 /* Enunciado */
