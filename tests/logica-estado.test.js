@@ -90,3 +90,37 @@ test('carregar usa o salvo quando é válido e volta ao inicial quando falta ou 
 test('nome do arquivo de backup usa data e hora locais', () => {
   assert.equal(est.nomeArquivo(new Date(2026, 10, 17, 19, 5)), 'placar-2026-11-17-1905.json');
 });
+
+test('validar recusa atividade herdada do protótipo em resultados e no alvo do cronômetro', () => {
+  for (const chave of ['constructor', 'toString', '__proto__']) {
+    const e = Object.assign(valido(), { resultados: JSON.parse('{"' + chave + '": ["j1"]}') });
+    assert.match(est.validar(e, ATIVIDADES).erro, /atividade/, chave);
+  }
+  const alvo = Object.assign(valido(), { cronometro: Object.assign({}, valido().cronometro, { alvo: 'constructor' }) });
+  assert.match(est.validar(alvo, ATIVIDADES).erro, /cronômetro/);
+});
+
+test('validar aceita como alvo do cronômetro uma atividade ou um tempo avulso do config', () => {
+  const e = Object.assign(valido(), { cronometro: Object.assign({}, valido().cronometro, { alvo: 'intervalo' }) });
+  assert.match(est.validar(e, ATIVIDADES).erro, /cronômetro/);
+  assert.deepEqual(est.validar(e, ATIVIDADES, { intervalo: 5 }), { ok: true });
+});
+
+test('validar recusa id de jogador com dígitos demais, slide absurdo e nome com caractere de controle', () => {
+  const idLongo = Object.assign(valido(), { jogadores: [{ id: 'j' + '9'.repeat(400), nome: 'A', acertou: false, ordem: 1 }], resultados: {} });
+  assert.match(est.validar(idLongo, ATIVIDADES).erro, /id/);
+  assert.match(est.validar(Object.assign(valido(), { slide: 1e21 }), ATIVIDADES).erro, /slide/);
+  const controle = Object.assign(valido(), { jogadores: [{ id: 'j1', nome: 'Ana‮', acertou: false, ordem: 1 }], resultados: {} });
+  assert.match(est.validar(controle, ATIVIDADES).erro, /nome/);
+});
+
+test('importar guarda só os campos do contrato e descarta o resto', () => {
+  const texto = JSON.stringify(Object.assign(valido(), { extra: 1, jogadores: [{ id: 'j1', nome: 'Ana', acertou: true, ordem: 1, admin: true }], resultados: {} }))
+    .replace('{', '{"__proto__": {"x": 1}, ');
+  const r = est.importar(texto, ATIVIDADES);
+  assert.equal(r.ok, true);
+  assert.equal(r.estado.extra, undefined);
+  assert.equal(r.estado.x, undefined);
+  assert.deepEqual(r.estado.jogadores, [{ id: 'j1', nome: 'Ana', acertou: true, ordem: 1 }]);
+  assert.deepEqual(Object.keys(r.estado).sort(), ['cronometro', 'jogadores', 'melhorJogada', 'resultados', 'roleta', 'slide', 'som', 'versao']);
+});

@@ -8,6 +8,7 @@
   var TEMPO_AVISO_MS = 4000;
   var atual = null;
   var atividades = {};
+  var tempos = {};
   var ouvintes = [];
   var pilha = [];
   var caixaAvisos = null;
@@ -44,7 +45,8 @@
 
   function iniciar(config) {
     atividades = config.atividades;
-    var r = PI.estado.carregar(ler(), atividades);
+    tempos = config.tempos;
+    var r = PI.estado.carregar(ler(), atividades, tempos);
     atual = r.estado;
     if (r.aviso) {
       console.error(r.aviso);
@@ -82,7 +84,7 @@
   }
 
   function substituirDeFora(texto) {
-    var r = PI.estado.importar(texto, atividades);
+    var r = PI.estado.importar(texto, atividades, tempos);
     if (!r.ok) { return; }
     atual = r.estado;
     notificar({ deFora: true });

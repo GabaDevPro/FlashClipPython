@@ -114,3 +114,14 @@ test('marcar por lista colada aceita um nome por linha e ignora caixa, espaços 
   assert.deepEqual(r.estado.jogadores.map((j) => j.acertou), [true, false, true]);
   assert.deepEqual(r.desconhecidos, ['Zé']);
 });
+
+test('ranking e top 3 ignoram atividade que não é do config, mesmo com nome herdado do protótipo', () => {
+  const e = Object.assign(comJogadores(['Ana']), { resultados: { constructor: ['j1'], '1': ['j1'] } });
+  assert.equal(pl.ranking(e, ATIVIDADES)[0].total, 300);
+  assert.deepEqual(pl.top3(e, 'constructor', ATIVIDADES).map((x) => x.valor), [0]);
+});
+
+test('adicionar recusa nome com caractere de controle ou de direção de texto', () => {
+  assert.throws(() => pl.adicionarJogador(vazio(), 'Ana‮'), /caractere/);
+  assert.throws(() => pl.adicionarJogador(vazio(), 'A​na'), /caractere/);
+});

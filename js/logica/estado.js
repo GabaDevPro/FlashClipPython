@@ -7,6 +7,9 @@
   var MAX_NOME = 40;
   var LIMITE_BYTES = 200000;
   var MINUTO_MS = 60000;
+  var MAX_SLIDE = 999;
+  // Controle, largura zero e direção de texto (U+202E inverte o nome na tela).
+  var CARACTERE_PROIBIDO = /[\u0000-\u001F\u007F-\u009F\u200B-\u200F\u202A-\u202E\u2060-\u2069\uFEFF]/;
 
   function inicial(atividades) {
     var primeira = Object.keys(atividades)[0];
@@ -25,6 +28,8 @@
 
   function ehObjeto(x) { return x !== null && typeof x === 'object' && !Array.isArray(x); }
   function ehNumero(x) { return typeof x === 'number' && isFinite(x); }
+  // Só chave própria: 'constructor' e '__proto__' não podem passar por atividade.
+  function tem(obj, chave) { return !!obj && Object.prototype.hasOwnProperty.call(obj, chave); }
 
   function erroJogadores(lista) {
     if (!Array.isArray(lista)) { return 'lista de jogadores inválida'; }
@@ -32,9 +37,10 @@
     var ids = {};
     for (var i = 0; i < lista.length; i++) {
       var j = lista[i];
-      if (!ehObjeto(j) || typeof j.id !== 'string' || !/^j\d+$/.test(j.id)) { return 'jogador sem id válido'; }
+      if (!ehObjeto(j) || typeof j.id !== 'string' || !/^j\d{1,9}$/.test(j.id)) { return 'jogador sem id válido'; }
       if (typeof j.nome !== 'string' || !j.nome.trim()) { return 'nome do jogador inválido'; }
       if (j.nome.length > MAX_NOME) { return 'nome com mais de ' + MAX_NOME + ' caracteres'; }
+      if (CARACTERE_PROIBIDO.test(j.nome)) { return 'nome do jogador com caractere invisível'; }
       if (typeof j.acertou !== 'boolean' || !ehNumero(j.ordem)) { return 'dados do jogador ' + j.nome + ' inválidos'; }
       if (ids[j.id]) { return 'jogador repetido (' + j.id + ')'; }
       ids[j.id] = true;
@@ -44,12 +50,12 @@
 
   function erroResultados(resultados, jogadores, atividades) {
     if (!ehObjeto(resultados)) { return 'resultados inválidos'; }
-    var ids = {};
+    var ids = Object.create(null);
     jogadores.forEach(function (j) { ids[j.id] = true; });
     var chaves = Object.keys(resultados);
     for (var i = 0; i < chaves.length; i++) {
       var lista = resultados[chaves[i]];
-      if (!atividades[chaves[i]]) { return 'atividade desconhecida (' + chaves[i] + ')'; }
+      if (!tem(atividades, chaves[i])) { return 'atividade desconhecida (' + chaves[i] + ')'; }
       if (!Array.isArray(lista) || lista.length > 3 || new Set(lista).size !== lista.length) { return 'top 3 inválido na atividade ' + chaves[i]; }
       for (var k = 0; k < lista.length; k++) {
         if (!ids[lista[k]]) { return 'jogador inexistente no resultado da atividade ' + chaves[i]; }
@@ -58,8 +64,8 @@
     return null;
   }
 
-  function erroCronometro(c) {
-    var ok = ehObjeto(c) && typeof c.alvo === 'string' && ehNumero(c.duracaoMs) && typeof c.rodando === 'boolean' &&
+  function erroCronometro(c, atividades, tempos) {
+    var ok = ehObjeto(c) && typeof c.alvo === 'string' && (tem(atividades, c.alvo) || tem(tempos, c.alvo)) && ehNumero(c.duracaoMs) && typeof c.rodando === 'boolean' &&
       (c.terminaEm === null || ehNumero(c.terminaEm)) && ehNumero(c.restanteMs) && c.restanteMs >= 0;
     return ok ? null : 'cronômetro inválido';
   }
@@ -72,13 +78,13 @@
     return ok ? null : 'roleta inválida';
   }
 
-  function validar(e, atividades) {
+  function validar(e, atividades, tempos) {
     if (!ehObjeto(e)) { return { ok: false, erro: 'o arquivo não tem um objeto de placar' }; }
     if (e.versao !== VERSAO) { return { ok: false, erro: 'versão do placar não suportada' }; }
     var erro = erroJogadores(e.jogadores) ||
       erroResultados(e.resultados, e.jogadores, atividades) ||
-      (Number.isInteger(e.slide) && e.slide >= 0 ? null : 'slide inválido') ||
-      erroCronometro(e.cronometro) ||
+      (Number.isInteger(e.slide) && e.slide >= 0 && e.slide <= MAX_SLIDE ? null : 'slide inválido') ||
+      erroCronometro(e.cronometro, atividades, tempos) ||
       erroRoleta(e.roleta) ||
       (e.melhorJogada === null || e.melhorJogada === undefined || typeof e.melhorJogada === 'string' ? null : 'melhor jogada inválida') ||
       (typeof e.som === 'boolean' ? null : 'som inválido');
@@ -87,7 +93,26 @@
 
   function exportar(e) { return JSON.stringify(e, null, 2); }
 
-  function importar(texto, atividades) {
+  // Monta o estado só com os campos do contrato: nada extra do arquivo chega à loja.
+  function limpar(e) {
+    var c = e.cronometro;
+    var roleta = { semRepetir: e.roleta.semRepetir, sorteados: e.roleta.sorteados.slice() };
+    if (e.roleta.ultimo) { roleta.ultimo = { id: e.roleta.ultimo.id, em: e.roleta.ultimo.em }; }
+    var resultados = {};
+    Object.keys(e.resultados).forEach(function (a) { resultados[a] = e.resultados[a].slice(); });
+    return {
+      versao: e.versao,
+      slide: e.slide,
+      jogadores: e.jogadores.map(function (j) { return { id: j.id, nome: j.nome, acertou: j.acertou, ordem: j.ordem }; }),
+      resultados: resultados,
+      cronometro: { alvo: c.alvo, duracaoMs: c.duracaoMs, rodando: c.rodando, terminaEm: c.terminaEm, restanteMs: c.restanteMs },
+      roleta: roleta,
+      melhorJogada: e.melhorJogada === undefined ? null : e.melhorJogada,
+      som: e.som
+    };
+  }
+
+  function importar(texto, atividades, tempos) {
     if (typeof texto !== 'string') { return { ok: false, erro: 'Nada para importar.' }; }
     if (texto.length > LIMITE_BYTES) { return { ok: false, erro: 'Arquivo grande demais para ser um placar.' }; }
     var obj;
@@ -96,14 +121,14 @@
     } catch (erro) {
       return { ok: false, erro: 'O arquivo não é um JSON válido.' };
     }
-    var r = validar(obj, atividades);
+    var r = validar(obj, atividades, tempos);
     if (!r.ok) { return { ok: false, erro: 'Placar inválido: ' + r.erro + '.' }; }
-    return { ok: true, estado: Object.assign({ melhorJogada: null }, obj) };
+    return { ok: true, estado: limpar(obj) };
   }
 
-  function carregar(texto, atividades) {
+  function carregar(texto, atividades, tempos) {
     if (texto === null || texto === undefined) { return { estado: inicial(atividades), aviso: null }; }
-    var r = importar(texto, atividades);
+    var r = importar(texto, atividades, tempos);
     if (!r.ok) { return { estado: inicial(atividades), aviso: 'O placar salvo foi ignorado. ' + r.erro }; }
     return { estado: r.estado, aviso: null };
   }

@@ -4,6 +4,12 @@
 
   var MAX_NOME = 40;
   var MAX_TOP = 3;
+  // Mesma regra de js/logica/estado.js: controle, largura zero e direção de texto.
+  var CARACTERE_PROIBIDO = /[\u0000-\u001F\u007F-\u009F\u200B-\u200F\u202A-\u202E\u2060-\u2069\uFEFF]/;
+
+  function premiosDe(atividades, a) {
+    return Object.prototype.hasOwnProperty.call(atividades, a) ? atividades[a].premios : null;
+  }
 
   function normalizar(nome) { return String(nome).trim().toLowerCase(); }
 
@@ -11,6 +17,7 @@
     var limpo = String(nome === undefined || nome === null ? '' : nome).trim();
     if (!limpo) { throw new Error('O nome está vazio.'); }
     if (limpo.length > MAX_NOME) { throw new Error('O nome passa de ' + MAX_NOME + ' caracteres.'); }
+    if (CARACTERE_PROIBIDO.test(limpo)) { throw new Error('O nome tem caractere invisível ou de controle.'); }
     var repetido = e.jogadores.some(function (j) { return j.id !== ignorarId && normalizar(j.nome) === normalizar(limpo); });
     if (repetido) { throw new Error('Esse nome já existe no placar.'); }
     return limpo;
@@ -69,7 +76,8 @@
     var porId = {};
     contas.forEach(function (c) { porId[c.id] = c; });
     Object.keys(e.resultados).forEach(function (a) {
-      var premios = atividades[a] ? atividades[a].premios : [];
+      var premios = premiosDe(atividades, a);
+      if (!premios) { return; }
       e.resultados[a].forEach(function (id, pos) {
         if (!porId[id]) { return; }
         porId[id].total += premios[pos] || 0;
@@ -81,8 +89,9 @@
   }
 
   function top3(e, atividade, atividades) {
-    var premios = atividades[atividade] ? atividades[atividade].premios : [];
-    return (e.resultados[atividade] || []).map(function (id, i) {
+    var premios = premiosDe(atividades, atividade) || [];
+    var lista = Object.prototype.hasOwnProperty.call(e.resultados, atividade) ? e.resultados[atividade] : [];
+    return lista.map(function (id, i) {
       var j = e.jogadores.filter(function (x) { return x.id === id; })[0];
       return { posicao: i + 1, id: id, nome: j ? j.nome : '', valor: premios[i] || 0 };
     });

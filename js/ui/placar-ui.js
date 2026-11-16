@@ -130,7 +130,7 @@
 
   function importar(arquivo) {
     arquivo.text().then(function (texto) {
-      var r = PI.estado.importar(texto, config.atividades);
+      var r = PI.estado.importar(texto, config.atividades, config.tempos);
       if (!r.ok) { status(r.erro, true); return; }
       if (!raiz.confirm('Trocar o placar atual pelo do arquivo ' + arquivo.name + '?')) { return; }
       PI.loja.definir(Object.assign({}, r.estado, { slide: PI.loja.obter().slide }), { desfazivel: true });

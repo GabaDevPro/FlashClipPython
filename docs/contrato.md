@@ -109,7 +109,7 @@ PI.config = {
 
 - Funções de `js/logica/` recebem o estado e devolvem um novo, sem mutação.
 - O restante do cronômetro rodando é sempre `terminaEm - agora`.
-- Exportar gera `placar-AAAA-MM-DD-HHMM.json` com este objeto. Importar valida estrutura, tipos e tamanho (até 200 jogadores, nome até 40 caracteres) antes de trocar o estado.
+- Exportar gera `placar-AAAA-MM-DD-HHMM.json` com este objeto. Importar valida estrutura, tipos e tamanho (até 200 jogadores, nome até 40 caracteres) antes de trocar o estado. Atividade e alvo do cronômetro só valem se forem chave própria de `atividades` ou `tempos` do config; nome com caractere de controle, largura zero ou direção de texto é recusado; o estado importado é remontado só com os campos desta seção.
 - Nomes entram no DOM só por `textContent`.
 
 ## 7. Sincronia entre a janela principal e o painel
