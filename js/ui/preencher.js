@@ -23,11 +23,10 @@
   }
 
   function linha(r) {
-    return P.el('li', 'ranking__linha', [
-      P.txt('span', 'ranking__posicao', r.posicao),
-      P.txt('span', 'ranking__nome', r.nome),
-      P.txt('span', 'ranking__valor', dinheiro(r.total))
-    ]);
+    var valor = P.txt('span', 'ranking__valor', dinheiro(r.total));
+    valor.setAttribute('data-valor', r.total);
+    valor.setAttribute('data-id', r.id);
+    return P.el('li', 'ranking__linha', [P.txt('span', 'ranking__posicao', r.posicao), P.txt('span', 'ranking__nome', r.nome), valor]);
   }
 
   function preencherRanking(no, estado, config) {

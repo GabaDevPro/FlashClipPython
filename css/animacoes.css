@@ -1,0 +1,29 @@
+/* Animações (F13). Classes postas por js/ui/efeitos.js; com movimento reduzido viram troca direta.
+   Os dados usam as propriedades translate e rotate para não apagar o transform inclinado de modelos.css. */
+
+@keyframes entrar-slide { from { opacity: 0; translate: 0 16px; } }
+.slide--entrando { animation: entrar-slide 200ms cubic-bezier(0.2, 0.7, 0.2, 1); }
+
+@keyframes virar-carta {
+  from { transform: perspective(1600px) rotateY(-90deg); }
+  70% { transform: perspective(1600px) rotateY(8deg); }
+  to { transform: perspective(1600px) rotateY(0); }
+}
+.carta--virando { animation: virar-carta 560ms cubic-bezier(0.25, 0.6, 0.3, 1) both; }
+
+@keyframes subir-linha { from { opacity: 0; translate: 0 32px; } }
+.ranking__linha--subindo { animation: subir-linha 360ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.ranking__valor { font-variant-numeric: tabular-nums; }
+
+@keyframes rolar-dado {
+  0% { translate: 0 0; rotate: 0deg; }
+  35% { translate: 0 -70px; rotate: 300deg; }
+  65% { translate: 0 0; rotate: 560deg; }
+  82% { translate: 0 -16px; rotate: 680deg; }
+  100% { translate: 0 0; rotate: 720deg; }
+}
+.dado--rolando { animation: rolar-dado 700ms cubic-bezier(0.3, 0.6, 0.4, 1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .slide--entrando, .carta--virando, .ranking__linha--subindo, .dado--rolando { animation: none; }
+}

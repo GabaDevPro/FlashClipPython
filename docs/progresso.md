@@ -39,3 +39,13 @@ Diário curto por sessão: feito, pendente, próximo passo.
 - Não verificado: o PDF página a página (não há renderizador de PDF aqui; o Walter abre o arquivo); o painel aberto por file:// com a tecla P numa janela real (testado em localhost; a técnica de janelas já passou no teste de file://).
 - Pendente do grupo: as falas e interações das atividades ainda dizem "enviam no sistema"; ajustar quando o grupo reescrever.
 - Próximo: `click-path-audit` e `security-reviewer`; depois F13 animações e F14 README.
+
+## 2026-11-16 (segunda), F13 animações
+
+- Corrigido: validação do placar só por chave própria do config (`constructor` e `__proto__` passavam como atividade), alvo do cronômetro conferido contra `atividades` e `tempos`, limite de id e de slide, nome com caractere de controle ou de direção de texto recusado e `importar` remontando o estado só com os campos do contrato. Os 6 testes que estavam vermelhos passam.
+- Feito: `css/animacoes.css` e `js/ui/efeitos.js`. Entrada do slide (200 ms), cartas do top 3 virando do 3º para o 1º, linhas do ranking subindo com o dinheiro contando até o total (no mesmo slide conta do valor anterior), dados rolando quando o cronômetro passa de parado para rodando. A roleta já girava (`roleta-ui.js`). Só anima o que mudou desde o último desenho.
+- `prefers-reduced-motion`: CSS sem animação e JS mostra o valor e a face final direto. `scripts/capturar.js` emula movimento reduzido por padrão (PNG nunca no meio de uma animação); `--com-movimento` e `--espera ms` para ver os quadros.
+- Verificado por file:// no Chrome headless: 57 capturas sem erro e sem requisição externa; quadros no meio e no fim das animações nos slides 12, 13, 37 e 52; movimento reduzido mostra tudo pronto; 1024x768 sem quebra. `npm test`: 87/87, 100% de linhas.
+- Não verificado: fluidez num notebook comum ligado ao projetor (RNF03). Teste: slide 37 ou 52 com placar montado, e slide 12 com a tecla C.
+- Skills `motion-foundations`, `make-interfaces-feel-better`, `web-design-guidelines` e `accessibility` não estavam instaladas; usadas `frontend-ui-engineering`, `debugging-and-error-recovery` e `design:accessibility-review`.
+- Próximo: F14 README e ajuda de atalhos.

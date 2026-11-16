@@ -4,6 +4,7 @@
 // salva um PNG de cada um e lista erros de console e requisições que não são file://.
 // Uso: node scripts/capturar.js --largura 1920 --altura 1080 --saida capturas/1920 [--slides 1,15,25] [--navegador caminho]
 //      [--antes "expressão JS"] roda na página antes das capturas (ex.: montar um placar de teste).
+//      [--com-movimento] não emula prefers-reduced-motion; [--espera ms] entre ir ao slide e capturar (padrão 120).
 //      [--pdf arquivo.pdf] gera o PDF como o Ctrl+P (dispara beforeprint e imprime com o tamanho do @page).
 
 const { spawn } = require('node:child_process');
@@ -27,7 +28,9 @@ function argumentos() {
     navegador: valor('navegador', CHROME),
     html: valor('html', 'index.html'),
     antes: valor('antes', ''),
-    pdf: valor('pdf', '')
+    pdf: valor('pdf', ''),
+    espera: Number(valor('espera', 120)),
+    movimento: a.includes('--com-movimento')
   };
 }
 
@@ -88,6 +91,8 @@ async function main() {
     await cdp.pronto;
     await Promise.all(['Runtime.enable', 'Log.enable', 'Network.enable', 'Page.enable'].map((m) => cdp.enviar(m)));
     await cdp.enviar('Emulation.setDeviceMetricsOverride', { width: op.largura, height: op.altura, deviceScaleFactor: 1, mobile: false });
+    // Captura estática por padrão: sem movimento, nenhum PNG sai no meio de uma animação.
+    if (!op.movimento) { await cdp.enviar('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] }); }
     await cdp.enviar('Page.reload', { ignoreCache: true });
     await espera(1500);
     await avaliar(cdp, 'document.fonts.ready.then(() => true)');
@@ -107,7 +112,7 @@ async function main() {
       const indice = numeros.indexOf(n);
       if (indice < 0) { erros.push('slide inexistente: ' + n); continue; }
       await avaliar(cdp, `PI.app.ir(${indice})`);
-      await espera(120);
+      await espera(op.espera);
       const foto = await cdp.enviar('Page.captureScreenshot', { format: 'png' });
       fs.writeFileSync(path.join(op.saida, `slide-${n.padStart(2, '0')}.png`), Buffer.from(foto.result.data, 'base64'));
     }

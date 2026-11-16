@@ -146,7 +146,7 @@
       "Cada animação roda sem engasgo no navegador embutido",
       "Com prefers-reduced-motion, as animações viram troca direta"
     ],
-    "passa": false
+    "passa": true
   },
   {
     "id": "F14",
