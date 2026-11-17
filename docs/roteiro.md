@@ -407,8 +407,8 @@ IndentationError: expected an indented block after 'if' statement on line 3
 
 #### Slide 30b: Indentação: o recuo manda
 
-- **Na tela:** Depois dos dois pontos, o bloco vai 4 espaços para dentro. Tudo no mesmo recuo faz parte do mesmo bloco. Voltou para a margem? Saiu do if e roda sempre. Exemplo dos dados com dois print dentro do if e um print("Fim do turno") na margem; a saída aparece no clique.
-- **Fala:** Logo depois do erro: o Python não usa chaves nem "fim", ele usa o recuo. Tudo que está 4 espaços para dentro depois dos dois pontos pertence ao if ou ao else. Mostre as duas linhas recuadas do if: as duas rodam juntas. A última linha voltou para a margem, então está fora do if e do else e roda sempre. Pergunte antes de revelar: o que sai na tela? Dica: o compilador costuma recuar sozinho depois dos dois pontos; não misture Tab com espaço.
+- **Na tela:** Depois dos dois pontos, aperte Tab: o bloco vai 4 espaços para dentro. Tudo no mesmo recuo faz parte do mesmo bloco. Voltou para a margem? Saiu do if e roda sempre. Exemplo dos dados com dois print dentro do if e um print("Fim do turno") na margem; a saída aparece no clique.
+- **Fala:** Logo depois do erro: o Python não usa chaves nem "fim", ele usa o recuo. Tudo que está 4 espaços para dentro depois dos dois pontos pertence ao if ou ao else. Mostre as duas linhas recuadas do if: as duas rodam juntas. A última linha voltou para a margem, então está fora do if e do else e roda sempre. Pergunte antes de revelar: o que sai na tela? Dica: é só apertar Tab no começo da linha que o compilador coloca os 4 espaços certinhos; muitas vezes ele já recua sozinho depois dos dois pontos.
 
 #### Slide 31: Atividade 4a: enunciado
 
