@@ -12,6 +12,14 @@
   var FANTASMA = '<svg viewBox="0 0 120 140" aria-hidden="true"><path d="M10 62 C10 30 34 8 60 8 C86 8 110 30 110 62 L110 130 L96 118 L82 130 L68 118 L54 130 L40 118 L26 130 L10 118 Z" class="arte-fantasma"/><ellipse cx="44" cy="58" rx="8" ry="11" class="arte-olho"/><ellipse cx="76" cy="58" rx="8" ry="11" class="arte-olho"/><ellipse cx="60" cy="88" rx="7" ry="9" class="arte-olho"/></svg>';
   var ENVELOPE = '<svg viewBox="0 0 460 340" aria-hidden="true"><g transform="rotate(-7 210 90)"><rect x="70" y="20" width="290" height="140" class="arte-nota"/><rect x="84" y="34" width="262" height="112" class="arte-linha"/></g><g transform="rotate(5 250 80)"><rect x="110" y="10" width="290" height="140" class="arte-nota"/><rect x="124" y="24" width="262" height="112" class="arte-linha"/></g><rect x="20" y="96" width="420" height="234" class="arte-envelope"/><path d="M20 96 L230 226 L440 96" class="arte-traco"/><rect x="140" y="244" width="180" height="62" class="arte-etiqueta"/></svg>';
 
+  // Ícones das cartas do slide 7 (item.imagem). Traço e cores do tabuleiro, classes em css/pecas.css.
+  var ICONES = {
+    ia: '<svg viewBox="0 0 200 200" aria-hidden="true"><line x1="100" y1="60" x2="100" y2="34" class="ic"/><circle cx="100" cy="28" r="10" class="ic ic-amarelo"/><rect x="24" y="92" width="18" height="38" rx="5" class="ic ic-laranja"/><rect x="158" y="92" width="18" height="38" rx="5" class="ic ic-laranja"/><rect x="40" y="60" width="120" height="104" rx="20" class="ic ic-celeste"/><circle cx="74" cy="102" r="14" class="ic ic-amarelo"/><circle cx="126" cy="102" r="14" class="ic ic-amarelo"/><rect x="70" y="134" width="60" height="14" rx="5" class="ic ic-papel"/></svg>',
+    dados: '<svg viewBox="0 0 200 200" aria-hidden="true"><rect x="48" y="112" width="30" height="60" class="ic ic-celeste"/><rect x="90" y="80" width="30" height="92" class="ic ic-amarelo"/><rect x="132" y="48" width="30" height="124" class="ic ic-verde"/><polyline points="40,98 96,58 150,26" class="ic"/><path d="M26 22 V172 H184" class="ic"/></svg>',
+    sites: '<svg viewBox="0 0 200 200" aria-hidden="true"><rect x="18" y="34" width="164" height="134" rx="10" class="ic ic-papel"/><path d="M18 66 V44 Q18 34 28 34 H172 Q182 34 182 44 V66 Z" class="ic ic-celeste"/><circle cx="38" cy="50" r="6" class="ic ic-vermelho"/><circle cx="56" cy="50" r="6" class="ic ic-amarelo"/><circle cx="74" cy="50" r="6" class="ic ic-verde"/><rect x="36" y="84" width="62" height="66" class="ic ic-laranja"/><path d="M114 90 H164 M114 112 H164 M114 134 H148" class="ic"/></svg>',
+    automacao: '<svg viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="62" class="ic-dentes"/><circle cx="100" cy="100" r="50" class="ic ic-amarelo"/><circle cx="100" cy="100" r="18" class="ic ic-papel"/></svg>'
+  };
+
   function corDe(slide) { return COR_SECAO[slide.secaoId] || 'celeste'; }
 
   function base(slide, layout, opcoes) {
@@ -144,6 +152,14 @@
     } else if (slide.itens) {
       arte = el('dl', 'tabela-itens', slide.itens.map(function (it) { return el('div', '', [txt('dt', '', it.rotulo), txt('dd', '', it.texto)]); }));
     }
+    if (slide.imagem) {
+      var img = el('img', 'foto__img');
+      img.src = slide.imagem;
+      img.alt = slide.credito || '';
+      var foto = el('figure', 'foto', [img, slide.credito ? txt('figcaption', 'foto__credito', slide.credito) : null]);
+      s.appendChild(el('div', 'conceito__grade conceito__grade--foto', [textos(slide), foto]));
+      return s;
+    }
     var temCodigo = slide.codigo && slide.codigo.length;
     var col = el('div', 'conceito__col', [arte ? textos(slide) : null, arte]);
     if (!temCodigo) { s.appendChild(textos(slide, 'slide__texto--grande')); return s; }
@@ -156,6 +172,7 @@
     s.appendChild(titulo(slide));
     var cores = ['rosa', 'azul', 'laranja', 'verde'];
     var cartas = el('div', 'grade-cartas' + (slide.codigo ? ' grade-cartas--2x2' : ''), slide.itens.map(function (item, i) {
+      if (item.imagem) { return P.carta({ cor: cores[i % 4], titulo: item.titulo, arte: P.svg(ICONES[item.imagem], 'carta__arte') }); }
       if (!item.texto) { return P.carta({ cor: cores[i % 4], texto: item.titulo }); }
       return P.carta({ cor: cores[i % 4], rotulo: item.rotulo ? item.rotulo.toUpperCase() : null, titulo: item.titulo, texto: item.texto });
     }));

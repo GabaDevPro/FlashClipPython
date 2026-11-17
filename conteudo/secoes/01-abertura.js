@@ -33,7 +33,7 @@ PI.secao({
       n: "3b",
       layout: "instrucoes",
       titulo: "Nosso compilador",
-      texto: ["Grátis e sem cadastro."],
+      texto: ["Grátis e sem cadastro.", "Proibido usar o botão AI."],
       link: "compilador",
       itens: [
         { rotulo: "1", texto: "Escreva o código no main.py." },
@@ -76,6 +76,8 @@ PI.secao({
         "Lançado em 1991.",
         "O nome vem do grupo de comédia Monty Python, não da cobra."
       ],
+      imagem: "assets/img/monty-python.jpg",
+      credito: "Monty Python ao vivo em 2014. Foto: Eduardo Unda-Sanzana, CC BY 2.0",
       fala: "A curiosidade do nome costuma arrancar risada. Use para quebrar o gelo."
     },
     {
@@ -83,10 +85,10 @@ PI.secao({
       layout: "cartas",
       titulo: "Onde o Python é usado",
       itens: [
-        { titulo: "Inteligência artificial" },
-        { titulo: "Ciência de dados" },
-        { titulo: "Sites" },
-        { titulo: "Automação de tarefas" }
+        { titulo: "Inteligência artificial", imagem: "ia" },
+        { titulo: "Ciência de dados", imagem: "dados" },
+        { titulo: "Sites", imagem: "sites" },
+        { titulo: "Automação de tarefas", imagem: "automacao" }
       ],
       fala: `30 segundos. "É uma das linguagens mais usadas do mundo e uma das mais fáceis de começar."`
     }

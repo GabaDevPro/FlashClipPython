@@ -79,7 +79,7 @@ Passagem rápida. São 7 slides em 7 minutos: o objetivo é chegar logo ao prime
 
 #### Slide 3b: Nosso compilador
 
-- **Na tela:** Link onecompiler.com/python, "Grátis e sem cadastro." e 3 passos: escreva o código no main.py; clique em Run; a saída aparece no Console, e se o programa pedir algo, digite ali e aperte Enter.
+- **Na tela:** Link onecompiler.com/python, "Grátis e sem cadastro.", "Proibido usar o botão AI." e 3 passos: escreva o código no main.py; clique em Run; a saída aparece no Console, e se o programa pedir algo, digite ali e aperte Enter.
 - **Fala:** Abra o link no projetor e mostre ao vivo: apague o exemplo, escreva um print, clique em Run. Não precisa fazer Login. Enquanto o programa espera um input, o botão Run vira Stop.
 - **Interação:** Todos abrem o link agora. Quem não conseguir levanta a mão antes da primeira atividade.
 
@@ -95,12 +95,12 @@ Passagem rápida. São 7 slides em 7 minutos: o objetivo é chegar logo ao prime
 
 #### Slide 6: Prazer, Python
 
-- **Na tela:** Criado por Guido van Rossum. Lançado em 1991. O nome vem do grupo de comédia Monty Python, não da cobra.
+- **Na tela:** Criado por Guido van Rossum. Lançado em 1991. O nome vem do grupo de comédia Monty Python, não da cobra. Ao lado, foto do Monty Python ao vivo em 2014 (Eduardo Unda-Sanzana, CC BY 2.0, Wikimedia Commons), com o crédito embaixo.
 - **Fala:** A curiosidade do nome costuma arrancar risada. Use para quebrar o gelo.
 
 #### Slide 7: Onde o Python é usado
 
-- **Na tela:** Quatro ícones: inteligência artificial, ciência de dados, sites, automação de tarefas.
+- **Na tela:** Quatro cartas com o nome em cima e um ícone embaixo: inteligência artificial (robô), ciência de dados (gráfico), sites (janela do navegador), automação de tarefas (engrenagem).
 - **Fala:** 30 segundos. "É uma das linguagens mais usadas do mundo e uma das mais fáceis de começar."
 
 ### print e comentários (7 a 17 min)

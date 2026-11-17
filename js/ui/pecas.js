@@ -77,6 +77,7 @@
     c.appendChild(faixa);
     var corpo = el('div', 'carta__corpo');
     if (opcoes.texto) { corpo.appendChild(txt('p', 'carta__texto', opcoes.texto)); }
+    if (opcoes.arte) { corpo.appendChild(opcoes.arte); }
     c.appendChild(corpo);
     return c;
   }

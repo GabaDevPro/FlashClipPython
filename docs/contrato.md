@@ -27,7 +27,7 @@ Regras do arquivo: só objetos literais e template strings sem `${}`. Nada de l�
 | `layout` | texto | sim | Um dos modelos da seção 3 |
 | `titulo` | texto | sim | Título na tela |
 | `texto` | lista de textos | não | Até 3 linhas na tela, fora o código |
-| `itens` | lista | não | Passos, regras, cartas ou links. Cada item: `{ titulo, texto, rotulo }` (campos opcionais) |
+| `itens` | lista | não | Passos, regras, cartas ou links. Cada item: `{ titulo, texto, rotulo, imagem }` (campos opcionais). `imagem` nas cartas: `"ia"`, `"dados"`, `"sites"` ou `"automacao"` (ícone SVG em `js/ui/modelos.js`) |
 | `codigo` | lista de blocos | não | Ver seção 4 |
 | `fala` | texto | não | Só no painel do apresentador |
 | `interacao` | texto | não | Só no painel |
@@ -40,6 +40,8 @@ Regras do arquivo: só objetos literais e template strings sem `${}`. Nada de l�
 | `diagrama` | texto | não | `"if-else"` ou `"elif"` |
 | `revelarSaida` | booleano | não | Modelo `erro`: na janela principal a saída do código só aparece no primeiro avanço; painel e PDF mostram direto |
 | `ilustracao` | texto | não | `"envelope"` (arte ao lado do código) ou `"fantasmas"` (camada decorativa por cima); SVG embutido em `js/ui/modelos.js` |
+| `imagem` | texto | não | Modelo `conceito`: caminho de uma foto local (`assets/img/...`) ao lado do texto |
+| `credito` | texto | não | Legenda com o crédito da `imagem` (autor e licença) |
 | `cronometro` | texto | não | Id de tempo avulso do config (`"intervalo"`) |
 
 ## 3. Modelos (`layout`)

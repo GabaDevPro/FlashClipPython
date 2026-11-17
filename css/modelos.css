@@ -115,6 +115,10 @@
 .conceito__grade { display: grid; grid-template-columns: 720px 1fr; gap: 64px; align-items: start; }
 .conceito__grade--so-codigo { grid-template-columns: minmax(0, 1300px); }
 .conceito__col > * + * { margin-top: 32px; }
+.conceito__grade--foto { grid-template-columns: 640px 1fr; align-items: center; margin-top: 24px; }
+.foto { margin: 0; }
+.foto__img { display: block; width: 100%; border: var(--borda-tinta) solid var(--cor-tinta); border-radius: var(--raio-carta); box-shadow: 10px 10px 0 var(--cor-tinta); }
+.foto__credito { margin-top: 22px; font: var(--texto-rotulo); letter-spacing: 0; text-transform: none; opacity: 0.75; }
 .tabela-itens { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 32px; margin: 0; }
 .tabela-itens div { display: flex; align-items: center; gap: 20px; }
 .tabela-itens dt {

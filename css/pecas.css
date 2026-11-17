@@ -238,6 +238,17 @@
 .tk-lacuna { color: var(--cor-editor-numero); border-bottom: 4px solid var(--cor-editor-numero); }
 
 /* Ilustrações em SVG */
+/* Ícones das cartas (slide 7) */
+.carta__arte { width: 240px; height: 240px; }
+.ic { fill: none; stroke: var(--cor-tinta); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+.ic-papel { fill: var(--cor-carta); }
+.ic-celeste { fill: var(--cor-casa-celeste); }
+.ic-amarelo { fill: var(--cor-casa-amarelo); }
+.ic-laranja { fill: var(--cor-casa-laranja); }
+.ic-verde { fill: var(--cor-casa-verde); }
+.ic-vermelho { fill: var(--cor-casa-vermelho); }
+/* Engrenagem: 8 dentes feitos com tracejado num traço grosso (2 x pi x 62 / 8 = 48,7). */
+.ic-dentes { fill: none; stroke: var(--cor-tinta); stroke-width: 30; stroke-dasharray: 24 24.7; }
 .arte-nota { fill: var(--cor-dinheiro); stroke: var(--cor-tinta); stroke-width: 4; }
 .arte-linha { fill: none; stroke: var(--cor-tinta); stroke-width: 2; }
 .arte-envelope, .arte-caixa { fill: var(--cor-carta); stroke: var(--cor-tinta); stroke-width: 5; }
