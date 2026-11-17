@@ -71,6 +71,11 @@
 
   function trocarFace(dado, n) { dado.replaceChildren.apply(dado, lista(PI.pecas.dado(n), 'span')); }
 
+  function partida(no) {
+    if (reduzir()) { return; }
+    lista(no, '[data-cronometro]').forEach(function (c) { c.classList.add('cronometro--partida'); });
+  }
+
   function rolarDados(no) {
     lista(no, '.enunciado__lado .dado').forEach(function (dado) {
       var final = face();
@@ -109,7 +114,7 @@
     if (desliza) { deslizar(no, antigo, indice > antes.indice); }
     virarCartas(no, slideNovo);
     subirDinheiro(no, slideNovo);
-    if (!slideNovo && rodando && antes.rodando === false) { rolarDados(no); }
+    if (!slideNovo && rodando && antes.rodando === false) { partida(no); rolarDados(no); }
     antes.indice = indice;
     antes.rodando = rodando;
   }

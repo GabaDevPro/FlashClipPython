@@ -48,7 +48,11 @@
   // Ao entrar num slide de atividade, prepara o cronômetro dela se o atual estiver parado.
   function aoEntrar(estado, slide, config) {
     var alvo = alvoDoSlide(slide);
-    if (!alvo || estado.cronometro.alvo === alvo || estado.cronometro.rodando) { return estado; }
+    var c = estado.cronometro;
+    if (!alvo || c.alvo === alvo) { return estado; }
+    // Voltar à resposta de outra atividade não derruba um cronômetro em andamento. Entrar numa atividade nova sim:
+    // antes, o cronômetro da atividade anterior que ficou rodando (ou zerado) travava o da nova.
+    if (c.rodando && PI.cronometro.restante(c, Date.now()) > 0 && slide.layout === 'resposta') { return estado; }
     return Object.assign({}, estado, { cronometro: PI.cronometro.criar(alvo, minutosDoAlvo(config, alvo) * PI.cronometro.MINUTO_MS) });
   }
 
