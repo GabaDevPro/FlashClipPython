@@ -28,7 +28,7 @@ Apresentação interativa do minicurso de Python do grupo do Walter: 56 slides (
 | `js/logica/` | Funções puras testadas (placar, cronômetro, roleta, cronograma, estado, realce) |
 | `js/ui/` | Renderização, navegação, painel, sincronia, efeitos |
 | `css/` | `tokens.css` (do Figma), base, modelos, impressão, animações |
-| `assets/svg/`, `assets/fontes/` | Arte do Figma e fontes locais. `assets/fotos/` fica fora do git |
+| `assets/svg/`, `assets/fontes/` | Arte do Figma e fontes locais. |
 | `vendor/` | Bibliotecas copiadas, com a licença ao lado |
 | `tests/` | `node --test`; `tests/navegador/` tem páginas de teste manual |
 | `scripts/` | Conferência dos gabaritos, exportador de conteúdo e hooks |
