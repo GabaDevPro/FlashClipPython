@@ -38,7 +38,10 @@
   }
 
   function codigos(slide, opcoes) {
-    return el('div', 'slide__codigos', (slide.codigo || []).map(function (b) { return P.blocoCodigo(b, opcoes); }));
+    var no = el('div', 'slide__codigos', (slide.codigo || []).map(function (b) { return P.blocoCodigo(b, opcoes); }));
+    // Na tela principal a saída espera um avanço para aparecer (app.js); painel e PDF mostram direto.
+    if (slide.revelarSaida) { no.querySelectorAll('.codigo__saida').forEach(function (x) { x.setAttribute('data-revelar', ''); }); }
+    return no;
   }
 
   function numerada(itens, corBase) {
@@ -184,8 +187,6 @@
     var s = base(slide, 'erro');
     s.appendChild(titulo(slide, 'titulo-atividade'));
     s.appendChild(el('div', 'erro__codigo', [codigos(slide)]));
-    // Na tela principal a saída espera um avanço para aparecer (app.js); painel e PDF mostram direto.
-    if (slide.revelarSaida) { s.querySelectorAll('.codigo__saida').forEach(function (x) { x.setAttribute('data-revelar', ''); }); }
     return s;
   };
 

@@ -37,6 +37,7 @@ False`,
           testes: [{}]
         }
       ],
+      revelarSaida: true,
       fala: "Destaque: um = guarda valor; dois == comparam."
     },
     {
