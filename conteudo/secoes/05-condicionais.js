@@ -76,6 +76,30 @@ else:
     },
     {
       n: 30,
+      layout: "erro",
+      titulo: "Ao vivo: o erro de recuo",
+      codigo: [
+        {
+          rotulo: "Sem o recuo",
+          linguagem: "python",
+          texto: `dado1 = int(input("Dado 1: "))
+dado2 = int(input("Dado 2: "))
+if dado1 == dado2:
+print("Dupla! Jogue de novo")
+else:
+print("Vez do próximo jogador")`,
+          saida: `  File "main.py", line 4
+    print("Dupla! Jogue de novo")
+    ^^^^^
+IndentationError: expected an indented block after 'if' statement on line 3`,
+          testes: [{ erro: "IndentationError" }]
+        }
+      ],
+      revelarSaida: true,
+      interacao: "Rode o exemplo sem os 4 espaços e mostre o IndentationError. A plateia diz o que falta."
+    },
+    {
+      n: "30b",
       layout: "conceito",
       titulo: "Indentação: o recuo manda",
       texto: [
@@ -102,31 +126,7 @@ Fim do turno`,
         }
       ],
       revelarSaida: true,
-      fala: "Logo depois do erro: o Python não usa chaves nem \"fim\", ele usa o recuo. Tudo que está 4 espaços para dentro depois dos dois pontos pertence ao if ou ao else. Mostre as duas linhas recuadas do if: as duas rodam juntas. A última linha voltou para a margem, então está fora do if e do else e roda sempre. Pergunte antes de revelar: o que sai na tela? Dica: o compilador costuma recuar sozinho depois dos dois pontos; não misture Tab com espaço. No próximo slide, veja o que acontece sem o recuo."
-    },
-    {
-      n: "30b",
-      layout: "erro",
-      titulo: "Ao vivo: o erro de recuo",
-      codigo: [
-        {
-          rotulo: "Sem o recuo",
-          linguagem: "python",
-          texto: `dado1 = int(input("Dado 1: "))
-dado2 = int(input("Dado 2: "))
-if dado1 == dado2:
-print("Dupla! Jogue de novo")
-else:
-print("Vez do próximo jogador")`,
-          saida: `  File "main.py", line 4
-    print("Dupla! Jogue de novo")
-    ^^^^^
-IndentationError: expected an indented block after 'if' statement on line 3`,
-          testes: [{ erro: "IndentationError" }]
-        }
-      ],
-      revelarSaida: true,
-      interacao: "Rode o exemplo sem os 4 espaços e mostre o IndentationError. A plateia diz o que falta."
+      fala: "Logo depois do erro: o Python não usa chaves nem \"fim\", ele usa o recuo. Tudo que está 4 espaços para dentro depois dos dois pontos pertence ao if ou ao else. Mostre as duas linhas recuadas do if: as duas rodam juntas. A última linha voltou para a margem, então está fora do if e do else e roda sempre. Pergunte antes de revelar: o que sai na tela? Dica: o compilador costuma recuar sozinho depois dos dois pontos; não misture Tab com espaço."
     },
     {
       n: 31,
