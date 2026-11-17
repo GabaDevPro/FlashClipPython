@@ -173,7 +173,7 @@
   M.cartas = function (slide) {
     var s = base(slide, 'cartas');
     s.appendChild(titulo(slide));
-    var cores = ['rosa', 'azul', 'laranja', 'verde'];
+    var cores = ['vermelho', 'azul', 'laranja', 'verde'];
     var cartas = el('div', 'grade-cartas' + (slide.codigo ? ' grade-cartas--2x2' : ''), slide.itens.map(function (item, i) {
       if (item.imagem) { return P.carta({ cor: cores[i % 4], titulo: item.titulo, arte: P.svg(ICONES[item.imagem], 'carta__arte') }); }
       if (!item.texto) { return P.carta({ cor: cores[i % 4], texto: item.titulo }); }
