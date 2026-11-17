@@ -41,6 +41,31 @@ False`,
       fala: "Destaque: um = guarda valor; dois == comparam."
     },
     {
+      n: "28b",
+      layout: "conceito",
+      titulo: "if e else: se e senão",
+      texto: ["A condição decide: só um dos dois caminhos roda."],
+      itens: [
+        { rotulo: "if", texto: "se: a condição deu True, roda este bloco" },
+        { rotulo: "else", texto: "senão: deu False, roda este outro" }
+      ],
+      codigo: [
+        {
+          rotulo: "Exemplo",
+          linguagem: "python",
+          texto: `saldo = 800
+if saldo >= 500:
+    print("Compra a propriedade")
+else:
+    print("Passa a vez")`,
+          saida: `Compra a propriedade`,
+          testes: [{}]
+        }
+      ],
+      revelarSaida: true,
+      fala: "Leia o código em voz alta em português: se o saldo for maior ou igual a 500, compra; senão, passa a vez. O if tem condição; o else não tem, ele pega todo o resto. Pergunte antes de revelar: o que sai na tela? E se o saldo fosse 300?"
+    },
+    {
       n: 29,
       layout: "conceito",
       titulo: "if / else: tirou dupla?",

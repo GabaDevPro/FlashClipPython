@@ -369,6 +369,11 @@ print(4 == 4)        # True
 print(200 >= 500)    # False
 ```
 
+#### Slide 28b: if e else: se e senão
+
+- **Na tela:** "A condição decide: só um dos dois caminhos roda." Tabela: if = se (a condição deu True, roda este bloco); else = senão (deu False, roda este outro). Exemplo com saldo = 800 e if saldo >= 500; a saída "Compra a propriedade" aparece no clique.
+- **Fala:** Leia o código em voz alta em português: se o saldo for maior ou igual a 500, compra; senão, passa a vez. O if tem condição; o else não tem, ele pega todo o resto. Pergunte antes de revelar: o que sai na tela? E se o saldo fosse 300?
+
 #### Slide 29: if / else: tirou dupla?
 
 - **Na tela:** Diagrama com setas: uma pergunta; se for verdade, vai por um caminho; se não, pelo outro. Código ao lado.

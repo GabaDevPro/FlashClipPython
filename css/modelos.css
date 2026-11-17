@@ -129,6 +129,9 @@
   border: var(--borda-tinta) solid var(--cor-tinta);
   font: 700 40px/1 var(--fonte-codigo);
 }
+/* Só dois itens (slide 28b, if e else): um por linha, com espaço para a explicação. */
+.tabela-itens:has(> div:nth-child(2):last-child) { grid-template-columns: 1fr; gap: 28px; margin-top: 16px; }
+.tabela-itens:has(> div:nth-child(2):last-child) dt { min-width: 150px; }
 .tabela-itens dd { margin: 0; font: var(--texto-corpo); font-size: 36px; }
 
 /* Erro */
