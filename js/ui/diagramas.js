@@ -1,4 +1,4 @@
-/* Diagramas de decisão (slides 29 e 33), montados a partir do código do slide. */
+/* Diagramas de decisão (slides 29b e 33), montados a partir do código do slide. */
 (function (raiz) {
   'use strict';
 

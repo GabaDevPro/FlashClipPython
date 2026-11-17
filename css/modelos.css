@@ -50,6 +50,12 @@
 .linha-cartas--5 .carta__corpo { align-items: flex-start; }
 .grade-cartas { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; }
 .grade-cartas .carta { height: 520px; }
+/* Duas cartas (slide 29a): metade da largura cada e frase de exemplo embaixo. */
+.grade-cartas:has(> .carta:nth-child(2):last-child) { grid-template-columns: 1fr 1fr; gap: 56px; }
+.grade-cartas:has(> .carta:nth-child(2):last-child) .carta { height: 380px; }
+.grade-cartas:has(> .carta:nth-child(2):last-child) .carta__titulo { font-family: var(--fonte-codigo); font-size: 56px; }
+.grade-cartas:has(> .carta:nth-child(2):last-child) .carta__texto { font-size: 44px; }
+.cartas__frase { margin-top: 56px; font-size: 48px; }
 .grade-cartas--2x2 { grid-template-columns: 1fr 1fr; gap: 30px; }
 .grade-cartas--2x2 .carta { height: 330px; }
 .grade-cartas--2x2 .carta__titulo { font-size: 38px; }
@@ -129,9 +135,6 @@
   border: var(--borda-tinta) solid var(--cor-tinta);
   font: 700 40px/1 var(--fonte-codigo);
 }
-/* Só dois itens (slide 28b, if e else): um por linha, com espaço para a explicação. */
-.tabela-itens:has(> div:nth-child(2):last-child) { grid-template-columns: 1fr; gap: 28px; margin-top: 16px; }
-.tabela-itens:has(> div:nth-child(2):last-child) dt { min-width: 150px; }
 .tabela-itens dd { margin: 0; font: var(--texto-corpo); font-size: 36px; }
 
 /* Erro */

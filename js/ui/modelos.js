@@ -180,6 +180,7 @@
       return P.carta({ cor: cores[i % 4], rotulo: item.rotulo ? item.rotulo.toUpperCase() : null, titulo: item.titulo, texto: item.texto });
     }));
     s.appendChild(slide.codigo ? el('div', 'cartas__grade', [cartas, codigos(slide)]) : cartas);
+    if (slide.texto) { s.appendChild(textos(slide, 'cartas__frase')); }
     return s;
   };
 

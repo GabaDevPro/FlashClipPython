@@ -54,13 +54,13 @@ test('o conteúdo tem 10 seções e 59 slides no total', () => {
   assert.equal(slides.length, 59);
 });
 
-test('a sequência de números vai de 1 a 56, com o 3b, o 18b e o 28b logo depois do 3, do 18 e do 28', () => {
+test('a sequência de números vai de 1 a 56, com o 3b e o 18b depois do 3 e do 18, e o 29 dividido em 29a e 29b', () => {
   const esperado = [];
   for (let i = 1; i <= 56; i++) {
+    if (i === 29) { esperado.push('29a', '29b'); continue; }
     esperado.push(i);
     if (i === 3) esperado.push('3b');
     if (i === 18) esperado.push('18b');
-    if (i === 28) esperado.push('28b');
   }
   assert.deepEqual(slides.map((s) => s.n), esperado);
 });

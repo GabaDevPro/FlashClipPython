@@ -369,12 +369,12 @@ print(4 == 4)        # True
 print(200 >= 500)    # False
 ```
 
-#### Slide 28b: if e else: se e senão
+#### Slide 29a: if e else: se e senão
 
-- **Na tela:** "A condição decide: só um dos dois caminhos roda." Tabela: if = se (a condição deu True, roda este bloco); else = senão (deu False, roda este outro). Exemplo com saldo = 800 e if saldo >= 500; a saída "Compra a propriedade" aparece no clique.
-- **Fala:** Leia o código em voz alta em português: se o saldo for maior ou igual a 500, compra; senão, passa a vez. O if tem condição; o else não tem, ele pega todo o resto. Pergunte antes de revelar: o que sai na tela? E se o saldo fosse 300?
+- **Na tela:** Duas cartas: "if = se" (faz uma pergunta; se a resposta for True, roda o bloco do if) e "else = senão" (não pergunta nada; roda quando o if deu False). Embaixo: "Se os dados forem iguais, jogue novamente. Senão, passe a vez." Sem código.
+- **Fala:** Antes do código, a ideia. Em português a gente já fala assim: se chover, levo guarda-chuva; senão, vou de boné. O if testa uma condição, aquela que vimos no slide anterior e que responde True ou False. O else é o plano B: não tem condição e só roda quando o if falhou. Sempre roda exatamente um dos dois. Leia a frase de baixo: no próximo slide ela vira código.
 
-#### Slide 29: if / else: tirou dupla?
+#### Slide 29b: if / else: tirou dupla?
 
 - **Na tela:** Diagrama com setas: uma pergunta; se for verdade, vai por um caminho; se não, pelo outro. Código ao lado.
 - **Fala:** No jogo, quem tira dois dados iguais joga de novo. Destaque os dois pontos no fim da linha e os 4 espaços de recuo. O recuo diz o que pertence a cada caminho.
