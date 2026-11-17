@@ -1,6 +1,6 @@
 # Python Imobiliário (Flash Clip, PLP 3N 2026/2)
 
-Apresentação interativa do minicurso de Python do grupo do Walter: 56 slides (mais o 18b), cronômetro, placar, ranking, roleta e painel do apresentador. HTML, CSS e JS puros, offline por file://. Fonte de verdade das decisões: `docs/prompt-mestre.md`. Requisitos: `docs/prd.md`. Plano aprovado: `docs/plano.md`.
+Apresentação interativa do minicurso de Python do grupo do Walter: 56 slides (mais o 3b e o 18b), cronômetro, placar, ranking, roleta e painel do apresentador. HTML, CSS e JS puros, offline por file://. Fonte de verdade das decisões: `docs/prompt-mestre.md`. Requisitos: `docs/prd.md`. Plano aprovado: `docs/plano.md`.
 
 ## Abrir e testar
 

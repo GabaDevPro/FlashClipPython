@@ -77,6 +77,12 @@ Passagem rápida. São 7 slides em 7 minutos: o objetivo é chegar logo ao prime
 - **Na tela:** Três itens: cada um de vocês é um jogador; acertar uma atividade rende dinheiro (R$ 300 para o 1º, R$ 200 para o 2º, R$ 100 para o 3º); quem terminar mais rico é o Magnata da Liga.
 - **Fala:** Avise que o 1º de cada atividade ganha prêmio na hora e que todo mundo que acertar entra nos sorteios.
 
+#### Slide 3b: Nosso compilador
+
+- **Na tela:** Link onecompiler.com/python, "Grátis e sem cadastro." e 3 passos: escreva o código no main.py; clique em Run; a saída aparece no Console, e se o programa pedir algo, digite ali e aperte Enter.
+- **Fala:** Abra o link no projetor e mostre ao vivo: apague o exemplo, escreva um print, clique em Run. Não precisa fazer Login. Enquanto o programa espera um input, o botão Run vira Stop.
+- **Interação:** Todos abrem o link agora. Quem não conseguir levanta a mão antes da primeira atividade.
+
 #### Slide 4: Como enviar suas respostas
 
 - **Na tela:** QR code e link do sistema, mais 3 passos: escreva e teste no compilador; copie o código; cole no sistema e envie.

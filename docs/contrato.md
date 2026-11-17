@@ -23,7 +23,7 @@ Regras do arquivo: só objetos literais e template strings sem `${}`. Nada de l�
 
 | Campo | Tipo | Obrigatório | Uso |
 |---|---|---|---|
-| `n` | número ou texto | sim | Número do roteiro (`9`). Slide de apoio extra usa texto (`"18b"`) |
+| `n` | número ou texto | sim | Número do roteiro (`9`). Slide extra usa texto (`"3b"`, `"18b"`) |
 | `layout` | texto | sim | Um dos modelos da seção 3 |
 | `titulo` | texto | sim | Título na tela |
 | `texto` | lista de textos | não | Até 3 linhas na tela, fora o código |
@@ -46,7 +46,7 @@ Regras do arquivo: só objetos literais e template strings sem `${}`. Nada de l�
 
 `capa`, `ministrantes`, `regras`, `instrucoes`, `algoritmo`, `atualizacao`, `conceito`, `cartas`, `erro`, `enunciado`, `resposta`, `recap`, `ranking`, `intervalo`, `impacto`, `premios`, `proximos`, `encerramento`.
 
-`cartas` cobre os slides 7 e 16 (quatro cartas). `recap` é o slide 36 (módulos como propriedades compradas). `instrucoes` cobre os slides 4 (como mostrar a resposta) e 55 (Forms).
+`cartas` cobre os slides 7 e 16 (quatro cartas). `recap` é o slide 36 (módulos como propriedades compradas). `instrucoes` cobre os slides 3b (compilador: link e passos), 4 (como mostrar a resposta) e 55 (Forms).
 
 ## 4. Bloco de código
 
@@ -79,7 +79,7 @@ PI.config = {
   },
   tempos: { intervalo: 5 },
   cronograma: [ { bloco: 1, inicioMin: 0, fimMin: 7, etapa: "Abertura" } ],
-  links: { envio: "", forms: "" },
+  links: { envio: "", forms: "", compilador: "onecompiler.com/python" },
   ministrantes: [ { nome: "Ministrante 1", secao: "Abertura", foto: "", cor: "" } ],
   aula: { inicio: "19:10" }
 };

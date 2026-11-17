@@ -30,6 +30,20 @@ PI.secao({
       fala: "Avise que o 1º de cada atividade ganha prêmio na hora e que todo mundo que acertar entra nos sorteios."
     },
     {
+      n: "3b",
+      layout: "instrucoes",
+      titulo: "Nosso compilador",
+      texto: ["Grátis e sem cadastro."],
+      link: "compilador",
+      itens: [
+        { rotulo: "1", texto: "Escreva o código no main.py." },
+        { rotulo: "2", texto: "Clique em Run." },
+        { rotulo: "3", texto: "A saída aparece no Console. Pediu algo? Digite ali e aperte Enter." }
+      ],
+      fala: "Abra o link no projetor e mostre ao vivo: apague o exemplo, escreva um print, clique em Run. Não precisa fazer Login. Enquanto o programa espera um input, o botão Run vira Stop.",
+      interacao: "Todos abrem o link agora. Quem não conseguir levanta a mão antes da primeira atividade."
+    },
+    {
       n: 4,
       layout: "instrucoes",
       titulo: "Como mostrar sua resposta",

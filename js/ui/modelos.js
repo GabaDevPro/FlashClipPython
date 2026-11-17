@@ -97,6 +97,7 @@
       var link = ctx.config.links[slide.link] || '';
       var caixa = el('div', 'link' + (link ? '' : ' link--pendente'), [txt('span', 'rotulo', 'ACESSE'), txt('strong', 'link__texto', link || 'link pendente')]);
       s.appendChild(el('div', 'instrucoes__link', [textos(slide, 'slide__texto--grande'), caixa]));
+      if (slide.itens) { s.appendChild(numerada(slide.itens, 1)); }
       return s;
     }
     if (slide.texto) { s.appendChild(textos(slide)); }

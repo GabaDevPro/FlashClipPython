@@ -23,7 +23,7 @@ PI.config = {
     { bloco: 2, inicioMin: 23, fimMin: 46, etapa: "Boss: o banqueiro final" },
     { bloco: 2, inicioMin: 46, fimMin: 50, etapa: "Premiação final" }
   ],
-  links: { envio: "", forms: "" },
+  links: { envio: "", forms: "", compilador: "onecompiler.com/python" },
   ministrantes: [
     { nome: "Enzo Kauê Batista Ferreira", secao: "", foto: "assets/fotos/enzo.jpg", cor: "#D7322B" },
     { nome: "Carlos Antonio Pessoa Neto", secao: "", foto: "assets/fotos/carlos.jpg", cor: "#1F4FA8" },
