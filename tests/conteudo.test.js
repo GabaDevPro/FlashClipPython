@@ -49,18 +49,19 @@ const { secoes, config } = carregarConteudo();
 const slides = secoes.flatMap((s) => s.slides);
 const porNumero = (n) => slides.find((s) => s.n === n);
 
-test('o conteúdo tem 10 seções e 59 slides no total', () => {
+test('o conteúdo tem 10 seções e 60 slides no total', () => {
   assert.equal(secoes.length, 10);
-  assert.equal(slides.length, 59);
+  assert.equal(slides.length, 60);
 });
 
-test('a sequência de números vai de 1 a 56, com o 3b e o 18b depois do 3 e do 18, e o 29 dividido em 29a e 29b', () => {
+test('a sequência de números vai de 1 a 56, com o 3b e o 18b depois do 3 e do 18, e o 29 dividido em 29a e 29b e o 30b depois do 30', () => {
   const esperado = [];
   for (let i = 1; i <= 56; i++) {
     if (i === 29) { esperado.push('29a', '29b'); continue; }
     esperado.push(i);
     if (i === 3) esperado.push('3b');
     if (i === 18) esperado.push('18b');
+    if (i === 30) esperado.push('30b');
   }
   assert.deepEqual(slides.map((s) => s.n), esperado);
 });

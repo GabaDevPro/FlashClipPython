@@ -99,6 +99,36 @@ IndentationError: expected an indented block after 'if' statement on line 3`,
       interacao: "Rode o exemplo sem os 4 espaços e mostre o IndentationError. A plateia diz o que falta."
     },
     {
+      n: "30b",
+      layout: "conceito",
+      titulo: "Indentação: o recuo manda",
+      texto: [
+        "Depois dos dois pontos, o bloco vai 4 espaços para dentro.",
+        "Tudo no mesmo recuo faz parte do mesmo bloco.",
+        "Voltou para a margem? Saiu do if e roda sempre."
+      ],
+      codigo: [
+        {
+          rotulo: "Exemplo",
+          linguagem: "python",
+          texto: `dado1 = 3
+dado2 = 3
+if dado1 == dado2:
+    print("Dupla!")
+    print("Jogue de novo")
+else:
+    print("Passe a vez")
+print("Fim do turno")`,
+          saida: `Dupla!
+Jogue de novo
+Fim do turno`,
+          testes: [{}]
+        }
+      ],
+      revelarSaida: true,
+      fala: "Logo depois do erro: o Python não usa chaves nem \"fim\", ele usa o recuo. Tudo que está 4 espaços para dentro depois dos dois pontos pertence ao if ou ao else. Mostre as duas linhas recuadas do if: as duas rodam juntas. A última linha voltou para a margem, então está fora do if e do else e roda sempre. Pergunte antes de revelar: o que sai na tela? Dica: o compilador costuma recuar sozinho depois dos dois pontos; não misture Tab com espaço."
+    },
+    {
       n: 31,
       layout: "enunciado",
       titulo: "Atividade 4a: enunciado",
