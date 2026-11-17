@@ -49,11 +49,11 @@ A plateia é contratada para criar o banqueiro digital de um jogo de tabuleiro d
 | 31 a 47 | input e operações | Atividade 3 |
 | 47 a 75 | if / elif / else | Atividades 4a e 4b |
 | 75 a 80 | Recap e ranking parcial | Sorteio na roleta |
-| INTERVALO (5 min) |  |  |
-| BLOCO 2 (50 min) |  |  |
+| INTERVALO (10 min) |  |  |
+| BLOCO 2 (55 min) |  |  |
 | 0 a 23 | Laços for e while | Atividades 5a e 5b |
 | 23 a 46 | Boss: o banqueiro final | Desafio final |
-| 46 a 50 | Premiação final | Ranking final e prêmios |
+| 46 a 55 | Premiação final | Ranking final e prêmios |
 | DEPOIS: 10 min de Forms de avaliação e 35 min de coffee break |  |  |
 
 ## Bloco 1 (80 min)
@@ -495,7 +495,7 @@ else:
 
 #### Slide 38: Intervalo
 
-- **Na tela:** Cronômetro de 5 minutos e o teaser: "Na volta, o banqueiro vai jogar rodadas inteiras sozinho."
+- **Na tela:** Cronômetro de 10 minutos e o teaser: "Na volta, o banqueiro vai jogar rodadas inteiras sozinho."
 - **Fala:** Aproveite para entregar os prêmios do Bloco 1.
 
 ## Bloco 2 (50 min)
@@ -674,7 +674,7 @@ else:
     print("Cuidado com a falência")
 ```
 
-### Premiação final (46 a 50 min)
+### Premiação final (46 a 55 min)
 
 #### Slide 52: Ranking final
 

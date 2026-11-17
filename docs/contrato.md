@@ -80,11 +80,11 @@ PI.config = {
     "1":    { nome: "Atividade 1",  minutos: 5,  premios: [300, 200, 100], premio: "chocolate" },
     "boss": { nome: "Boss",         minutos: 15, premios: [500, 300, 100], premio: "chocolate" }
   },
-  tempos: { intervalo: 5 },
+  tempos: { intervalo: 10 },
   cronograma: [ { bloco: 1, inicioMin: 0, fimMin: 7, etapa: "Abertura" } ],
   links: { envio: "", forms: "", compilador: "onecompiler.com/python" },
   ministrantes: [ { nome: "Ministrante 1", secao: "Abertura", foto: "", cor: "" } ],
-  aula: { inicio: "19:10" }
+  aula: { inicio: "14:00" }
 };
 ```
 

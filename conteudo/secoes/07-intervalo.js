@@ -3,7 +3,7 @@ PI.secao({
   titulo: "Intervalo",
   bloco: 1,
   inicioMin: 80,
-  fimMin: 85,
+  fimMin: 90,
   slides: [
     {
       n: 38,

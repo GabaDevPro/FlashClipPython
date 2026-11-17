@@ -49,3 +49,11 @@ Diário curto por sessão: feito, pendente, próximo passo.
 - Não verificado: fluidez num notebook comum ligado ao projetor (RNF03). Teste: slide 37 ou 52 com placar montado, e slide 12 com a tecla C.
 - Skills `motion-foundations`, `make-interfaces-feel-better`, `web-design-guidelines` e `accessibility` não estavam instaladas; usadas `frontend-ui-engineering`, `debugging-and-error-recovery` e `design:accessibility-review`.
 - Próximo: F14 README e ajuda de atalhos.
+
+## 2026-11-17 (terça), horários do evento
+
+- Trazida a versão dos amigos (zip com o git): 6 commits por cima de `4951ec4`, por fast-forward, sem conflito. Fotos dos ministrantes copiadas para `assets/fotos/` (fora do git).
+- Feito: horários do programa do evento (imagem do Walter): cursos às 14:00 por 80 min, intervalo de 10 min (era 5), retorno de 55 min (era 50; os 5 min a mais foram para a premiação final, 46 a 55), coffee-break às 16:25. `conteudo/config.js`, seções 07 e 10, contrato e tabela do roteiro.
+- Feito: cronômetro parado se refaz com o tempo do config quando a duração salva no navegador é antiga.
+- Verificado: `npm test` 89/89; gabaritos 28/28; slide 38 em 10:00 por file://, inclusive com estado antigo de 5 min; etapa prevista às 15:20 e 15:29 = Intervalo, 15:30 = Laços, 16:25 = fim do cronograma.
+- Atenção: `aula.inicio` agora é 14:00 (evento). Para a aula de hoje às 19:10, trocar para "19:10" em `conteudo/config.js`; só afeta o relógio do painel.

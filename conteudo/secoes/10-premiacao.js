@@ -3,7 +3,7 @@ PI.secao({
   titulo: "Premiação final",
   bloco: 2,
   inicioMin: 46,
-  fimMin: 50,
+  fimMin: 55,
   slides: [
     {
       n: 52,

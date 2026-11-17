@@ -132,3 +132,21 @@ test('o config tem as 8 atividades e 5 ministrantes com cores diferentes', () =>
   assert.equal(config.ministrantes.length, 5);
   assert.equal(new Set(config.ministrantes.map((m) => m.cor)).size, 5);
 });
+
+test('o cronograma segue o programa do evento: bloco 1 de 80 min, intervalo de 10 e bloco 2 de 55', () => {
+  const bloco = (n) => config.cronograma.filter((c) => c.bloco === n);
+  const intervalo = config.cronograma.find((c) => c.etapa === 'Intervalo');
+  assert.equal(config.tempos.intervalo, 10);
+  assert.equal(intervalo.fimMin - intervalo.inicioMin, 10);
+  assert.equal(Math.max(...bloco(1).filter((c) => c !== intervalo).map((c) => c.fimMin)), 80);
+  assert.equal(Math.max(...bloco(2).map((c) => c.fimMin)), 55);
+  assert.equal(config.aula.inicio, '14:00');
+});
+
+test('cada seção ocupa a mesma janela da linha correspondente do cronograma', () => {
+  for (const s of secoes) {
+    const linha = config.cronograma.find((c) => c.bloco === s.bloco && c.inicioMin === s.inicioMin);
+    assert.ok(linha, `seção ${s.id} sem linha no cronograma`);
+    assert.equal(linha.fimMin, s.fimMin, `seção ${s.id}`);
+  }
+});
