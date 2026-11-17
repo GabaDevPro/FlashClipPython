@@ -28,9 +28,9 @@ PI.secao({
         {
           rotulo: "Exemplo",
           linguagem: "python",
-          texto: `print(1500 > 300)    # True
-print(4 == 4)        # True
-print(200 >= 500)    # False`,
+          texto: `print(1500 > 300)
+print(4 == 4)
+print(200 >= 500)`,
           saida: `True
 True
 False`,
