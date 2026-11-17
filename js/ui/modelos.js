@@ -188,6 +188,11 @@
     var s = base(slide, 'erro');
     s.appendChild(titulo(slide, 'titulo-atividade'));
     s.appendChild(el('div', 'erro__codigo', [codigos(slide)]));
+    if (slide.destaque) {
+      var d = txt('p', 'erro__destaque', slide.destaque);
+      if (slide.revelarSaida) { d.setAttribute('data-revelar', ''); }
+      s.appendChild(d);
+    }
     return s;
   };
 

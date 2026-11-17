@@ -390,7 +390,9 @@ else:
     print("Vez do próximo jogador")
 ```
 
-#### Slide 30: Ao vivo: o erro de recuo
+#### Slide 30: Onde está o erro?
+
+- **Na tela:** Código sem recuo. No clique, aparecem a saída com o IndentationError e, embaixo, "Indentação!!!" em letras grandes.
 
 - **Interação:** Rode o exemplo sem os 4 espaços e mostre o IndentationError. A plateia diz o que falta.
 

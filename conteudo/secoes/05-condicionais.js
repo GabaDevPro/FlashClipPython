@@ -77,7 +77,8 @@ else:
     {
       n: 30,
       layout: "erro",
-      titulo: "Ao vivo: o erro de recuo",
+      titulo: "Onde está o erro?",
+      destaque: "Indentação!!!",
       codigo: [
         {
           rotulo: "Sem o recuo",

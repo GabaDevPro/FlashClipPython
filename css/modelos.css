@@ -138,6 +138,12 @@
 .tabela-itens dd { margin: 0; font: var(--texto-corpo); font-size: 36px; }
 
 /* Erro */
+/* Carimbo no canto de baixo (slide 30): aparece no clique junto com a saída. */
+.erro__destaque {
+  position: absolute; right: 96px; bottom: 50px; margin: 0; padding: 4px 32px;
+  rotate: -3deg; background: var(--cor-carta); border: 6px solid var(--cor-destaque);
+  font: 900 104px/1.1 var(--fonte-titulo); color: var(--cor-destaque);
+}
 .erro__codigo { width: fit-content; min-width: 1300px; max-width: 100%; }
 #palco [data-revelar]:not(.revelado) { display: none; }
 .erro__codigo .codigo { outline: var(--borda-forte) solid var(--cor-destaque); outline-offset: 6px; }
