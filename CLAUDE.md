@@ -7,7 +7,7 @@ Apresentação interativa do minicurso de Python do grupo do Walter: 56 slides (
 - Abrir: duplo clique em `index.html` (Chrome ou Edge). Painel do apresentador: tecla P.
 - `npm test`: testes de `js/logica/` com cobertura mínima de 80% de linhas.
 - `npm run test:rapido`: os mesmos testes, sem cobertura.
-- `python scripts/conferir-gabaritos.py`: roda os gabaritos e exemplos dos slides e confere a saída e os erros dos slides 11 e 30.
+- `python scripts/conferir-gabaritos.py`: roda os gabaritos e exemplos dos slides e confere a saída e os erros dos slides 11 e 30b.
 - Não há build nem lint. "Passou no build" = `index.html` aberto por file:// sem erro no console e sem requisição externa.
 
 ## Regras de file:// (não quebre)
