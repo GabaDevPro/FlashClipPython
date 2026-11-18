@@ -12,7 +12,8 @@
   var JANELA_DIGITACAO_MS = 1500;
   var MAX_TENTATIVAS_ONECOMPILER = 15;
   var ONECOMPILER = {
-    principal: { fontSize: 28, tema: 'claro', codeChangeEvent: true },
+    // No projetor o iframe inteiro é ampliado 2x (css/aovivo.css): letra 16 vira 32.
+    principal: { fontSize: 16, tema: 'claro', codeChangeEvent: true },
     painel: { fontSize: 18, tema: 'escuro', codeChangeEvent: true }
   };
 
@@ -192,7 +193,7 @@
     });
     ui.iframe = iframe;
     ui.iframePronto = false;
-    return P.el('div', 'aovivo__oc-caixa', [iframe]);
+    return P.el('div', 'aovivo__oc-caixa aovivo__oc-caixa--' + papel, [iframe]);
   }
 
   // ---------- cola (só no painel) ----------

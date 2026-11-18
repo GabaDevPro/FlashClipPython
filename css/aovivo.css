@@ -60,6 +60,25 @@
   background: var(--cor-carta);
   border: var(--borda-forte) solid var(--cor-tinta);
 }
+/* Projetor: o OneCompiler inteiro (editor, botões e console) a 200%, como o zoom do navegador.
+   O iframe tem metade do tamanho da caixa e é ampliado 2x; a borda fica na caixa. */
+.aovivo__oc-caixa--principal {
+  --zoom-oc: 2;
+  position: relative;
+  overflow: hidden;
+  background: var(--cor-carta);
+  border: var(--borda-forte) solid var(--cor-tinta);
+}
+.aovivo__oc-caixa--principal .aovivo__oc {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% / var(--zoom-oc));
+  height: calc(100% / var(--zoom-oc));
+  border: 0;
+  transform: scale(var(--zoom-oc));
+  transform-origin: 0 0;
+}
 .aovivo__sem-rede {
   flex: 1;
   display: grid;
