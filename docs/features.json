@@ -181,7 +181,7 @@
       "Digitando no painel, a janela principal mostra o mesmo código e a mesma saída",
       "Letra de 28px ou mais no palco 1920x1080"
     ],
-    "passa": false
+    "passa": true
   },
   {
     "id": "F17",
@@ -193,6 +193,6 @@
       "Sem internet, aparece aviso e a dica de usar a tecla E",
       "Mensagens do iframe só são aceitas da origem https://onecompiler.com"
     ],
-    "passa": false
+    "passa": true
   }
 ]

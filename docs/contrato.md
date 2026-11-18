@@ -128,3 +128,13 @@ As duas janelas (`index.html` e `apresentador.html`) leem e escrevem o mesmo est
 - `estado.melhorJogada` guarda o id escolhido no painel e aparece no slide 51.
 
 Teclas da janela principal: setas, Page Up/Down, espaço, Home/End, G + número, F, ?, C (cronômetro), M (+1 min), Z (zerar), S (som), L (placar), R (roleta), P (painel). O painel aceita as mesmas, menos F, ? e P.
+
+## 8. Modo ao vivo (teclas E e O)
+
+Lógica pura em `js/logica/aovivo.js` (`PI.aoVivo`, testada em `tests/logica-aovivo.test.js`); interface em `js/ui/aovivo-ui.js`, `js/ui/editor.js` e `js/ui/motor-skulpt.js`.
+
+- **Motores:** `offline` (tecla E) roda Python no navegador com o Skulpt (`vendor/skulpt`, sem rede); `onecompiler` (tecla O) embute `https://onecompiler.com/embed/python` num iframe criado só quando a tecla é apertada. Trocar de motor mantém o código. Ao abrir num slide com código Python, o editor começa com esse código (`codigoDoSlide`); no mesmo slide, mantém o que foi digitado.
+- **Estado** (`PI.aoVivo.criar()`): `{ aberto, motor, codigo, versao, autor, execucao: { estado, saida, pergunta, erroLinha }, pedido }`. `normalizar` valida tipos e tamanhos (código e saída até 20.000 caracteres, entrada até 500) e remonta o objeto; o que não passa é ignorado.
+- **Duas chaves, um dono cada:** a janela principal grava `pi:aovivo:v1` e é a única que roda código e escreve `execucao`; o painel grava `pi:aovivo:v1:painel` com o código e o `pedido` (`rodar`, `parar`, `responder`, `rodarOneCompiler`, com `id` crescente). A principal trata cada pedido uma vez (`id` maior que o último) e adota abrir/fechar/motor de cada gravação nova do painel (versão diferente). O código da outra janela só é adotado se ninguém digitou nesta nos últimos 1,5 s.
+- **Erros:** o Skulpt diz `Tipo: msg on line N`; `traduzirErro` devolve o texto no formato do Python 3.12 (traceback ou `File "main.py", line N`), e o editor marca a linha. Parar mostra `KeyboardInterrupt`.
+- **OneCompiler:** mensagens para o iframe com destino `https://onecompiler.com`: `{ eventType: 'populateCode', language: 'python', files: [{ name: 'main.py', content }] }` e `{ eventType: 'triggerRun' }`. O iframe devolve `{ language, files: [{ name, content }], stdin, result, action: 'change' }` a cada mudança (com CRLF); `codigoDaMensagem` só aceita origem `https://onecompiler.com` e `event.source` igual ao iframe, e troca CRLF por LF. Até o iframe devolver o código enviado (eco), a janela reenvia a cada 0,9 s (até 15 vezes) e ignora o resto; depois, eco igual (`mesmoCodigo`) não conta como digitação.

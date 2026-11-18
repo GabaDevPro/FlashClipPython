@@ -1,0 +1,209 @@
+/* Modo ao vivo (teclas E e O): editor offline e OneCompiler embutido.
+   Na janela principal ocupa o palco 1920x1080 e escala junto com ele; no painel cobre a janela. */
+
+.aovivo {
+  --cor-editor-erro: #ff9b93;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding: 40px 56px 48px;
+  background: var(--cor-fundo);
+  color: var(--cor-tinta);
+}
+.aovivo[hidden] { display: none !important; }
+
+.aovivo--principal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 20;
+  width: 1920px;
+  height: 1080px;
+  transform-origin: 0 0;
+}
+
+.aovivo__topo { display: flex; align-items: center; justify-content: space-between; gap: 32px; }
+.aovivo__marca { display: flex; align-items: center; gap: 22px; font: 700 48px/1 var(--fonte-titulo); white-space: nowrap; }
+.aovivo__selo {
+  padding: 10px 14px;
+  font: 700 22px/1 var(--fonte-texto);
+  letter-spacing: 0.12em;
+  color: var(--cor-carta);
+  background: var(--cor-destaque);
+}
+.aovivo__situacao { font: 400 26px/1 var(--fonte-texto); color: var(--cor-texto-suave); }
+.aovivo__acoes { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 14px; }
+
+.aovivo__botao {
+  padding: 16px 22px;
+  font: 700 24px/1 var(--fonte-texto);
+  color: var(--cor-carta);
+  background: var(--cor-tinta);
+  border: var(--borda-tinta) solid var(--cor-tinta);
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+.aovivo__botao:hover { background: var(--cor-casa-azul); border-color: var(--cor-casa-azul); }
+.aovivo__botao:focus-visible { outline: 4px solid var(--cor-casa-amarelo); outline-offset: 3px; }
+.aovivo__botao--rodar { background: var(--cor-casa-verde); border-color: var(--cor-casa-verde); }
+.aovivo__botao--leve { color: var(--cor-tinta); background: transparent; }
+.aovivo__botao--leve:hover { color: var(--cor-carta); }
+
+.aovivo__corpo { flex: 1; min-height: 0; display: flex; }
+
+/* Editor offline: código à esquerda, saída à direita. */
+.aovivo__offline {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+  gap: 24px;
+}
+.aovivo__codigo,
+.console {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: var(--cor-editor-texto);
+  background: var(--cor-editor-fundo);
+  border-radius: var(--raio-carta);
+}
+.console__rotulo {
+  padding: 22px 28px 0;
+  font: var(--codigo-rotulo);
+  letter-spacing: 0.1em;
+  color: var(--cor-editor-rotulo);
+}
+
+.editor {
+  --tam: 30px;
+  --altura-linha: 45px;
+  --topo: 16px;
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  font: 400 var(--tam)/var(--altura-linha) var(--fonte-codigo);
+  font-variant-ligatures: none;
+}
+.editor__linhas {
+  min-width: 2ch;
+  margin: 0;
+  padding: var(--topo) 12px 28px 24px;
+  overflow: hidden;
+  list-style: none;
+  text-align: right;
+  color: var(--cor-editor-rotulo);
+  user-select: none;
+}
+.editor__linhas li { height: var(--altura-linha); }
+.editor__linha--erro { color: var(--cor-editor-erro); font-weight: 700; }
+.editor__area { position: relative; min-height: 0; overflow: hidden; }
+.editor__realce,
+.editor__entrada {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: var(--topo) 28px 28px 14px;
+  overflow: auto;
+  font: inherit;
+  font-variant-ligatures: none;
+  letter-spacing: 0;
+  white-space: pre;
+  tab-size: 4;
+  border: 0;
+}
+.editor__realce { overflow: hidden; color: var(--cor-editor-texto); pointer-events: none; }
+.editor__entrada {
+  color: transparent;
+  caret-color: var(--cor-editor-texto);
+  background: transparent;
+  outline: none;
+  resize: none;
+}
+.editor__entrada::selection { color: transparent; background: rgba(111, 182, 242, 0.35); }
+.editor__faixa-erro {
+  position: absolute;
+  top: calc(var(--topo) + (var(--linha, 1) - 1) * var(--altura-linha));
+  left: 0;
+  right: 0;
+  height: var(--altura-linha);
+  background: rgba(215, 50, 43, 0.3);
+  pointer-events: none;
+}
+
+.console__saida {
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  padding: 16px 28px 28px;
+  overflow: auto;
+  font: 400 28px/1.45 var(--fonte-codigo);
+  font-variant-ligatures: none;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.console__erro { color: var(--cor-editor-erro); }
+.console__entrada {
+  width: 12ch;
+  padding: 0;
+  font: inherit;
+  color: var(--cor-editor-numero);
+  caret-color: var(--cor-editor-numero);
+  background: transparent;
+  border: 0;
+  border-bottom: 3px solid var(--cor-editor-numero);
+  outline: none;
+}
+
+/* OneCompiler embutido. */
+.aovivo__oc-caixa { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 12px; }
+.aovivo__oc {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  background: var(--cor-editor-fundo);
+  border: var(--borda-forte) solid var(--cor-tinta);
+}
+.aovivo__dica { margin: 0; font: 400 22px/1.3 var(--fonte-texto); color: var(--cor-texto-suave); }
+.aovivo__sem-rede {
+  flex: 1;
+  display: grid;
+  place-content: center;
+  gap: 18px;
+  text-align: center;
+  font: 400 34px/1.3 var(--fonte-texto);
+  border: var(--borda-forte) dashed var(--cor-tinta);
+}
+.aovivo__sem-rede strong { font: 700 56px/1.1 var(--fonte-titulo); }
+
+/* No painel do apresentador (janela comum, sem escala). */
+.aovivo--painel { position: fixed; inset: 0; z-index: 50; gap: 12px; padding: 14px 18px; }
+.aovivo--painel .aovivo__marca { gap: 12px; font-size: 24px; }
+.aovivo--painel .aovivo__selo { padding: 6px 8px; font-size: 13px; }
+.aovivo--painel .aovivo__situacao { font-size: 15px; }
+.aovivo--painel .aovivo__acoes { gap: 8px; }
+.aovivo--painel .aovivo__botao { padding: 8px 12px; font-size: 15px; }
+.aovivo--painel .aovivo__offline { gap: 12px; }
+.aovivo--painel .console__rotulo { padding: 12px 16px 0; font-size: 12px; }
+.aovivo--painel .editor { --tam: 18px; --altura-linha: 27px; --topo: 8px; }
+.aovivo--painel .editor__linhas { padding: var(--topo) 8px 16px 12px; }
+.aovivo--painel .editor__realce,
+.aovivo--painel .editor__entrada { padding: var(--topo) 16px 16px 8px; }
+.aovivo--painel .console__saida { padding: 8px 16px 16px; font-size: 17px; }
+.aovivo--painel .aovivo__oc { border-width: var(--borda-tinta); }
+.aovivo--painel .aovivo__dica { font-size: 14px; }
+.aovivo--painel .aovivo__sem-rede { font-size: 18px; }
+.aovivo--painel .aovivo__sem-rede strong { font-size: 28px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .aovivo__botao { transition: none; }
+}
+
+@media print {
+  .aovivo { display: none !important; }
+}

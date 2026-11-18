@@ -132,7 +132,11 @@
             el('div', 'painel__nav', [
               el('div', 'placar-ui__linha', [botao('Anterior', function () { ir(i - 1); }), botao('Próximo', function () { ir(i + 1); })]),
               irPara(),
-              botao('Placar (L)', function () { PI.placarUi.abrir(slide.atividade); }, 'placar-ui__botao--leve')
+              botao('Placar (L)', function () { PI.placarUi.abrir(slide.atividade); }, 'placar-ui__botao--leve'),
+              el('div', 'placar-ui__linha', [
+                botao('Código ao vivo (E)', function () { PI.aoVivoUi.alternar('offline'); }),
+                botao('OneCompiler (O)', function () { PI.aoVivoUi.alternar('onecompiler'); })
+              ])
             ])
           ])
         ]),
@@ -173,6 +177,10 @@
       if (e.key === 'Escape') { PI.placarUi.fechar(); }
       return;
     }
+    if (PI.aoVivoUi.aberto()) {
+      if (e.key === 'Escape') { e.preventDefault(); PI.aoVivoUi.fechar(); }
+      return;
+    }
     if (e.ctrlKey || e.metaKey || e.altKey || /^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName)) { return; }
     var r = PI.navegacao.interpretarTecla(e.key, null);
     var acoes = {
@@ -184,7 +192,9 @@
       mais1: function () { mudarCronometro(PI.cronometro.mais1); },
       zerar: function () { mudarCronometro(PI.cronometro.zerar); },
       placar: function () { PI.placarUi.abrir(slides[indiceAtual()].atividade); },
-      roleta: PI.roletaUi.sortearAgora
+      roleta: PI.roletaUi.sortearAgora,
+      aoVivo: function () { PI.aoVivoUi.alternar('offline'); },
+      oneCompiler: function () { PI.aoVivoUi.alternar('onecompiler'); }
     };
     if (!acoes[r.acao]) { return; }
     e.preventDefault();
@@ -198,6 +208,7 @@
     PI.loja.iniciar(config);
     PI.placarUi.iniciar(config);
     PI.roletaUi.iniciar();
+    PI.aoVivoUi.iniciar({ papel: 'painel', obterSlide: function () { return slides[indiceAtual()]; } });
     PI.loja.ouvir(function () { if (!PI.placarUi.aberto()) { desenhar(); } });
     PI.cronometroUi.iniciar({ semSom: true });
     document.addEventListener('keydown', aoTeclar);

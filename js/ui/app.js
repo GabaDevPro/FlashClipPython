@@ -16,6 +16,8 @@
     ['L', 'abrir o placar'],
     ['R', 'girar a roleta do sorteio'],
     ['P', 'abrir o painel do apresentador (segunda janela)'],
+    ['E', 'código ao vivo no editor offline (Esc fecha)'],
+    ['O', 'código ao vivo no OneCompiler (precisa de internet)'],
     ['F', 'tela cheia'],
     ['?', 'mostrar ou esconder esta ajuda'],
     ['Clique no slide', 'próximo slide']
@@ -32,6 +34,7 @@
     var x = (raiz.innerWidth - LARGURA * s) / 2;
     var y = (raiz.innerHeight - ALTURA * s) / 2;
     palco.style.transform = 'translate(' + x + 'px, ' + y + 'px) scale(' + s + ')';
+    PI.aoVivoUi.ajustar(palco.style.transform);
   }
 
   function indiceAtual() { return PI.navegacao.limitar(PI.loja.obter().slide, slides.length); }
@@ -117,7 +120,9 @@
     som: alternarSom,
     placar: function () { PI.placarUi.abrir(slides[indiceAtual()].atividade); },
     roleta: function () { PI.roletaUi.sortearAgora(); },
-    painel: abrirPainel
+    painel: abrirPainel,
+    aoVivo: function () { PI.aoVivoUi.alternar('offline'); },
+    oneCompiler: function () { PI.aoVivoUi.alternar('onecompiler'); }
   };
 
   function abrirPainel() {
@@ -132,11 +137,21 @@
     if (ACOES[r.acao]) { ACOES[r.acao](); }
   }
 
+  // Com o modo ao vivo aberto, as teclas são do editor: só Esc fecha, e E ou O trocam de motor
+  // quando o foco não está num campo de texto.
+  function teclaNoAoVivo(e) {
+    if (e.key === 'Escape') { e.preventDefault(); PI.aoVivoUi.fechar(); return; }
+    if (e.ctrlKey || e.metaKey || e.altKey || /^(INPUT|TEXTAREA)$/.test(e.target.tagName)) { return; }
+    var acao = PI.navegacao.interpretarTecla(e.key, null).acao;
+    if (acao === 'aoVivo' || acao === 'oneCompiler') { e.preventDefault(); ACOES[acao](); }
+  }
+
   function aoTeclar(e) {
     if (PI.placarUi.aberto()) {
       if (e.key === 'Escape') { PI.placarUi.fechar(); }
       return;
     }
+    if (PI.aoVivoUi.aberto()) { teclaNoAoVivo(e); return; }
     if (e.ctrlKey || e.metaKey || e.altKey) { return; }
     if (!ajuda.hidden && e.key === 'Escape') { ajuda.hidden = true; return; }
     var r = PI.navegacao.interpretarTecla(e.key, modoIr);
@@ -168,6 +183,7 @@
     PI.loja.iniciar(ctx.config);
     PI.placarUi.iniciar(ctx.config);
     PI.loja.ouvir(desenhar);
+    PI.aoVivoUi.iniciar({ papel: 'principal', obterSlide: function () { return slides[indiceAtual()]; } });
     escalar();
     raiz.addEventListener('resize', escalar);
     document.addEventListener('keydown', aoTeclar);

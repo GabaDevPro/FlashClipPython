@@ -78,7 +78,7 @@ PI.secao({
         { rotulo: "2", texto: "Clique em Run." },
         { rotulo: "3", texto: "A saída aparece no Console. Pediu algo? Digite ali e aperte Enter." }
       ],
-      fala: "Abra o link no projetor e mostre ao vivo: apague o exemplo, escreva um print, clique em Run. Não precisa fazer Login. Enquanto o programa espera um input, o botão Run vira Stop.",
+      fala: "Aperte O para abrir o OneCompiler dentro da apresentação, já com o código do slide (sem internet, a tecla E abre o editor offline; Esc fecha). Mostre ao vivo: apague o exemplo, escreva um print, clique em Run. Não precisa fazer Login. Enquanto o programa espera um input, o botão Run vira Stop.",
       interacao: "Todos abrem o link agora. Quem não conseguir levanta a mão antes da primeira atividade."
     },
     {

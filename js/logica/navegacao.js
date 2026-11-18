@@ -15,7 +15,9 @@
     z: 'zerar', Z: 'zerar',
     s: 'som', S: 'som',
     l: 'placar', L: 'placar',
-    r: 'roleta', R: 'roleta'
+    r: 'roleta', R: 'roleta',
+    e: 'aoVivo', E: 'aoVivo',
+    o: 'oneCompiler', O: 'oneCompiler'
   };
 
   function limitar(indice, total) {
