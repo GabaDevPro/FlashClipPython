@@ -116,15 +116,15 @@ while saldo > 0:
       titulo: "Atividade 5b: enunciado",
       texto: [
         "O jogador foi para a prisão por 3 turnos.",
-        `Use um while para mostrar os turnos de 3 até 1 e depois imprimir "Você está livre!".`
+        `Use um while para contar os turnos de 1 até 3 e depois imprimir "Você está livre!".`
       ],
       codigo: [
         {
           rotulo: "Saída esperada",
           linguagem: "text",
-          texto: `Turnos na prisão: 3
-Turnos na prisão: 2
-Turnos na prisão: 1
+          texto: `Turno na prisão: 1
+Turno na prisão: 2
+Turno na prisão: 3
 Você está livre!`
         }
       ],
@@ -138,14 +138,14 @@ Você está livre!`
         {
           rotulo: "Gabarito",
           linguagem: "python",
-          texto: `turnos = 3
-while turnos > 0:
-    print("Turnos na prisão:", turnos)
-    turnos = turnos - 1
+          texto: `turno = 1
+while turno <= 3:
+    print("Turno na prisão:", turno)
+    turno = turno + 1
 print("Você está livre!")`,
-          saida: `Turnos na prisão: 3
-Turnos na prisão: 2
-Turnos na prisão: 1
+          saida: `Turno na prisão: 1
+Turno na prisão: 2
+Turno na prisão: 3
 Você está livre!`,
           testes: [{}]
         }

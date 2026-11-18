@@ -39,6 +39,7 @@ PI.secao({
       titulo: "Avaliação",
       texto: ["Avaliação e frequência"],
       link: "forms",
+      qr: "forms",
       fala: "Dar os 10 minutos do Forms antes do coffee break."
     },
     {

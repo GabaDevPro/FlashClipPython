@@ -160,10 +160,42 @@
     return no;
   }
 
+  var QR_MARGEM = 2;
+
+  // QR code gerado aqui mesmo (vendor/qrcode-generator), sem rede. O desenho sai só de isDark(),
+  // então o link nunca vira marcação. Sem link no config, mostra o aviso no lugar do código.
+  function qr(link) {
+    if (!link) { return txt('figure', 'qr qr--pendente', 'O QR code aparece quando o link estiver em conteudo/config.js'); }
+    if (typeof raiz.qrcode !== 'function') {
+      console.error('vendor/qrcode-generator/qrcode.js não carregou: QR code indisponível.');
+      return txt('figure', 'qr qr--pendente', 'QR code indisponível');
+    }
+    var codigo = raiz.qrcode(0, 'M');
+    codigo.addData(link);
+    codigo.make();
+    var n = codigo.getModuleCount();
+    var lado = n + QR_MARGEM * 2;
+    var d = [];
+    for (var lin = 0; lin < n; lin++) {
+      for (var col = 0; col < n; col++) {
+        if (codigo.isDark(lin, col)) { d.push('M' + (col + QR_MARGEM) + ' ' + (lin + QR_MARGEM) + 'h1v1h-1z'); }
+      }
+    }
+    var desenho = document.createElementNS(SVG_NS, 'svg');
+    desenho.setAttribute('viewBox', '0 0 ' + lado + ' ' + lado);
+    desenho.setAttribute('shape-rendering', 'crispEdges');
+    desenho.setAttribute('role', 'img');
+    desenho.setAttribute('aria-label', 'QR code para ' + link);
+    var caminho = document.createElementNS(SVG_NS, 'path');
+    caminho.setAttribute('d', d.join(''));
+    desenho.appendChild(caminho);
+    return el('figure', 'qr', [desenho]);
+  }
+
   raiz.PI = raiz.PI || {};
   raiz.PI.pecas = {
     CASAS: CASAS, el: el, txt: txt, svg: svg, casa: casa, dado: dado, nota: nota, chocolate: chocolate, peao: peao, carta: carta,
     cronometro: cronometro, blocoCodigo: blocoCodigo, cabecalho: cabecalho, faixaCasas: faixaCasas,
-    bordaTabuleiro: bordaTabuleiro, posicionar: posicionar
+    bordaTabuleiro: bordaTabuleiro, posicionar: posicionar, qr: qr
   };
 })(window);

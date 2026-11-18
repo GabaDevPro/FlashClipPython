@@ -107,7 +107,8 @@
     if (slide.link) {
       var link = ctx.config.links[slide.link] || '';
       var caixa = el('div', 'link' + (link ? '' : ' link--pendente'), [txt('span', 'rotulo', 'ACESSE'), txt('strong', 'link__texto', link || 'link pendente')]);
-      s.appendChild(el('div', 'instrucoes__link', [textos(slide, 'slide__texto--grande'), caixa]));
+      var blocoLink = el('div', 'instrucoes__link', [textos(slide, 'slide__texto--grande'), caixa]);
+      s.appendChild(slide.qr ? el('div', 'instrucoes__com-qr', [blocoLink, P.qr(ctx.config.links[slide.qr] || '')]) : blocoLink);
       if (slide.itens) { s.appendChild(numerada(slide.itens, 1)); }
       return s;
     }

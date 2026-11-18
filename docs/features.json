@@ -158,5 +158,41 @@
       "Textos do README e da ajuda revisados com /humanizer"
     ],
     "passa": false
+  },
+  {
+    "id": "F15",
+    "descricao": "Anotações da professora depois da primeira apresentação: ordem da abertura (nós, linguagem, história, algoritmo, OneCompiler), while do 5b subindo, slide de concatenação, QR code do Forms no slide 55 e plano B com 4 bônus",
+    "prioridade": "P0",
+    "passos_de_teste": [
+      "npm test passa com os testes novos de conteúdo",
+      "python scripts/conferir-gabaritos.py confere os gabaritos novos",
+      "Capturas por file:// dos slides 3, 4, 7, 7b, 22b, 45, 46, 55 e 57 a 66 sem erro e sem requisição externa",
+      "Com um link em config.links.forms, o slide 55 mostra um QR code que o celular lê"
+    ],
+    "passa": false
+  },
+  {
+    "id": "F16",
+    "descricao": "Editor ao vivo offline (tecla E): código do slide atual, realce, Rodar, Parar, input no console e erro com linha, rodando com o Skulpt; espelhado no painel para digitar no notebook com a tela estendida",
+    "prioridade": "P0",
+    "passos_de_teste": [
+      "Todos os códigos dos slides rodam no Skulpt com a mesma saída do Python",
+      "Laço infinito para com o botão Parar sem travar a página",
+      "Digitando no painel, a janela principal mostra o mesmo código e a mesma saída",
+      "Letra de 28px ou mais no palco 1920x1080"
+    ],
+    "passa": false
+  },
+  {
+    "id": "F17",
+    "descricao": "Versão OneCompiler (tecla O): o editor oficial do onecompiler.com embutido no palco com o código do slide, para quando a professora exigir o OneCompiler; no modo Estender, o painel manda o código para o projetor",
+    "prioridade": "P0",
+    "passos_de_teste": [
+      "Sem apertar O, nenhuma requisição externa",
+      "Com internet, a tecla O abre o OneCompiler com o código do slide atual em letra grande",
+      "Sem internet, aparece aviso e a dica de usar a tecla E",
+      "Mensagens do iframe só são aceitas da origem https://onecompiler.com"
+    ],
+    "passa": false
   }
 ]

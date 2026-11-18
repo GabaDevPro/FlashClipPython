@@ -8,7 +8,11 @@ PI.config = {
     "4b":   { nome: "Atividade 4b", minutos: 7,  premios: [300, 200, 100], premio: "chocolate" },
     "5a":   { nome: "Atividade 5a", minutos: 6,  premios: [300, 200, 100], premio: "chocolate" },
     "5b":   { nome: "Atividade 5b", minutos: 7,  premios: [300, 200, 100], premio: "chocolate" },
-    "boss": { nome: "Boss",         minutos: 15, premios: [500, 300, 100], premio: "chocolate" }
+    "boss": { nome: "Boss",         minutos: 15, premios: [500, 300, 100], premio: "chocolate" },
+    "b1":   { nome: "Bônus 1",      minutos: 5,  premios: [300, 200, 100], premio: "chocolate" },
+    "b2":   { nome: "Bônus 2",      minutos: 5,  premios: [300, 200, 100], premio: "chocolate" },
+    "b3":   { nome: "Bônus 3",      minutos: 6,  premios: [300, 200, 100], premio: "chocolate" },
+    "b4":   { nome: "Bônus 4",      minutos: 7,  premios: [300, 200, 100], premio: "chocolate" }
   },
   tempos: { intervalo: 10 },
   cronograma: [
@@ -21,7 +25,8 @@ PI.config = {
     { bloco: 1, inicioMin: 80, fimMin: 90, etapa: "Intervalo" },
     { bloco: 2, inicioMin: 0,  fimMin: 23, etapa: "Laços for e while" },
     { bloco: 2, inicioMin: 23, fimMin: 46, etapa: "Boss: o banqueiro final" },
-    { bloco: 2, inicioMin: 46, fimMin: 55, etapa: "Premiação final" }
+    { bloco: 2, inicioMin: 46, fimMin: 55, etapa: "Premiação final" },
+    { bloco: 2, inicioMin: 55, fimMin: 55, etapa: "Plano B (só se sobrar tempo)" }
   ],
   links: { envio: "", forms: "", compilador: "onecompiler.com/python" },
   ministrantes: [

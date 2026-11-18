@@ -36,7 +36,8 @@ Regras do arquivo: só objetos literais e template strings sem `${}`. Nada de l�
 | `apoio` | booleano | não | Slide de apoio (versão fácil, lacunas, dicas): cronômetro pequeno no canto |
 | `ranking` | `"parcial"` ou `"final"` | não | Slides 37 e 52 |
 | `roleta` | booleano | não | Slide com sorteio (37 e 53) |
-| `link` | texto | não | Chave do link em `config.links` mostrado em texto (`"forms"`). Não há QR code |
+| `link` | texto | não | Chave do link em `config.links` mostrado em texto (`"forms"`) |
+| `qr` | texto | não | Chave do link em `config.links` desenhado como QR code ao lado do link (só o slide 55, `"forms"`). Gerado offline por `vendor/qrcode-generator`; link vazio mostra o aviso no lugar |
 | `diagrama` | texto | não | `"if-else"` ou `"elif"` |
 | `revelarSaida` | booleano | não | Qualquer modelo com código (hoje slides 28, 30 e 30b): na janela principal a saída do código só aparece no primeiro avanço; painel e PDF mostram direto |
 | `destaque` | texto | não | Modelo `erro`: frase grande embaixo do código (slide 30: "Indentação!!!"); com `revelarSaida`, aparece no mesmo clique da saída |
@@ -49,7 +50,7 @@ Regras do arquivo: só objetos literais e template strings sem `${}`. Nada de l�
 
 `capa`, `ministrantes`, `regras`, `instrucoes`, `algoritmo`, `atualizacao`, `conceito`, `cartas`, `erro`, `enunciado`, `resposta`, `recap`, `ranking`, `intervalo`, `impacto`, `premios`, `proximos`, `encerramento`.
 
-`cartas` cobre os slides 7 e 16 (quatro cartas). `recap` é o slide 36 (módulos como propriedades compradas). `instrucoes` cobre os slides 3b (compilador: link e passos), 4 (como mostrar a resposta) e 55 (Forms).
+`cartas` cobre os slides 3 e 16 (quatro cartas). `recap` é o slide 36 (módulos como propriedades compradas). `instrucoes` cobre os slides 7 (compilador: link e passos), 7b (como mostrar a resposta) e 55 (Forms, com QR code). A abertura segue a ordem pedida pela professora: capa, ministrantes, onde o Python é usado, história, algoritmo, regras, compilador e como mostrar a resposta. A seção `11-extras` (slides 57 a 66) é o plano B: fica depois do Obrigado, com os bônus `b1` a `b4` no config, e tem a linha "Plano B" de duração zero no cronograma.
 
 ## 4. Bloco de código
 
