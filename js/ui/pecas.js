@@ -171,8 +171,13 @@
       return txt('figure', 'qr qr--pendente', 'QR code indisponível');
     }
     var codigo = raiz.qrcode(0, 'M');
-    codigo.addData(link);
-    codigo.make();
+    try {
+      codigo.addData(link);
+      codigo.make();
+    } catch (erro) {
+      console.error('Não deu para gerar o QR code (link grande demais?):', erro && erro.message ? erro.message : erro);
+      return txt('figure', 'qr qr--pendente', 'QR code indisponível');
+    }
     var n = codigo.getModuleCount();
     var lado = n + QR_MARGEM * 2;
     var d = [];
