@@ -16,8 +16,7 @@
     ['L', 'abrir o placar'],
     ['R', 'girar a roleta do sorteio'],
     ['P', 'abrir o painel do apresentador (segunda janela)'],
-    ['E', 'código ao vivo no editor offline (Esc fecha)'],
-    ['O', 'código ao vivo no OneCompiler (precisa de internet)'],
+    ['O', 'código ao vivo no OneCompiler (precisa de internet; Esc fecha)'],
     ['F', 'tela cheia'],
     ['?', 'mostrar ou esconder esta ajuda'],
     ['Clique no slide', 'próximo slide']
@@ -121,8 +120,7 @@
     placar: function () { PI.placarUi.abrir(slides[indiceAtual()].atividade); },
     roleta: function () { PI.roletaUi.sortearAgora(); },
     painel: abrirPainel,
-    aoVivo: function () { PI.aoVivoUi.alternar('offline'); },
-    oneCompiler: function () { PI.aoVivoUi.alternar('onecompiler'); }
+    oneCompiler: function () { PI.aoVivoUi.alternar(); }
   };
 
   function abrirPainel() {
@@ -137,13 +135,13 @@
     if (ACOES[r.acao]) { ACOES[r.acao](); }
   }
 
-  // Com o modo ao vivo aberto, as teclas são do editor: só Esc fecha, e E ou O trocam de motor
-  // quando o foco não está num campo de texto.
+  // Com o modo ao vivo aberto, as teclas são do OneCompiler: Esc fecha, e O fecha quando o foco
+  // não está num campo de texto.
   function teclaNoAoVivo(e) {
     if (e.key === 'Escape') { e.preventDefault(); PI.aoVivoUi.fechar(); return; }
     if (e.ctrlKey || e.metaKey || e.altKey || /^(INPUT|TEXTAREA)$/.test(e.target.tagName)) { return; }
     var acao = PI.navegacao.interpretarTecla(e.key, null).acao;
-    if (acao === 'aoVivo' || acao === 'oneCompiler') { e.preventDefault(); ACOES[acao](); }
+    if (acao === 'oneCompiler') { e.preventDefault(); ACOES[acao](); }
   }
 
   function aoTeclar(e) {
@@ -183,7 +181,7 @@
     PI.loja.iniciar(ctx.config);
     PI.placarUi.iniciar(ctx.config);
     PI.loja.ouvir(desenhar);
-    PI.aoVivoUi.iniciar({ papel: 'principal', obterSlide: function () { return slides[indiceAtual()]; } });
+    PI.aoVivoUi.iniciar({ papel: 'principal', slides: slides, indiceAtual: indiceAtual, ir: ir });
     escalar();
     raiz.addEventListener('resize', escalar);
     document.addEventListener('keydown', aoTeclar);

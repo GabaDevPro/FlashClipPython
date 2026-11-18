@@ -46,9 +46,9 @@ test('C, M, Z, S e L controlam cronômetro, som e placar, em maiúscula ou minú
   }
 });
 
-test('E abre o editor ao vivo e O o OneCompiler, em maiúscula ou minúscula', () => {
+test('E não tem mais ação e O abre o OneCompiler, em maiúscula ou minúscula', () => {
   for (const tecla of ['e', 'E']) {
-    assert.equal(nav.interpretarTecla(tecla, null).acao, 'aoVivo', tecla);
+    assert.equal(nav.interpretarTecla(tecla, null).acao, null, tecla);
   }
   for (const tecla of ['o', 'O']) {
     assert.equal(nav.interpretarTecla(tecla, null).acao, 'oneCompiler', tecla);

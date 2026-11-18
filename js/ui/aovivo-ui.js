@@ -1,30 +1,28 @@
-/* Modo ao vivo: tecla E abre o editor offline (Skulpt), tecla O abre o OneCompiler oficial embutido.
-   Sincronia: a janela principal grava pi:aovivo:v1 e é a única que roda código e escreve a saída;
-   o painel grava pi:aovivo:v1:painel com o código e os pedidos (rodar, parar, responder).
-   Cada janela só adota o código da outra quando não está sendo digitada (o foco decide quem manda). */
+/* Modo ao vivo (tecla O): o OneCompiler oficial embutido. No projetor, tema claro; no painel do
+   apresentador, tema escuro e, ao lado, a cola com o código do slide para digitar ao vivo.
+   Sincronia: a janela principal grava pi:aovivo:v2 e é quem roda (manda triggerRun ao iframe dela);
+   o painel grava pi:aovivo:v2:painel com o código e o pedido de rodar. Cada janela só adota o
+   código da outra quando ninguém digitou nela nos últimos JANELA_DIGITACAO_MS. */
 (function (raiz) {
   'use strict';
 
   var PI = raiz.PI;
   var P = PI.pecas;
-  var GRAVAR_SAIDA_MS = 120;
   var REENVIO_CODIGO_MS = 900;
   var JANELA_DIGITACAO_MS = 1500;
   var MAX_TENTATIVAS_ONECOMPILER = 15;
-  var FONTE_ONECOMPILER = { principal: 28, painel: 18 };
-  var NOMES = { offline: 'Editor offline', onecompiler: 'OneCompiler' };
-  var INTERROMPIDO = 'KeyboardInterrupt';
+  var ONECOMPILER = {
+    principal: { fontSize: 28, tema: 'claro', codeChangeEvent: true },
+    painel: { fontSize: 18, tema: 'escuro', codeChangeEvent: true }
+  };
 
   var papel = 'principal';
-  var obterSlide = function () { return null; };
+  var slides = [];
+  var indiceAtual = function () { return 0; };
+  var irPara = function () {};
   var atual = null;
   var vistoDoPainel = { versao: -1, codigo: '' };
   var ultimoPedido = 0;
-  var slideDoCodigo = null;
-  var resolverEntrada = null;
-  var rodada = 0;
-  var gravacaoPendente = null;
-  var desenhoAgendado = false;
   var ultimaDigitacao = 0;
   var ui = null;
 
@@ -40,8 +38,7 @@
     }
   }
 
-  function gravarAgora() {
-    gravacaoPendente = null;
+  function gravar() {
     try {
       raiz.localStorage.setItem(chaveMinha(), JSON.stringify(atual));
     } catch (erro) {
@@ -49,61 +46,20 @@
     }
   }
 
-  // A saída de um print em laço chega em rajadas: junta e grava no máximo a cada GRAVAR_SAIDA_MS.
-  function gravar(juntar) {
-    if (juntar) {
-      if (!gravacaoPendente) { gravacaoPendente = raiz.setTimeout(gravarAgora, GRAVAR_SAIDA_MS); }
-      return;
-    }
-    if (gravacaoPendente) { raiz.clearTimeout(gravacaoPendente); }
-    gravarAgora();
-  }
-
-  // Com juntar (saída de print), o redesenho também espera o próximo quadro, como a gravação.
-  function mudar(novo, juntar) {
+  function mudar(novo) {
     atual = novo;
-    gravar(juntar);
-    if (juntar) { agendarDesenho(); } else { desenhar(); }
+    gravar();
+    desenhar();
   }
 
-  function agendarDesenho() {
-    if (desenhoAgendado) { return; }
-    desenhoAgendado = true;
-    raiz.requestAnimationFrame(function () {
-      desenhoAgendado = false;
-      desenhar();
-    });
-  }
-
-  // Quem digitou por último manda: por JANELA_DIGITACAO_MS, o código que chega da outra janela não
-  // sobrescreve o que está sendo digitado aqui. (O foco não serve: com as duas janelas abertas,
-  // alguns navegadores dizem que as duas têm foco.)
+  // Quem digitou por último manda (o foco não serve: com as duas janelas abertas, alguns
+  // navegadores dizem que as duas têm foco).
   function editandoAqui() { return Date.now() - ultimaDigitacao < JANELA_DIGITACAO_MS; }
 
   // ---------- ações ----------
 
-  function abrir(motor) {
-    var slide = obterSlide();
-    var doSlide = slide ? PI.aoVivo.codigoDoSlide(slide) : '';
-    var codigo = atual.codigo;
-    if (slide && doSlide && slide.n !== slideDoCodigo) {
-      codigo = doSlide;
-      slideDoCodigo = slide.n;
-    }
-    mudar(PI.aoVivo.abrir(atual, motor, codigo, papel));
-    if (ui.editor && motor === 'offline') { ui.editor.focar(); }
-  }
-
-  function alternar(motor) {
-    if (atual.aberto && atual.motor === motor) { fechar(); return; }
-    if (atual.aberto) { mudar(PI.aoVivo.abrir(atual, motor, atual.codigo, papel)); return; }
-    abrir(motor);
-  }
-
-  function fechar() {
-    if (papel === 'principal') { PI.motorSkulpt.parar(); }
-    mudar(PI.aoVivo.fechar(atual, papel));
-  }
+  function alternar() { if (atual.aberto) { fechar(); } else { mudar(PI.aoVivo.abrir(atual, atual.codigo, papel)); } }
+  function fechar() { mudar(PI.aoVivo.fechar(atual, papel)); }
 
   function aoDigitar(codigo) {
     if (codigo === atual.codigo) { return; }
@@ -111,100 +67,47 @@
     mudar(PI.aoVivo.comCodigo(atual, codigo, papel));
   }
 
-  function pedir(acao, valor) { mudar(PI.aoVivo.pedir(atual, acao, valor, papel)); }
+  // Limpar e Código do slide trocam o código de propósito: vale aqui na hora e na outra janela.
+  function trocarCodigo(codigo) {
+    ultimaDigitacao = 0;
+    mudar(PI.aoVivo.comCodigo(atual, codigo, papel));
+  }
+
+  function slideComCodigo() {
+    var j = PI.aoVivo.proximoComCodigo(slides, indiceAtual());
+    return j < 0 ? null : slides[j];
+  }
+
+  function usarCodigoDoSlide() {
+    var slide = slideComCodigo();
+    trocarCodigo(slide ? PI.aoVivo.codigoDoSlide(slide) : '');
+  }
 
   function rodar() {
-    if (papel !== 'principal') { pedir(atual.motor === 'onecompiler' ? 'rodarOneCompiler' : 'rodar', ''); return; }
-    if (atual.motor === 'onecompiler') { enviarAoIframe(PI.aoVivo.mensagemRodar()); return; }
-    var codigo = atual.codigo;
-    var minha = ++rodada;
-    resolverEntrada = null;
-    mudar(PI.aoVivo.comExecucao(atual, { estado: 'rodando', saida: '', pergunta: '', erroLinha: null }, papel));
-    PI.motorSkulpt.rodar(codigo, {
-      aoEscrever: function (texto) {
-        if (minha !== rodada) { return; }
-        mudar(PI.aoVivo.anexarSaida(atual, texto, papel), true);
-      },
-      aoPedirEntrada: function (pergunta) {
-        return new Promise(function (resolver) {
-          resolverEntrada = resolver;
-          var comPergunta = PI.aoVivo.anexarSaida(atual, pergunta, papel);
-          mudar(PI.aoVivo.comExecucao(comPergunta, { estado: 'esperando', pergunta: pergunta }, papel));
-          if (ui.entrada && document.hasFocus()) { ui.entrada.focus(); }
-        });
-      }
-    }).then(function (resultado) {
-      if (minha === rodada) { terminar(resultado, codigo); }
-    }).catch(function (erro) {
-      console.error('Modo ao vivo: falha ao rodar o código:', erro);
-      if (minha !== rodada) { return; }
-      resolverEntrada = null;
-      var comAviso = PI.aoVivo.anexarSaida(atual, '\nSystemError: o editor offline falhou. Aperte Rodar de novo.', papel);
-      mudar(PI.aoVivo.comExecucao(comAviso, { estado: 'parado', pergunta: '' }, papel));
-    });
-  }
-
-  function terminar(resultado, codigo) {
-    resolverEntrada = null;
-    var saida = atual.execucao.saida;
-    var separar = saida && saida.slice(-1) !== '\n' ? '\n' : '';
-    var mudancas = { estado: 'parado', pergunta: '' };
-    var novo = atual;
-    if (resultado.parado) {
-      novo = PI.aoVivo.anexarSaida(novo, separar + INTERROMPIDO, papel);
-    } else if (resultado.erro) {
-      var erro = PI.aoVivo.traduzirErro(resultado.erro, codigo);
-      novo = PI.aoVivo.anexarSaida(novo, separar + erro.texto, papel);
-      mudancas.erroLinha = erro.linha;
-    }
-    mudar(PI.aoVivo.comExecucao(novo, mudancas, papel));
-  }
-
-  function responder(valor) {
-    if (papel !== 'principal') {
-      // Esconde o campo até a principal pedir o próximo input: dois Enter não mandam duas respostas.
-      mudar(PI.aoVivo.comExecucao(PI.aoVivo.pedir(atual, 'responder', valor, papel), { estado: 'rodando', pergunta: '' }, papel));
-      return;
-    }
-    if (!resolverEntrada) { return; }
-    var resolver = resolverEntrada;
-    resolverEntrada = null;
-    var comValor = PI.aoVivo.anexarSaida(atual, valor + '\n', papel);
-    mudar(PI.aoVivo.comExecucao(comValor, { estado: 'rodando', pergunta: '' }, papel));
-    resolver(valor);
-  }
-
-  function parar() {
-    if (papel !== 'principal') { pedir('parar', ''); return; }
-    PI.motorSkulpt.parar();
+    if (papel === 'principal') { enviarAoIframe(PI.aoVivo.mensagemRodar()); return; }
+    mudar(PI.aoVivo.pedir(atual, 'rodar', papel));
   }
 
   function tratarPedido(pedido) {
     if (!pedido || pedido.id <= ultimoPedido) { return; }
     ultimoPedido = pedido.id;
-    if (!atual.aberto && pedido.acao !== 'parar') { return; }
-    if (pedido.acao === 'rodar' && atual.motor === 'offline') { rodar(); }
-    else if (pedido.acao === 'parar') { parar(); }
-    else if (pedido.acao === 'responder') { responder(pedido.valor); }
-    else if (pedido.acao === 'rodarOneCompiler') { enviarAoIframe(PI.aoVivo.mensagemRodar()); }
+    if (atual.aberto && pedido.acao === 'rodar') { enviarAoIframe(PI.aoVivo.mensagemRodar()); }
   }
 
   // ---------- sincronia entre janelas ----------
 
-  // O painel só grava quando alguém age nele, e antes adota o estado da principal. Então cada
-  // gravação nova dele (versão diferente) traz a intenção atual: aberto ou fechado, e qual motor.
+  // O painel só grava quando alguém age nele, e antes adota o estado da principal: cada gravação
+  // nova dele (versão diferente) traz a intenção atual de abrir ou fechar.
   function aoMudarPainel(remoto) {
     if (remoto.versao === vistoDoPainel.versao) { return; }
     var novo = atual;
-    if (remoto.aberto !== atual.aberto || (remoto.aberto && remoto.motor !== atual.motor)) {
-      if (remoto.aberto && !atual.aberto) { lembrarSlideDoCodigo(); }
-      novo = remoto.aberto ? PI.aoVivo.abrir(novo, remoto.motor, novo.codigo, 'painel') : PI.aoVivo.fechar(novo, 'painel');
-      if (!remoto.aberto) { PI.motorSkulpt.parar(); }
+    if (remoto.aberto !== atual.aberto) {
+      novo = remoto.aberto ? PI.aoVivo.abrir(novo, novo.codigo, 'painel') : PI.aoVivo.fechar(novo, 'painel');
     }
-    // Quem pede para rodar roda o código que tem na tela dele. Fora isso, o código do painel só
-    // entra se mudou e ninguém digitou aqui agora; se não entrou, fica para a próxima gravação dele.
+    // Quem pede para rodar roda o código que tem na tela. Fora isso, o código do painel só entra
+    // se mudou e ninguém digitou aqui agora; se não entrou, fica para a próxima gravação dele.
     var pedido = remoto.pedido;
-    var vaiRodar = !!pedido && pedido.id > ultimoPedido && (pedido.acao === 'rodar' || pedido.acao === 'rodarOneCompiler');
+    var vaiRodar = !!pedido && pedido.id > ultimoPedido && pedido.acao === 'rodar';
     var adotar = vaiRodar ? remoto.codigo !== novo.codigo : remoto.codigo !== vistoDoPainel.codigo && !editandoAqui();
     if (adotar) { novo = PI.aoVivo.comCodigo(novo, remoto.codigo, 'painel'); }
     vistoDoPainel = { versao: remoto.versao, codigo: adotar || remoto.codigo === novo.codigo ? remoto.codigo : vistoDoPainel.codigo };
@@ -213,15 +116,8 @@
     tratarPedido(pedido);
   }
 
-  function lembrarSlideDoCodigo() {
-    var slide = obterSlide();
-    slideDoCodigo = slide ? slide.n : null;
-  }
-
   function aoMudarPrincipal(remoto) {
-    if (remoto.aberto && !atual.aberto) { lembrarSlideDoCodigo(); }
     var codigo = editandoAqui() ? atual.codigo : remoto.codigo;
-    // A versão nunca volta: o número do próximo pedido (versao + 1) precisa ser maior que o anterior.
     atual = Object.assign({}, remoto, { codigo: codigo, pedido: atual.pedido, versao: Math.max(atual.versao, remoto.versao) });
     desenhar();
   }
@@ -250,7 +146,7 @@
   }
 
   // O editor do OneCompiler só aceita o código depois de terminar de carregar, e ao iniciar manda
-  // eventos próprios (vazio ou o exemplo dele). Até ele devolver o nosso código, reenvia e ignora o resto.
+  // eventos próprios. Até ele devolver o nosso código (eco), reenvia e ignora o resto.
   function aoMensagem(evento) {
     if (!ui || !ui.iframe) { return; }
     var codigo = PI.aoVivo.codigoDaMensagem(evento, ui.iframe.contentWindow);
@@ -279,7 +175,7 @@
     if (raiz.navigator.onLine === false) {
       return P.el('div', 'aovivo__sem-rede', [
         P.txt('strong', '', 'Sem internet: o OneCompiler não abre.'),
-        P.txt('span', '', 'Aperte E para usar o editor offline com o mesmo código.')
+        P.txt('span', '', 'Feche com Esc e siga com o código que está nos slides.')
       ]);
     }
     var iframe = document.createElement('iframe');
@@ -288,7 +184,7 @@
     // Sandbox: o embed roda scripts na origem dele e abre o console, mas não navega a apresentação.
     iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox');
     iframe.referrerPolicy = 'no-referrer';
-    iframe.src = PI.aoVivo.urlOneCompiler({ fontSize: FONTE_ONECOMPILER[papel], codeChangeEvent: true });
+    iframe.src = PI.aoVivo.urlOneCompiler(ONECOMPILER[papel]);
     iframe.addEventListener('load', function () {
       if (ui.iframe !== iframe) { return; }
       ui.iframePronto = false;
@@ -296,10 +192,60 @@
     });
     ui.iframe = iframe;
     ui.iframePronto = false;
-    return P.el('div', 'aovivo__oc-caixa', [
-      iframe,
-      P.txt('p', 'aovivo__dica', 'Não carregou ou caiu a internet? Aperte E: o editor offline abre com o mesmo código.')
+    return P.el('div', 'aovivo__oc-caixa', [iframe]);
+  }
+
+  // ---------- cola (só no painel) ----------
+
+  function blocoDaCola(bloco) {
+    var partes = [P.txt('span', 'cola__rotulo', bloco.rotulo || 'Código')];
+    var pre = P.el('pre', 'cola__codigo');
+    // paraHtml escapa &, <, >, aspas e apóstrofo: o código do slide nunca vira marcação.
+    pre.innerHTML = PI.realce.paraHtml(bloco.texto);
+    partes.push(pre);
+    if (bloco.entradas.length) {
+      var entradas = P.el('p', 'cola__entradas', ['No input, digite: ']);
+      bloco.entradas.forEach(function (valor, i) {
+        if (i > 0) { entradas.appendChild(document.createTextNode(', ')); }
+        entradas.appendChild(P.txt('code', '', valor));
+      });
+      partes.push(entradas);
+    }
+    if (bloco.saida !== null) {
+      partes.push(P.txt('span', 'cola__rotulo', 'Saída esperada'));
+      partes.push(P.txt('pre', 'cola__saida', bloco.saida));
+    }
+    return partes;
+  }
+
+  function desenharCola() {
+    var i = indiceAtual();
+    if (!ui.cola || ui.slideDaCola === i) { return; }
+    ui.slideDaCola = i;
+    var slide = slides[i];
+    var j = PI.aoVivo.proximoComCodigo(slides, i);
+    var nav = P.el('div', 'cola__nav', [
+      botao('Slide anterior', function () { irPara(i - 1); }),
+      botao('Próximo slide', function () { irPara(i + 1); })
     ]);
+    nav.children[0].disabled = i === 0;
+    nav.children[1].disabled = i === slides.length - 1;
+    var conteudo = [
+      P.el('div', 'cola__topo', [P.txt('span', 'cola__selo', 'COLA: SÓ NA SUA TELA'), nav]),
+      P.txt('h2', 'cola__titulo', 'Slide ' + slide.n + ': ' + slide.titulo)
+    ];
+    if (j < 0) {
+      conteudo.push(P.txt('p', 'cola__aviso', 'Daqui em diante, nenhum slide tem código.'));
+    } else {
+      if (j !== i) {
+        conteudo.push(P.txt('p', 'cola__aviso', 'Este slide não tem código. O próximo é o do slide ' + slides[j].n + ': ' + slides[j].titulo + '.'));
+      }
+      PI.aoVivo.codigosDoSlide(slides[j]).forEach(function (bloco) { conteudo = conteudo.concat(blocoDaCola(bloco)); });
+      var k = PI.aoVivo.proximoComCodigo(slides, j + 1);
+      if (k >= 0) { conteudo.push(P.txt('p', 'cola__aviso', 'Depois: slide ' + slides[k].n + ', ' + slides[k].titulo + '.')); }
+    }
+    ui.cola.replaceChildren.apply(ui.cola, conteudo);
+    ui.cola.scrollTop = 0;
   }
 
   // ---------- desenho ----------
@@ -311,98 +257,25 @@
     return b;
   }
 
-  function montarOffline() {
-    ui.editor = PI.editor.criar({ rotulo: 'Código Python ao vivo', aoMudar: aoDigitar, aoRodar: rodar });
-    ui.texto = P.el('span', 'console__texto');
-    ui.erro = P.el('span', 'console__erro');
-    ui.entrada = P.el('input', 'console__entrada');
-    ui.entrada.type = 'text';
-    ui.entrada.setAttribute('aria-label', 'Resposta para o input');
-    ui.entrada.addEventListener('keydown', function (e) {
-      if (e.key !== 'Escape') { e.stopPropagation(); }
-      if (e.key !== 'Enter') { return; }
-      e.preventDefault();
-      var valor = ui.entrada.value;
-      ui.entrada.value = '';
-      responder(valor);
-    });
-    ui.saida = P.el('pre', 'console__saida', [ui.texto, ui.erro, ui.entrada]);
-    var painelSaida = P.el('section', 'console', [P.txt('span', 'console__rotulo', 'SAÍDA'), ui.saida]);
-    var painelCodigo = P.el('section', 'aovivo__codigo', [P.txt('span', 'console__rotulo', 'MAIN.PY'), ui.editor.no]);
-    return P.el('div', 'aovivo__offline', [painelCodigo, painelSaida]);
-  }
-
-  // A parte do erro (traceback ou KeyboardInterrupt) sai em vermelho.
-  function separarErro(execucao) {
-    var saida = execucao.saida;
-    if (execucao.estado !== 'parado') { return [saida, '']; }
-    var inicio = -1;
-    if (execucao.erroLinha !== null) {
-      inicio = saida.lastIndexOf('Traceback (most recent call last):');
-      if (inicio < 0) { inicio = saida.lastIndexOf('  File "main.py", line'); }
-    } else if (saida.slice(-INTERROMPIDO.length) === INTERROMPIDO) {
-      inicio = saida.length - INTERROMPIDO.length;
-    }
-    return inicio < 0 ? [saida, ''] : [saida.slice(0, inicio), saida.slice(inicio)];
-  }
-
-  function desenharConsole() {
-    if (!ui.saida) { return; }
-    var ex = atual.execucao;
-    var partes = separarErro(ex);
-    if (ui.texto.textContent !== partes[0]) { ui.texto.textContent = partes[0]; }
-    if (ui.erro.textContent !== partes[1]) { ui.erro.textContent = partes[1]; }
-    ui.entrada.hidden = ex.estado !== 'esperando';
-    ui.saida.scrollTop = ui.saida.scrollHeight;
-    if (ui.linhaMarcada !== ex.erroLinha) {
-      ui.linhaMarcada = ex.erroLinha;
-      ui.editor.marcarLinha(ex.erroLinha);
-    }
-  }
-
   function limparCorpo() {
     ui.corpo.replaceChildren();
-    ui.editor = null;
     ui.iframe = null;
-    ui.saida = null;
-    ui.linhaMarcada = null;
+    ui.iframePronto = false;
     ui.codigoNoIframe = null;
-    ui.motor = null;
+    ui.cola = null;
+    ui.slideDaCola = -1;
+    ui.montado = false;
   }
 
   function montarCorpo() {
     limparCorpo();
-    ui.motor = atual.motor;
-    ui.corpo.appendChild(atual.motor === 'onecompiler' ? montarOneCompiler() : montarOffline());
-    // O editor recém-criado sempre começa com o código atual, mesmo se houve digitação agora há pouco.
-    if (ui.editor) { ui.editor.definir(atual.codigo); }
-  }
-
-  function situacao() {
-    if (atual.motor !== 'offline') { return ''; }
-    var estado = atual.execucao.estado;
-    if (estado === 'esperando') { return 'esperando o input'; }
-    return estado === 'rodando' ? 'rodando' : '';
-  }
-
-  // Só refaz o topo quando o motor ou a situação mudam: com a saída chegando várias vezes por
-  // segundo, recriar os botões faria o clique em Parar se perder.
-  function desenharTopo() {
-    var assinatura = atual.motor + '|' + situacao();
-    if (ui.assinaturaTopo === assinatura) { return; }
-    ui.assinaturaTopo = assinatura;
-    var outro = atual.motor === 'offline' ? 'onecompiler' : 'offline';
-    var tecla = outro === 'offline' ? 'E' : 'O';
-    var rodarRotulo = 'Rodar (Ctrl+Enter)';
-    if (atual.motor === 'onecompiler') { rodarRotulo = papel === 'principal' ? 'Rodar' : 'Rodar no projetor'; }
-    var acoes = [botao(rodarRotulo, rodar, 'aovivo__botao--rodar')];
-    if (atual.motor === 'offline') { acoes.push(botao('Parar', parar)); }
-    acoes.push(botao('Trocar para ' + NOMES[outro] + ' (' + tecla + ')', function () { alternar(outro); }));
-    acoes.push(botao('Fechar (Esc)', fechar, 'aovivo__botao--leve'));
-    ui.topo.replaceChildren(
-      P.el('div', 'aovivo__marca', [P.txt('span', 'aovivo__selo', 'AO VIVO'), P.txt('strong', '', NOMES[atual.motor]), P.txt('span', 'aovivo__situacao', situacao())]),
-      P.el('div', 'aovivo__acoes', acoes)
-    );
+    if (papel === 'painel') {
+      ui.cola = P.el('section', 'cola');
+      ui.cola.setAttribute('aria-label', 'Cola do código do slide');
+      ui.corpo.appendChild(ui.cola);
+    }
+    ui.corpo.appendChild(montarOneCompiler());
+    ui.montado = true;
   }
 
   function desenhar() {
@@ -410,58 +283,55 @@
     ui.caixa.hidden = !atual.aberto;
     document.documentElement.classList.toggle('com-aovivo', atual.aberto);
     if (!atual.aberto) {
-      if (ui.motor !== null) { limparCorpo(); }
+      if (ui.montado) { limparCorpo(); }
       return;
     }
-    if (ui.motor !== atual.motor) { montarCorpo(); }
-    desenharTopo();
-    if (ui.editor) {
-      if (!editandoAqui()) { ui.editor.definir(atual.codigo); }
-      desenharConsole();
-    }
+    if (!ui.montado) { montarCorpo(); }
+    desenharCola();
     if (ui.iframe && ui.iframePronto && !PI.aoVivo.mesmoCodigo(atual.codigo, ui.codigoNoIframe) && !editandoAqui()) { enviarCodigo(); }
   }
 
   function montar() {
-    var topo = P.el('header', 'aovivo__topo');
+    var acoes = P.el('div', 'aovivo__acoes', [
+      botao(papel === 'principal' ? 'Rodar' : 'Rodar no projetor', rodar, 'aovivo__botao--rodar'),
+      botao('Limpar', function () { trocarCodigo(''); }),
+      botao('Código do slide', usarCodigoDoSlide),
+      botao('Fechar (Esc)', fechar, 'aovivo__botao--leve')
+    ]);
+    var marca = P.el('div', 'aovivo__marca', [P.txt('span', 'aovivo__selo', 'AO VIVO'), P.txt('strong', '', 'OneCompiler')]);
+    var topo = P.el('header', 'aovivo__topo', [marca, acoes]);
     var corpo = P.el('div', 'aovivo__corpo');
     var caixa = P.el('section', 'aovivo aovivo--' + papel, [topo, corpo]);
-    caixa.setAttribute('aria-label', 'Código ao vivo');
+    caixa.setAttribute('aria-label', 'Código ao vivo no OneCompiler');
     caixa.hidden = true;
     caixa.addEventListener('click', function (e) { e.stopPropagation(); });
     document.body.appendChild(caixa);
-    ui = { caixa: caixa, topo: topo, corpo: corpo, motor: null, editor: null, iframe: null, saida: null, codigoNoIframe: null, linhaMarcada: null, assinaturaTopo: null };
+    ui = { caixa: caixa, corpo: corpo, iframe: null, iframePronto: false, codigoNoIframe: null, cola: null, slideDaCola: -1, montado: false };
   }
 
-  // opcoes: { papel: 'principal' | 'painel', obterSlide: function () { return o slide atual } }
+  // opcoes: { papel: 'principal' | 'painel', slides, indiceAtual(), ir(indice) }
   function iniciar(opcoes) {
     papel = opcoes.papel === 'painel' ? 'painel' : 'principal';
-    obterSlide = opcoes.obterSlide;
+    slides = opcoes.slides;
+    indiceAtual = opcoes.indiceAtual;
+    irPara = opcoes.ir;
     var meu = ler(chaveMinha());
     var daOutra = ler(chaveDaOutra());
     if (papel === 'principal') {
-      // Recarregar a principal encerra qualquer execução da sessão anterior, e a versão parte da
-      // maior das duas janelas para os pedidos do painel continuarem valendo.
       var base = meu || PI.aoVivo.criar();
-      atual = Object.assign({}, base, {
-        aberto: false,
-        versao: Math.max(base.versao, daOutra ? daOutra.versao : 0),
-        execucao: Object.assign({}, base.execucao, { estado: 'parado', pergunta: '' })
-      });
+      atual = Object.assign({}, base, { aberto: false, versao: Math.max(base.versao, daOutra ? daOutra.versao : 0) });
       if (daOutra) {
         vistoDoPainel = { versao: daOutra.versao, codigo: daOutra.codigo };
         ultimoPedido = daOutra.pedido ? daOutra.pedido.id : 0;
       }
     } else {
       var daPrincipal = daOutra || PI.aoVivo.criar();
-      atual = Object.assign({}, daPrincipal, {
-        pedido: meu ? meu.pedido : null,
-        versao: Math.max(daPrincipal.versao, meu ? meu.versao : 0)
-      });
+      atual = Object.assign({}, daPrincipal, { pedido: meu ? meu.pedido : null, versao: Math.max(daPrincipal.versao, meu ? meu.versao : 0) });
     }
     montar();
     raiz.addEventListener('storage', aoArmazenar);
     raiz.addEventListener('message', aoMensagem);
+    if (papel === 'painel') { PI.loja.ouvir(function () { if (atual.aberto) { desenharCola(); } }); }
     if (papel === 'principal') { gravar(); }
     desenhar();
   }

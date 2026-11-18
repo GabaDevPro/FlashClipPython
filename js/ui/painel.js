@@ -133,10 +133,7 @@
               el('div', 'placar-ui__linha', [botao('Anterior', function () { ir(i - 1); }), botao('Próximo', function () { ir(i + 1); })]),
               irPara(),
               botao('Placar (L)', function () { PI.placarUi.abrir(slide.atividade); }, 'placar-ui__botao--leve'),
-              el('div', 'placar-ui__linha', [
-                botao('Código ao vivo (E)', function () { PI.aoVivoUi.alternar('offline'); }),
-                botao('OneCompiler (O)', function () { PI.aoVivoUi.alternar('onecompiler'); })
-              ])
+              botao('OneCompiler com a cola (O)', function () { PI.aoVivoUi.alternar(); })
             ])
           ])
         ]),
@@ -193,8 +190,7 @@
       zerar: function () { mudarCronometro(PI.cronometro.zerar); },
       placar: function () { PI.placarUi.abrir(slides[indiceAtual()].atividade); },
       roleta: PI.roletaUi.sortearAgora,
-      aoVivo: function () { PI.aoVivoUi.alternar('offline'); },
-      oneCompiler: function () { PI.aoVivoUi.alternar('onecompiler'); }
+      oneCompiler: function () { PI.aoVivoUi.alternar(); }
     };
     if (!acoes[r.acao]) { return; }
     e.preventDefault();
@@ -208,7 +204,7 @@
     PI.loja.iniciar(config);
     PI.placarUi.iniciar(config);
     PI.roletaUi.iniciar();
-    PI.aoVivoUi.iniciar({ papel: 'painel', obterSlide: function () { return slides[indiceAtual()]; } });
+    PI.aoVivoUi.iniciar({ papel: 'painel', slides: slides, indiceAtual: indiceAtual, ir: ir });
     PI.loja.ouvir(function () { if (!PI.placarUi.aberto()) { desenhar(); } });
     PI.cronometroUi.iniciar({ semSom: true });
     document.addEventListener('keydown', aoTeclar);

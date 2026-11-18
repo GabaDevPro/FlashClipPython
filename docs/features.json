@@ -172,26 +172,27 @@
     "passa": false
   },
   {
-    "id": "F16",
-    "descricao": "Editor ao vivo offline (tecla E): código do slide atual, realce, Rodar, Parar, input no console e erro com linha, rodando com o Skulpt; espelhado no painel para digitar no notebook com a tela estendida",
+    "id": "F17",
+    "descricao": "OneCompiler embutido (tecla O): tema claro no projetor e escuro no painel, abre com o último código digitado, botões Rodar, Limpar e Código do slide; no Estender, o painel manda o código e o Rodar para o projetor",
     "prioridade": "P0",
     "passos_de_teste": [
-      "Todos os códigos dos slides rodam no Skulpt com a mesma saída do Python",
-      "Laço infinito para com o botão Parar sem travar a página",
-      "Digitando no painel, a janela principal mostra o mesmo código e a mesma saída",
-      "Letra de 28px ou mais no palco 1920x1080"
+      "Sem apertar O, nenhuma requisição externa",
+      "Projetor no tema claro e painel no escuro",
+      "Digitar no OneCompiler do painel aparece no do projetor, e Rodar no projetor roda lá",
+      "Limpar e Código do slide valem nas duas telas",
+      "Sem internet, aparece o aviso",
+      "Mensagens do iframe só são aceitas da origem https://onecompiler.com"
     ],
     "passa": true
   },
   {
-    "id": "F17",
-    "descricao": "Versão OneCompiler (tecla O): o editor oficial do onecompiler.com embutido no palco com o código do slide, para quando a professora exigir o OneCompiler; no modo Estender, o painel manda o código para o projetor",
+    "id": "F18",
+    "descricao": "Cola no painel: ao lado do OneCompiler, o código do slide atual (ou do próximo que tiver código) com realce, o que digitar no input e a saída esperada, com botões para mudar de slide",
     "prioridade": "P0",
     "passos_de_teste": [
-      "Sem apertar O, nenhuma requisição externa",
-      "Com internet, a tecla O abre o OneCompiler com o código do slide atual em letra grande",
-      "Sem internet, aparece aviso e a dica de usar a tecla E",
-      "Mensagens do iframe só são aceitas da origem https://onecompiler.com"
+      "A cola acompanha o slide atual e mostra o próximo com código quando o slide não tem",
+      "A linha mais longa dos slides cabe sem rolar no painel em 1366x768",
+      "A cola não aparece no projetor"
     ],
     "passa": true
   }

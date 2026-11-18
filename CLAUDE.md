@@ -4,10 +4,10 @@ Apresentação interativa do minicurso de Python do grupo do Walter (evento em 0
 
 ## Abrir e testar
 
-- Abrir: duplo clique em `index.html` (Chrome ou Edge). Painel do apresentador: tecla P. Código ao vivo: tecla E (editor offline com Skulpt) ou O (OneCompiler embutido); Esc fecha.
+- Abrir: duplo clique em `index.html` (Chrome ou Edge). Painel do apresentador: tecla P. Código ao vivo: tecla O (OneCompiler embutido; no painel, com a cola do código do slide); Esc fecha. Usa o Windows em Estender, com o painel na tela do notebook.
 - `npm test`: testes de `js/logica/` com cobertura mínima de 80% de linhas.
 - `npm run test:rapido`: os mesmos testes, sem cobertura.
-- `python scripts/conferir-gabaritos.py`: roda os gabaritos e exemplos dos slides e confere a saída e os erros dos slides 11 e 30. `tests/skulpt.test.js` confere os mesmos códigos no Skulpt do editor offline.
+- `python scripts/conferir-gabaritos.py`: roda os gabaritos e exemplos dos slides e confere a saída e os erros dos slides 11 e 30.
 - Não há build nem lint. "Passou no build" = `index.html` aberto por file:// sem erro no console e sem requisição externa.
 
 ## Regras de file:// (não quebre)
