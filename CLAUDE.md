@@ -4,7 +4,7 @@ Apresentação interativa do minicurso de Python do grupo do Walter (evento em 0
 
 ## Abrir e testar
 
-- Abrir: duplo clique em `index.html` (Chrome ou Edge). Painel do apresentador: tecla P. Código ao vivo: tecla O (OneCompiler embutido; no painel, com a cola do código do slide); Esc fecha. Usa o Windows em Estender, com o painel na tela do notebook.
+- Abrir: duplo clique em `index.html` (Chrome ou Edge). Painel do apresentador: tecla P. Código ao vivo: tecla O (OneCompiler embutido; no painel, com a cola do código do slide); Esc fecha. Usa o Windows em Estender, com o painel na tela do notebook. Modo edição: tecla E (muda textos e código, cria e esconde slides; as alterações ficam no navegador por cima de `conteudo/`, seção 9 do contrato).
 - `npm test`: testes de `js/logica/` com cobertura mínima de 80% de linhas.
 - `npm run test:rapido`: os mesmos testes, sem cobertura.
 - `python scripts/conferir-gabaritos.py`: roda os gabaritos e exemplos dos slides e confere a saída e os erros dos slides 11 e 30.

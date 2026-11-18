@@ -1,0 +1,92 @@
+/* Modo edição (tecla E): barra embaixo, campos editáveis com contorno e caixa para código.
+   A barra e a caixa ficam fora do palco (sem escala), para ficarem do mesmo tamanho em qualquer tela. */
+
+.modo-edicao #palco [data-campo] { cursor: text; outline: 3px dashed transparent; outline-offset: 6px; transition: outline-color 120ms ease; }
+.modo-edicao #palco [data-campo]:hover { outline-color: var(--cor-casa-azul); }
+.modo-edicao #palco [data-campo].em-edicao { outline: 4px solid var(--cor-casa-amarelo); background: rgba(242, 194, 48, 0.12); }
+/* No modo edição, a saída que esperaria um avanço aparece direto para poder ser editada. */
+.modo-edicao #palco [data-revelar]:not(.revelado) { display: revert; }
+
+.barra-edicao {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  padding: 10px 16px;
+  color: var(--cor-carta);
+  background: var(--cor-tinta);
+  font: 400 15px/1.3 var(--fonte-texto);
+}
+.barra-edicao__selo { padding: 5px 8px; font: 700 12px/1 var(--fonte-texto); letter-spacing: 0.12em; color: var(--cor-tinta); background: var(--cor-casa-amarelo); }
+.barra-edicao__info { flex: 1 1 260px; min-width: 0; }
+.barra-edicao__info strong { font-weight: 700; }
+.barra-edicao__aviso { color: var(--cor-casa-amarelo); }
+.barra-edicao__acoes { display: flex; flex-wrap: wrap; gap: 6px; }
+.barra-edicao__botao {
+  padding: 7px 11px;
+  font: 700 14px/1 var(--fonte-texto);
+  color: var(--cor-tinta);
+  background: var(--cor-carta);
+  border: 2px solid var(--cor-carta);
+  cursor: pointer;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+.barra-edicao__botao:hover { color: var(--cor-carta); background: var(--cor-casa-azul); border-color: var(--cor-casa-azul); }
+.barra-edicao__botao:focus-visible { outline: 3px solid var(--cor-casa-amarelo); outline-offset: 2px; }
+.barra-edicao__botao:disabled { cursor: default; opacity: 0.4; }
+.barra-edicao__botao:disabled:hover { color: var(--cor-tinta); background: var(--cor-carta); border-color: var(--cor-carta); }
+.barra-edicao__botao--sair { color: var(--cor-carta); background: var(--cor-destaque); border-color: var(--cor-destaque); }
+
+.caixa-codigo {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(29, 27, 23, 0.55);
+}
+.caixa-codigo[hidden] { display: none; }
+.caixa-codigo__janela {
+  width: min(900px, 100%);
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px 20px;
+  background: var(--cor-carta);
+  border: var(--borda-forte) solid var(--cor-tinta);
+}
+.caixa-codigo__titulo { margin: 0; font: 700 22px/1.2 var(--fonte-titulo); }
+.caixa-codigo__dica { margin: 0; font: 400 14px/1.3 var(--fonte-texto); color: var(--cor-texto-suave); }
+.caixa-codigo__texto {
+  min-height: 260px;
+  padding: 14px 16px;
+  resize: vertical;
+  font: 400 20px/1.45 var(--fonte-codigo);
+  font-variant-ligatures: none;
+  tab-size: 4;
+  white-space: pre;
+  color: var(--cor-editor-texto);
+  caret-color: var(--cor-editor-texto);
+  background: var(--cor-editor-fundo);
+  border: 0;
+}
+.caixa-codigo__texto:focus-visible { outline: 3px solid var(--cor-casa-amarelo); outline-offset: 2px; }
+.caixa-codigo__acoes { display: flex; justify-content: flex-end; gap: 8px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .modo-edicao #palco [data-campo], .barra-edicao__botao { transition: none; }
+}
+
+@media print {
+  .barra-edicao, .caixa-codigo { display: none !important; }
+}
+
+/* Linha de texto esvaziada continua clicável no modo edição. */
+.modo-edicao #palco [data-campo]:empty::before { content: "vazio: clique para escrever"; opacity: 0.5; font-style: italic; }

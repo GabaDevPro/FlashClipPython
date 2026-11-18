@@ -8,7 +8,7 @@
   var el = P.el, txt = P.txt;
   var ESCALA_ATUAL = 0.36, ESCALA_PROXIMO = 0.16;
   var RELOGIO_MS = 1000;
-  var slides = PI.conteudo.achatarSecoes(PI.secoes());
+  var slides = PI.edicaoUi.slides({});
   var secoes = PI.secoes();
   var config = PI.config;
   var ctx = { config: config };
@@ -205,6 +205,7 @@
     PI.placarUi.iniciar(config);
     PI.roletaUi.iniciar();
     PI.aoVivoUi.iniciar({ papel: 'painel', slides: slides, indiceAtual: indiceAtual, ir: ir });
+    PI.edicaoUi.iniciarPainel();
     PI.loja.ouvir(function () { if (!PI.placarUi.aberto()) { desenhar(); } });
     PI.cronometroUi.iniciar({ semSom: true });
     document.addEventListener('keydown', aoTeclar);

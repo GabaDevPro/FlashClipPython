@@ -195,5 +195,19 @@
       "A cola não aparece no projetor"
     ],
     "passa": true
+  },
+  {
+    "id": "F19",
+    "descricao": "Modo edição (tecla E): mudar textos e código clicando neles, criar slide de texto ou de código, esconder slide, desfazer, exportar e importar as alterações, que valem na principal, no painel e no PDF",
+    "prioridade": "P0",
+    "passos_de_teste": [
+      "Clicar no título, mudar e apertar Enter muda o slide na hora e fica salvo",
+      "Código e saída mudam pela caixa com Ctrl+Enter",
+      "Novo slide entra logo depois do atual, na mesma seção",
+      "Slide escondido sai da navegação, do painel e do PDF",
+      "Desfazer tudo e importar guardam a versão anterior; arquivo fora do formato é recusado",
+      "Capturas por file:// sem erro"
+    ],
+    "passa": true
   }
 ]

@@ -56,3 +56,12 @@ Problema: o Walter digita código ao vivo no OneCompiler. Com o Windows em "Este
 - O OneCompiler do projetor usa o tema claro (sem `theme=dark` na URL) e letra 28; o do painel, tema escuro e letra 18.
 - O Walter digita ao vivo o código que o Enzo e o Gabriel apresentam: o OneCompiler abre com o último código digitado (para aproveitar o do slide anterior), e a cola do painel mostra o código do slide, o input e a saída esperada. Limpar zera nas duas telas; Código do slide preenche tudo de uma vez se o tempo apertar.
 - A chave do estado virou `pi:aovivo:v2`, porque o formato mudou (sem `motor` e sem `execucao`).
+
+## 2026-11-18 (noite): modo edição para mudar slides no dia (pedido do Walter, depois da crítica da professora)
+
+- A professora achou o HTML duro de mudar no dia. O grupo não vai trocar de ferramenta, então a apresentação ganhou o modo edição (tecla E): mudar textos e código clicando neles, criar slide de texto ou de código, esconder slide, desfazer, exportar e importar.
+- As alterações ficam no localStorage, por cima dos arquivos de `conteudo/`, que continuam sendo a fonte de verdade do roteiro e dos testes. Para levar a outro computador ou para o GitHub, usa-se o arquivo exportado. Os gabaritos (`scripts/conferir-gabaritos.py`) conferem só os arquivos, não as alterações feitas no navegador.
+- Mudar um campo redesenha na hora; criar, esconder, desfazer e importar recarregam a página, porque mudam a lista de slides que várias partes usam.
+- O modo é só da janela principal, porque o painel serve para apresentar. Por isso o modo fica na sessionStorage: recarregar a principal mantém o modo, e abrir de novo pelo duplo clique sai dele.
+- A tecla E, que estava livre desde a saída do editor offline, passou a ser a do modo edição.
+- Revisado pelos agentes security-reviewer (sem CRITICAL; o HIGH era esconder todos os slides e deixar a apresentação em branco) e typescript-reviewer (HIGH: edição perdida e teclas travadas se o palco redesenhasse no meio; desfazer um slide comum apagava os novos criados depois dele). Corrigidos, junto com os MEDIUM: os escondidos saem da lista também no modo edição (antes, a principal e o painel apontavam para slides diferentes), código com no máximo 30 linhas, título e item não ficam vazios, e o botão Restaurar cópia passou a usar a cópia guardada.

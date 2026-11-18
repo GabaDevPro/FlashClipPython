@@ -16,7 +16,8 @@
     s: 'som', S: 'som',
     l: 'placar', L: 'placar',
     r: 'roleta', R: 'roleta',
-    o: 'oneCompiler', O: 'oneCompiler'
+    o: 'oneCompiler', O: 'oneCompiler',
+    e: 'edicao', E: 'edicao'
   };
 
   function limitar(indice, total) {

@@ -30,15 +30,15 @@
     return s;
   }
 
-  function titulo(slide, classe) { return txt('h1', 'slide__titulo ' + (classe || ''), slide.titulo); }
+  function titulo(slide, classe) { return P.campo(txt('h1', 'slide__titulo ' + (classe || ''), slide.titulo), 'titulo'); }
 
   function textos(slide, classe) {
     if (!slide.texto || !slide.texto.length) { return null; }
-    return el('div', 'slide__texto ' + (classe || ''), slide.texto.map(function (t) { return txt('p', '', t); }));
+    return el('div', 'slide__texto ' + (classe || ''), slide.texto.map(function (t, i) { return P.campo(txt('p', '', t), 'texto.' + i); }));
   }
 
   function codigos(slide, opcoes) {
-    var no = el('div', 'slide__codigos', (slide.codigo || []).map(function (b) { return P.blocoCodigo(b, opcoes); }));
+    var no = el('div', 'slide__codigos', (slide.codigo || []).map(function (b, i) { return P.blocoCodigo(b, Object.assign({}, opcoes, { indice: i })); }));
     // Na tela principal a saída espera um avanço para aparecer (app.js); painel e PDF mostram direto.
     if (slide.revelarSaida) { no.querySelectorAll('.codigo__saida').forEach(function (x) { x.setAttribute('data-revelar', ''); }); }
     return no;
@@ -47,7 +47,7 @@
   function numerada(itens, corBase) {
     return el('ol', 'lista-numerada', itens.map(function (item, i) {
       return el('li', '', [txt('span', 'lista-numerada__casa casa__faixa--' + P.CASAS[(corBase + i * 3) % 8], item.rotulo || String(i + 1)),
-        el('div', 'lista-numerada__textos', [item.titulo ? txt('strong', '', item.titulo) : null, item.texto ? txt('span', '', item.texto) : null])]);
+        el('div', 'lista-numerada__textos', [item.titulo ? P.campo(txt('strong', '', item.titulo), 'itens.' + i + '.titulo') : null, item.texto ? P.campo(txt('span', '', item.texto), 'itens.' + i + '.texto') : null])]);
     }));
   }
 
@@ -96,7 +96,7 @@
     s.appendChild(titulo(slide));
     var cores = ['azul', 'verde', 'amarelo'];
     s.appendChild(el('div', 'linha-cartas', slide.itens.map(function (item, i) {
-      return P.carta({ cor: cores[i % 3], rotulo: 'REGRA ' + (i + 1), texto: item.texto });
+      return P.carta({ cor: cores[i % 3], rotulo: 'REGRA ' + (i + 1), texto: item.texto, campos: { texto: 'itens.' + i + '.texto' } });
     })));
     return s;
   };
@@ -124,7 +124,7 @@
     s.appendChild(titulo(slide));
     var cores = ['celeste', 'laranja', 'verde', 'azul'];
     s.appendChild(el('div', 'linha-cartas linha-cartas--caminho', slide.itens.map(function (item, i) {
-      return P.carta({ cor: cores[i % 4], rotulo: 'PASSO ' + (item.rotulo || i + 1), texto: item.texto });
+      return P.carta({ cor: cores[i % 4], rotulo: 'PASSO ' + (item.rotulo || i + 1), texto: item.texto, campos: { texto: 'itens.' + i + '.texto' } });
     })));
     return s;
   };
@@ -132,7 +132,7 @@
   M.atualizacao = function (slide) {
     var s = base(slide, 'atualizacao');
     s.appendChild(titulo(slide, 'titulo-atividade'));
-    s.appendChild(el('blockquote', 'mensagem', [txt('span', 'rotulo rotulo--destaque', 'MENSAGEM DO DONO DO JOGO'), txt('p', 'mensagem__texto', '“' + (slide.texto || [''])[0] + '”')]));
+    s.appendChild(el('blockquote', 'mensagem', [txt('span', 'rotulo rotulo--destaque', 'MENSAGEM DO DONO DO JOGO'), P.campo(txt('p', 'mensagem__texto', '“' + (slide.texto || [''])[0] + '”'), 'texto.0')]));
     s.appendChild(P.nota('R$ 300'));
     return s;
   };
@@ -154,7 +154,7 @@
     } else if (slide.diagrama) {
       arte = raiz.PI.diagramas.criar(slide);
     } else if (slide.itens) {
-      arte = el('dl', 'tabela-itens', slide.itens.map(function (it) { return el('div', '', [txt('dt', '', it.rotulo), txt('dd', '', it.texto)]); }));
+      arte = el('dl', 'tabela-itens', slide.itens.map(function (it, i) { return el('div', '', [P.campo(txt('dt', '', it.rotulo), 'itens.' + i + '.rotulo'), P.campo(txt('dd', '', it.texto), 'itens.' + i + '.texto')]); }));
     }
     if (slide.imagem) {
       var img = el('img', 'foto__img');
@@ -176,9 +176,10 @@
     s.appendChild(titulo(slide));
     var cores = ['vermelho', 'azul', 'laranja', 'verde'];
     var cartas = el('div', 'grade-cartas' + (slide.codigo ? ' grade-cartas--2x2' : ''), slide.itens.map(function (item, i) {
-      if (item.imagem) { return P.carta({ cor: cores[i % 4], titulo: item.titulo, arte: P.svg(ICONES[item.imagem], 'carta__arte') }); }
-      if (!item.texto) { return P.carta({ cor: cores[i % 4], texto: item.titulo }); }
-      return P.carta({ cor: cores[i % 4], rotulo: item.rotulo ? item.rotulo.toUpperCase() : null, titulo: item.titulo, texto: item.texto });
+      var campoTitulo = 'itens.' + i + '.titulo';
+      if (item.imagem) { return P.carta({ cor: cores[i % 4], titulo: item.titulo, arte: P.svg(ICONES[item.imagem], 'carta__arte'), campos: { titulo: campoTitulo } }); }
+      if (!item.texto) { return P.carta({ cor: cores[i % 4], texto: item.titulo, campos: { texto: campoTitulo } }); }
+      return P.carta({ cor: cores[i % 4], rotulo: item.rotulo ? item.rotulo.toUpperCase() : null, titulo: item.titulo, texto: item.texto, campos: { titulo: campoTitulo, texto: 'itens.' + i + '.texto' } });
     }));
     s.appendChild(slide.codigo ? el('div', 'cartas__grade', [cartas, codigos(slide)]) : cartas);
     if (slide.texto) { s.appendChild(textos(slide, 'cartas__frase')); }
