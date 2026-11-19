@@ -1,10 +1,10 @@
 # Python Imobiliário (Flash Clip, PLP 3N 2026/2)
 
-Apresentação interativa do minicurso de Python do grupo do Walter: 56 slides (mais o 3b, o 18b e o 30b; o 29 virou 29a e 29b), cronômetro, placar, ranking, roleta e painel do apresentador. HTML, CSS e JS puros, offline por file://. Fonte de verdade das decisões: `docs/prompt-mestre.md`. Requisitos: `docs/prd.md`. Plano aprovado: `docs/plano.md`.
+Apresentação interativa do minicurso de Python do grupo do Walter (evento em 05/12, 14:00): 71 slides (os 56 do roteiro, mais 7b, 18b, 22b e 30b, o 29 dividido em 29a e 29b, e o plano B de 57 a 66), cronômetro, placar, ranking, roleta, painel do apresentador e código ao vivo. HTML, CSS e JS puros, offline por file://. Fonte de verdade das decisões: `docs/prompt-mestre.md`. Requisitos: `docs/prd.md`. Plano aprovado: `docs/plano.md`.
 
 ## Abrir e testar
 
-- Abrir: duplo clique em `index.html` (Chrome ou Edge). Painel do apresentador: tecla P.
+- Abrir: duplo clique em `index.html` (Chrome ou Edge). Painel do apresentador: tecla P. Código ao vivo: tecla O (OneCompiler embutido; no painel, com a cola do código do slide); Esc fecha. Usa o Windows em Estender, com o painel na tela do notebook. Modo edição: tecla E (muda textos e código, cria e esconde slides; as alterações ficam no navegador por cima de `conteudo/`, seção 9 do contrato).
 - `npm test`: testes de `js/logica/` com cobertura mínima de 80% de linhas.
 - `npm run test:rapido`: os mesmos testes, sem cobertura.
 - `python scripts/conferir-gabaritos.py`: roda os gabaritos e exemplos dos slides e confere a saída e os erros dos slides 11 e 30.
@@ -12,9 +12,9 @@ Apresentação interativa do minicurso de Python do grupo do Walter: 56 slides (
 
 ## Regras de file:// (não quebre)
 
-- Só `<script src>` clássico. Sem ES modules, sem `fetch`, sem CDN, sem fonte remota.
+- Só `<script src>` clássico. Sem ES modules, sem `fetch`, sem CDN, sem fonte remota. Única requisição externa permitida: o iframe do OneCompiler, criado só ao apertar O (`docs/decisoes.md`, 2026-11-18).
 - Cada módulo de `js/logica/` registra a API em `window.PI` e, se `module` existir, em `module.exports` (roda no navegador e no Node).
-- Sincronia entre janelas, fontes e localStorage: técnica em `docs/decisoes.md` e `docs/contrato.md`.
+- Sincronia entre janelas, fontes e localStorage: técnica em `docs/decisoes.md` e `docs/contrato.md` (seção 8 para o modo ao vivo, com uma chave para cada janela).
 - O navegador embutido abre arquivo local como `data:` (sem localStorage). Para ver a tela nele: `preview_start` com a configuração `apresentacao` (`.claude/launch.json`, `scripts/servidor.js`, porta 8137).
 - Verificação por file:// de verdade: `node scripts/capturar.js --largura 1920 --altura 1080 --saida capturas/1920x1080 [--slides 1,15] [--navegador <exe do Edge>]` salva um PNG por slide e lista erros de console e requisições externas (pasta `capturas/` fora do git). Sincronia entre janelas: `node scripts/testar-file-headless.js`.
 - Código sem ligaduras (`!=` não vira ≠): a regra fica no fim de `css/modelos.css`.

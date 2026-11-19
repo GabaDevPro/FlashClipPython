@@ -158,5 +158,56 @@
       "Textos do README e da ajuda revisados com /humanizer"
     ],
     "passa": false
+  },
+  {
+    "id": "F15",
+    "descricao": "Anotações da professora depois da primeira apresentação: ordem da abertura (nós, linguagem, história, algoritmo, OneCompiler), while do 5b subindo, slide de concatenação, QR code do Forms no slide 55 e plano B com 4 bônus",
+    "prioridade": "P0",
+    "passos_de_teste": [
+      "npm test passa com os testes novos de conteúdo",
+      "python scripts/conferir-gabaritos.py confere os gabaritos novos",
+      "Capturas por file:// dos slides 3, 4, 7, 7b, 22b, 45, 46, 55 e 57 a 66 sem erro e sem requisição externa",
+      "Com um link em config.links.forms, o slide 55 mostra um QR code que o celular lê"
+    ],
+    "passa": false
+  },
+  {
+    "id": "F17",
+    "descricao": "OneCompiler embutido (tecla O): tema claro no projetor e escuro no painel, abre com o último código digitado, botões Rodar, Limpar e Código do slide; no Estender, o painel manda o código e o Rodar para o projetor",
+    "prioridade": "P0",
+    "passos_de_teste": [
+      "Sem apertar O, nenhuma requisição externa",
+      "Projetor no tema claro e painel no escuro",
+      "Digitar no OneCompiler do painel aparece no do projetor, e Rodar no projetor roda lá",
+      "Limpar e Código do slide valem nas duas telas",
+      "Sem internet, aparece o aviso",
+      "Mensagens do iframe só são aceitas da origem https://onecompiler.com"
+    ],
+    "passa": true
+  },
+  {
+    "id": "F18",
+    "descricao": "Cola no painel: ao lado do OneCompiler, o código do slide atual (ou do próximo que tiver código) com realce, o que digitar no input e a saída esperada, com botões para mudar de slide",
+    "prioridade": "P0",
+    "passos_de_teste": [
+      "A cola acompanha o slide atual e mostra o próximo com código quando o slide não tem",
+      "A linha mais longa dos slides cabe sem rolar no painel em 1366x768",
+      "A cola não aparece no projetor"
+    ],
+    "passa": true
+  },
+  {
+    "id": "F19",
+    "descricao": "Modo edição (tecla E): mudar textos e código clicando neles, criar slide de texto ou de código, esconder slide, desfazer, exportar e importar as alterações, que valem na principal, no painel e no PDF",
+    "prioridade": "P0",
+    "passos_de_teste": [
+      "Clicar no título, mudar e apertar Enter muda o slide na hora e fica salvo",
+      "Código e saída mudam pela caixa com Ctrl+Enter",
+      "Novo slide entra logo depois do atual, na mesma seção",
+      "Slide escondido sai da navegação, do painel e do PDF",
+      "Desfazer tudo e importar guardam a versão anterior; arquivo fora do formato é recusado",
+      "Capturas por file:// sem erro"
+    ],
+    "passa": true
   }
 ]

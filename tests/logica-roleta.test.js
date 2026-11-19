@@ -50,3 +50,31 @@ test('ângulo final gira pelo menos as voltas pedidas e para dentro de uma volta
   assert.equal(ro.anguloFinal(5, sempre(0)), 1800);
   assert.equal(ro.anguloFinal(5, sempre(0.5)), 1980);
 });
+
+test('desacelerar começa em 0, termina em 1, anda rápido no começo e devagar no fim', () => {
+  assert.equal(ro.desacelerar(0), 0);
+  assert.equal(ro.desacelerar(1), 1);
+  assert.ok(ro.desacelerar(0.2) > 0.6, 'no primeiro quinto já fez mais da metade do giro');
+  assert.ok(ro.desacelerar(0.9) - ro.desacelerar(0.8) < 0.01, 'quase parado no fim');
+  assert.equal(ro.desacelerar(-1), 0);
+  assert.equal(ro.desacelerar(2), 1);
+});
+
+test('fatiaNoPonteiro diz qual das fatias está embaixo do ponteiro depois de girar', () => {
+  // Fatia 0 começa no topo e segue no sentido horário; o ponteiro fica embaixo.
+  assert.equal(ro.fatiaNoPonteiro(0, 8), 4);
+  assert.equal(ro.fatiaNoPonteiro(10, 8), 3);
+  assert.equal(ro.fatiaNoPonteiro(45, 8), 3);
+  assert.equal(ro.fatiaNoPonteiro(180, 8), 0);
+  assert.equal(ro.fatiaNoPonteiro(360 * 6 + 180, 8), 0);
+  assert.equal(ro.fatiaNoPonteiro(-30, 8), 4);
+});
+
+test('embaralhar devolve os mesmos nomes em outra ordem, sem mudar a lista original', () => {
+  const nomes = ['Ana', 'Bia', 'Caio', 'Duda'];
+  const r = ro.embaralhar(nomes, sempre(0));
+  assert.deepEqual([...r].sort(), [...nomes].sort());
+  assert.notDeepEqual(r, nomes);
+  assert.deepEqual(nomes, ['Ana', 'Bia', 'Caio', 'Duda']);
+  assert.deepEqual(ro.embaralhar([], sempre(0.5)), []);
+});

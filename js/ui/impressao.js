@@ -13,7 +13,7 @@
     var ctx = { config: config };
     var caixa = PI.pecas.el('div', 'impressao');
     caixa.id = ID;
-    PI.conteudo.achatarSecoes(PI.secoes()).forEach(function (slide) {
+    PI.edicaoUi.slides({}).forEach(function (slide) {
       var no = PI.modelos[slide.layout](slide, ctx);
       PI.preencher(no, vazio, config);
       caixa.appendChild(PI.pecas.el('div', 'pagina', [no]));

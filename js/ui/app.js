@@ -16,12 +16,16 @@
     ['L', 'abrir o placar'],
     ['R', 'girar a roleta do sorteio'],
     ['P', 'abrir o painel do apresentador (segunda janela)'],
+    ['O', 'código ao vivo no OneCompiler (precisa de internet; Esc fecha)'],
+    ['E', 'modo edição: mudar textos e código, criar e esconder slides'],
     ['F', 'tela cheia'],
     ['?', 'mostrar ou esconder esta ajuda'],
     ['Clique no slide', 'próximo slide']
   ];
 
-  var slides = PI.conteudo.achatarSecoes(PI.secoes());
+  // Slides dos arquivos com as alterações do modo edição, sem os escondidos (a mesma lista do
+  // painel: as duas janelas trocam o slide atual pelo índice).
+  var slides = PI.edicaoUi.slides({});
   var ctx = { config: PI.config };
   var modoIr = null;
   var revelado = false;
@@ -32,11 +36,14 @@
     var x = (raiz.innerWidth - LARGURA * s) / 2;
     var y = (raiz.innerHeight - ALTURA * s) / 2;
     palco.style.transform = 'translate(' + x + 'px, ' + y + 'px) scale(' + s + ')';
+    PI.aoVivoUi.ajustar(palco.style.transform);
   }
 
   function indiceAtual() { return PI.navegacao.limitar(PI.loja.obter().slide, slides.length); }
 
   function desenhar() {
+    // Redesenhar no meio de uma edição jogaria fora o texto digitado; o modo edição redesenha ao terminar.
+    if (PI.edicaoUi.editandoNoPalco()) { return; }
     var estado = PI.loja.obter();
     var slide = slides[indiceAtual()];
     var modelo = PI.modelos[slide.layout];
@@ -117,7 +124,9 @@
     som: alternarSom,
     placar: function () { PI.placarUi.abrir(slides[indiceAtual()].atividade); },
     roleta: function () { PI.roletaUi.sortearAgora(); },
-    painel: abrirPainel
+    painel: abrirPainel,
+    oneCompiler: function () { PI.aoVivoUi.alternar(); },
+    edicao: function () { PI.edicaoUi.alternar(); }
   };
 
   function abrirPainel() {
@@ -132,11 +141,22 @@
     if (ACOES[r.acao]) { ACOES[r.acao](); }
   }
 
+  // Com o modo ao vivo aberto, as teclas são do OneCompiler: Esc fecha, e O fecha quando o foco
+  // não está num campo de texto.
+  function teclaNoAoVivo(e) {
+    if (e.key === 'Escape') { e.preventDefault(); PI.aoVivoUi.fechar(); return; }
+    if (e.ctrlKey || e.metaKey || e.altKey || /^(INPUT|TEXTAREA)$/.test(e.target.tagName)) { return; }
+    var acao = PI.navegacao.interpretarTecla(e.key, null).acao;
+    if (acao === 'oneCompiler') { e.preventDefault(); ACOES[acao](); }
+  }
+
   function aoTeclar(e) {
     if (PI.placarUi.aberto()) {
       if (e.key === 'Escape') { PI.placarUi.fechar(); }
       return;
     }
+    if (PI.aoVivoUi.aberto()) { teclaNoAoVivo(e); return; }
+    if (PI.edicaoUi.editando() || e.target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) { return; }
     if (e.ctrlKey || e.metaKey || e.altKey) { return; }
     if (!ajuda.hidden && e.key === 'Escape') { ajuda.hidden = true; return; }
     var r = PI.navegacao.interpretarTecla(e.key, modoIr);
@@ -146,6 +166,7 @@
   }
 
   function aoClicar(e) {
+    if (PI.edicaoUi.ativo()) { return; }
     if (e.target.closest('[data-cronometro]')) { ACOES.cronometro(); return; }
     ACOES.proximo();
   }
@@ -168,6 +189,8 @@
     PI.loja.iniciar(ctx.config);
     PI.placarUi.iniciar(ctx.config);
     PI.loja.ouvir(desenhar);
+    PI.aoVivoUi.iniciar({ papel: 'principal', slides: slides, indiceAtual: indiceAtual, ir: ir });
+    PI.edicaoUi.iniciar({ slides: slides, indiceAtual: indiceAtual, redesenhar: desenhar, palco: palco });
     escalar();
     raiz.addEventListener('resize', escalar);
     document.addEventListener('keydown', aoTeclar);
