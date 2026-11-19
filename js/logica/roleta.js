@@ -24,7 +24,33 @@
     return voltas * 360 + Math.floor(aleatorio() * 360);
   }
 
-  var api = { sortear: sortear, limpar: limpar, anguloFinal: anguloFinal };
+  // Andamento do giro (0 a 1): rápido no começo e bem devagar no fim, para dar suspense.
+  function desacelerar(t) {
+    var x = Math.max(0, Math.min(1, t));
+    return 1 - Math.pow(1 - x, 5);
+  }
+
+  // A fatia 0 começa no topo e as outras seguem no sentido horário; o ponteiro fica embaixo.
+  // Depois de girar a roda `angulo` graus no sentido horário, devolve a fatia sob o ponteiro.
+  function fatiaNoPonteiro(angulo, fatias) {
+    var tamanho = 360 / fatias;
+    var noPonteiro = ((180 - angulo) % 360 + 360) % 360;
+    return Math.floor(noPonteiro / tamanho) % fatias;
+  }
+
+  // Fisher-Yates numa cópia: a ordem em que os nomes passam durante o giro.
+  function embaralhar(lista, aleatorio) {
+    var copia = lista.slice();
+    for (var i = copia.length - 1; i > 0; i--) {
+      var j = Math.floor(aleatorio() * (i + 1));
+      var troca = copia[i];
+      copia[i] = copia[j];
+      copia[j] = troca;
+    }
+    return copia;
+  }
+
+  var api = { sortear: sortear, limpar: limpar, anguloFinal: anguloFinal, desacelerar: desacelerar, fatiaNoPonteiro: fatiaNoPonteiro, embaralhar: embaralhar };
 
   raiz.PI = raiz.PI || {};
   raiz.PI.roleta = api;
