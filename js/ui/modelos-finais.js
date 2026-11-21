@@ -6,12 +6,13 @@
   var A = raiz.PI.modelosApoio;
   var M = raiz.PI.modelos;
   var el = P.el, txt = P.txt;
-  var RODA = '<svg viewBox="0 0 520 560" aria-hidden="true"><g class="roleta__fatias">' +
+  // Só .roleta__giro (fatias e aro) gira; o miolo e o ponteiro ficam parados (js/ui/roleta-ui.js).
+  var RODA = '<svg viewBox="0 0 520 560" aria-hidden="true"><g class="roleta__giro"><g class="roleta__fatias">' +
     ['marrom', 'celeste', 'rosa', 'laranja', 'vermelho', 'amarelo', 'verde', 'azul'].map(function (c, i) {
       var r = 230, a0 = (i / 8) * 2 * Math.PI - Math.PI / 2, a1 = ((i + 1) / 8) * 2 * Math.PI - Math.PI / 2;
       return '<path class="fatia--' + c + '" d="M260 260 L' + (260 + r * Math.cos(a0)).toFixed(1) + ' ' + (260 + r * Math.sin(a0)).toFixed(1) +
         ' A230 230 0 0 1 ' + (260 + r * Math.cos(a1)).toFixed(1) + ' ' + (260 + r * Math.sin(a1)).toFixed(1) + ' Z"/>';
-    }).join('') + '</g><circle cx="260" cy="260" r="230" class="arte-aro"/><circle cx="260" cy="260" r="62" class="arte-miolo"/><polygon points="260,500 236,548 284,548" class="arte-ponteiro"/></svg>';
+    }).join('') + '</g><circle cx="260" cy="260" r="230" class="arte-aro"/></g><circle cx="260" cy="260" r="62" class="arte-miolo"/><g class="roleta__ponteiro"><polygon points="260,500 236,548 284,548" class="arte-ponteiro"/></g></svg>';
 
   A.roleta = roleta;
 
@@ -29,7 +30,8 @@
 
   function roleta() {
     // Roda grande do sorteio (slide 37 e camada sobre o slide 53).
-    return el('div', 'roleta', [P.svg(RODA, 'roleta__roda'), txt('span', 'roleta__miolo', 'SORTEIO'), txt('p', 'roleta__resultado', '')]);
+    // roleta--ociosa: balança devagar enquanto espera o sorteio.
+    return el('div', 'roleta roleta--ociosa', [P.svg(RODA, 'roleta__roda'), txt('span', 'roleta__miolo', 'SORTEIO'), txt('p', 'roleta__resultado', '')]);
   }
 
   M.ranking = function (slide) {

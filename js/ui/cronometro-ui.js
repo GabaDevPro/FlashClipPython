@@ -49,11 +49,15 @@
   function aoEntrar(estado, slide, config) {
     var alvo = alvoDoSlide(slide);
     var c = estado.cronometro;
-    if (!alvo || c.alvo === alvo) { return estado; }
+    if (!alvo) { return estado; }
+    var duracao = minutosDoAlvo(config, alvo) * PI.cronometro.MINUTO_MS;
+    // Mesmo alvo: mantém (pode estar pausado no meio). Parado com a duração antiga do config
+    // (o config mudou depois de um ensaio): refaz com o tempo novo.
+    if (c.alvo === alvo && (c.rodando || c.duracaoMs === duracao)) { return estado; }
     // Voltar à resposta de outra atividade não derruba um cronômetro em andamento. Entrar numa atividade nova sim:
     // antes, o cronômetro da atividade anterior que ficou rodando (ou zerado) travava o da nova.
     if (c.rodando && PI.cronometro.restante(c, Date.now()) > 0 && slide.layout === 'resposta') { return estado; }
-    return Object.assign({}, estado, { cronometro: PI.cronometro.criar(alvo, minutosDoAlvo(config, alvo) * PI.cronometro.MINUTO_MS) });
+    return Object.assign({}, estado, { cronometro: PI.cronometro.criar(alvo, duracao) });
   }
 
   function atualizarMostradores(c, agora) {

@@ -49,21 +49,61 @@ const { secoes, config } = carregarConteudo();
 const slides = secoes.flatMap((s) => s.slides);
 const porNumero = (n) => slides.find((s) => s.n === n);
 
-test('o conteúdo tem 10 seções e 60 slides no total', () => {
-  assert.equal(secoes.length, 10);
-  assert.equal(slides.length, 60);
+const PRIMEIRO_EXTRA = 57;
+const ULTIMO_EXTRA = 66;
+
+test('o conteúdo tem 11 seções e 71 slides no total', () => {
+  assert.equal(secoes.length, 11);
+  assert.equal(slides.length, 71);
 });
 
-test('a sequência de números vai de 1 a 56, com o 3b e o 18b depois do 3 e do 18, e o 29 dividido em 29a e 29b e o 30b depois do 30', () => {
+test('a sequência vai de 1 a 66, com 7b, 18b, 22b e 30b depois do 7, 18, 22 e 30, e o 29 dividido em 29a e 29b', () => {
   const esperado = [];
-  for (let i = 1; i <= 56; i++) {
+  for (let i = 1; i <= ULTIMO_EXTRA; i++) {
     if (i === 29) { esperado.push('29a', '29b'); continue; }
     esperado.push(i);
-    if (i === 3) esperado.push('3b');
-    if (i === 18) esperado.push('18b');
-    if (i === 30) esperado.push('30b');
+    if ([7, 18, 22, 30].includes(i)) esperado.push(i + 'b');
   }
   assert.deepEqual(slides.map((s) => s.n), esperado);
+});
+
+test('a abertura segue a ordem da professora: nós, a linguagem, a história, algoritmo e o OneCompiler por fim', () => {
+  const abertura = secoes.find((s) => s.id === '01-abertura').slides;
+  assert.deepEqual(Array.from(abertura, (s) => s.titulo), [
+    'Python Imobiliário', 'Ministrantes', 'Onde o Python é usado', 'Prazer, Python',
+    'Um turno do jogo', 'Regras do jogo', 'Nosso compilador', 'Como mostrar sua resposta',
+  ]);
+  assert.equal(porNumero(7).link, 'compilador');
+});
+
+test('o slide 22b ensina concatenação logo depois da pegadinha do 34', () => {
+  const s = porNumero('22b');
+  assert.match(s.titulo, /Concatenação/);
+  assert.match(s.codigo[0].texto, /" \+ nome \+ "/);
+  assert.match(s.codigo[0].texto, /str\(/);
+  assert.ok(s.codigo[0].testes.length > 0, 'o exemplo precisa ser conferido pelos gabaritos');
+});
+
+test('o desafio do while (5b) conta subindo, de 1 até 3', () => {
+  const enunciado = porNumero(45);
+  const gabarito = porNumero(46).codigo[0];
+  assert.equal(enunciado.atividade, '5b');
+  assert.match(enunciado.texto.join(' '), /de 1 até 3/);
+  assert.match(gabarito.texto, /while \w+ <= 3:/);
+  assert.match(gabarito.texto, /(\w+) = \1 \+ 1/);
+  assert.ok(gabarito.saida.startsWith('Turno na prisão: 1\n'));
+});
+
+test('o plano B fica numa seção própria depois do Obrigado, com 4 desafios bônus que valem dinheiro', () => {
+  const extras = secoes[secoes.length - 1];
+  assert.equal(extras.id, '11-extras');
+  assert.deepEqual([extras.slides[0].n, extras.slides[extras.slides.length - 1].n], [PRIMEIRO_EXTRA, ULTIMO_EXTRA]);
+  const bonus = ['b1', 'b2', 'b3', 'b4'];
+  for (const id of bonus) {
+    const daAtividade = extras.slides.filter((s) => s.atividade === id);
+    assert.deepEqual(Array.from(daAtividade, (s) => s.layout), ['enunciado', 'resposta'], `bônus ${id}`);
+    assert.ok(daAtividade[1].codigo[0].testes.length > 0, `gabarito do bônus ${id} sem teste`);
+  }
 });
 
 test('todo slide usa um layout da lista do contrato', () => {
@@ -115,20 +155,38 @@ test('os slides 37 e 52 mostram o ranking', () => {
   assert.equal(porNumero(52).ranking, 'final');
 });
 
-test('sem QR code: o slide 4 mostra como mostrar a resposta e o 55 mostra o link do Forms em texto', () => {
-  assert.equal(porNumero(4).layout, 'instrucoes');
+test('o slide 55 mostra o link e o QR code do Forms, e nenhum outro slide tem QR', () => {
   assert.equal(porNumero(55).layout, 'instrucoes');
   assert.equal(porNumero(55).link, 'forms');
+  assert.equal(porNumero(55).qr, 'forms');
   assert.ok(porNumero(55).link in config.links);
-  assert.ok(slides.every((s) => s.qr === undefined));
+  assert.deepEqual(slides.filter((s) => s.qr !== undefined).map((s) => s.n), [55]);
 });
 
 test('o prêmio do 1º lugar de cada atividade é chocolate', () => {
   assert.ok(Object.values(config.atividades).every((a) => /chocolate/i.test(a.premio)));
 });
 
-test('o config tem as 8 atividades e 5 ministrantes com cores diferentes', () => {
-  assert.deepEqual(Object.keys(config.atividades).sort(), ['1', '2', '3', '4a', '4b', '5a', '5b', 'boss']);
+test('o config tem as 8 atividades, os 4 bônus do plano B e 5 ministrantes com cores diferentes', () => {
+  assert.deepEqual(Object.keys(config.atividades).sort(), ['1', '2', '3', '4a', '4b', '5a', '5b', 'b1', 'b2', 'b3', 'b4', 'boss']);
   assert.equal(config.ministrantes.length, 5);
   assert.equal(new Set(config.ministrantes.map((m) => m.cor)).size, 5);
+});
+
+test('o cronograma segue o programa do evento: bloco 1 de 80 min, intervalo de 10 e bloco 2 de 55', () => {
+  const bloco = (n) => config.cronograma.filter((c) => c.bloco === n);
+  const intervalo = config.cronograma.find((c) => c.etapa === 'Intervalo');
+  assert.equal(config.tempos.intervalo, 10);
+  assert.equal(intervalo.fimMin - intervalo.inicioMin, 10);
+  assert.equal(Math.max(...bloco(1).filter((c) => c !== intervalo).map((c) => c.fimMin)), 80);
+  assert.equal(Math.max(...bloco(2).map((c) => c.fimMin)), 55);
+  assert.equal(config.aula.inicio, '14:00');
+});
+
+test('cada seção ocupa a mesma janela da linha correspondente do cronograma', () => {
+  for (const s of secoes) {
+    const linha = config.cronograma.find((c) => c.bloco === s.bloco && c.inicioMin === s.inicioMin);
+    assert.ok(linha, `seção ${s.id} sem linha no cronograma`);
+    assert.equal(linha.fimMin, s.fimMin, `seção ${s.id}`);
+  }
 });

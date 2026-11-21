@@ -49,18 +49,18 @@ A plateia é contratada para criar o banqueiro digital de um jogo de tabuleiro d
 | 31 a 47 | input e operações | Atividade 3 |
 | 47 a 75 | if / elif / else | Atividades 4a e 4b |
 | 75 a 80 | Recap e ranking parcial | Sorteio na roleta |
-| INTERVALO (5 min) |  |  |
-| BLOCO 2 (50 min) |  |  |
+| INTERVALO (10 min) |  |  |
+| BLOCO 2 (55 min) |  |  |
 | 0 a 23 | Laços for e while | Atividades 5a e 5b |
 | 23 a 46 | Boss: o banqueiro final | Desafio final |
-| 46 a 50 | Premiação final | Ranking final e prêmios |
+| 46 a 55 | Premiação final | Ranking final e prêmios |
 | DEPOIS: 10 min de Forms de avaliação e 35 min de coffee break |  |  |
 
 ## Bloco 1 (80 min)
 
 ### Abertura (0 a 7 min)
 
-Passagem rápida. São 7 slides em 7 minutos: o objetivo é chegar logo ao primeiro código.
+Ordem pedida pela professora: nós, a linguagem, a história, algoritmo e, por fim, o OneCompiler. Passagem rápida. São 8 slides em 7 minutos: o objetivo é chegar logo ao primeiro código.
 
 #### Slide 1: Capa
 
@@ -72,36 +72,36 @@ Passagem rápida. São 7 slides em 7 minutos: o objetivo é chegar logo ao prime
 - **Na tela:** Foto e nome dos 5 ministrantes, cada um como um peão no tabuleiro.
 - **Fala:** 15 segundos, só nomes.
 
-#### Slide 3: Regras do jogo
+#### Slide 3: Onde o Python é usado
 
-- **Na tela:** Três itens: cada um de vocês é um jogador; acertar uma atividade rende dinheiro (R$ 300 para o 1º, R$ 200 para o 2º, R$ 100 para o 3º); quem terminar mais rico é o Magnata da Liga.
-- **Fala:** Avise que o 1º de cada atividade ganha prêmio na hora e que todo mundo que acertar entra nos sorteios.
+- **Na tela:** Quatro cartas com o nome em cima e um ícone embaixo: inteligência artificial (robô), ciência de dados (gráfico), sites (janela do navegador), automação de tarefas (engrenagem).
+- **Fala:** 30 segundos. "É uma das linguagens mais usadas do mundo e uma das mais fáceis de começar."
 
-#### Slide 3b: Nosso compilador
+#### Slide 4: Prazer, Python
 
-- **Na tela:** Link onecompiler.com/python, "Grátis e sem cadastro.", "Proibido usar o botão AI." e 3 passos: escreva o código no main.py; clique em Run; a saída aparece no Console, e se o programa pedir algo, digite ali e aperte Enter.
-- **Fala:** Abra o link no projetor e mostre ao vivo: apague o exemplo, escreva um print, clique em Run. Não precisa fazer Login. Enquanto o programa espera um input, o botão Run vira Stop.
-- **Interação:** Todos abrem o link agora. Quem não conseguir levanta a mão antes da primeira atividade.
-
-#### Slide 4: Como enviar suas respostas
-
-- **Na tela:** QR code e link do sistema, mais 3 passos: escreva e teste no compilador; copie o código; cole no sistema e envie.
-- **Interação:** Aquecimento sem pontos: todos entram no sistema com o próprio nome e enviam um teste. Assim os problemas de acesso aparecem antes da primeira atividade valendo.
+- **Na tela:** Criado por Guido van Rossum. Lançado em 1991. O nome vem do grupo de comédia Monty Python, não da cobra. Ao lado, foto do Monty Python ao vivo em 2014 (Eduardo Unda-Sanzana, CC BY 2.0, Wikimedia Commons), com o crédito embaixo.
+- **Fala:** A curiosidade do nome costuma arrancar risada. Use para quebrar o gelo.
 
 #### Slide 5: O que é um algoritmo?
 
 - **Na tela:** Título "Um turno do jogo" e 4 passos: 1. jogar os dados; 2. andar as casas; 3. ver de quem é a casa; 4. comprar ou pagar aluguel.
 - **Fala:** Algoritmo é uma sequência de passos exatos, na ordem certa. O computador é um banqueiro obediente, mas sem imaginação: faz exatamente o que a regra manda. Se pular um passo, o turno trava.
 
-#### Slide 6: Prazer, Python
+#### Slide 6: Regras do jogo
 
-- **Na tela:** Criado por Guido van Rossum. Lançado em 1991. O nome vem do grupo de comédia Monty Python, não da cobra. Ao lado, foto do Monty Python ao vivo em 2014 (Eduardo Unda-Sanzana, CC BY 2.0, Wikimedia Commons), com o crédito embaixo.
-- **Fala:** A curiosidade do nome costuma arrancar risada. Use para quebrar o gelo.
+- **Na tela:** Três itens: cada um de vocês é um jogador; acertar uma atividade rende dinheiro (R$ 300 para o 1º, R$ 200 para o 2º, R$ 100 para o 3º); quem terminar mais rico é o Magnata da Liga.
+- **Fala:** Avise que o 1º de cada atividade ganha prêmio na hora e que todo mundo que acertar entra nos sorteios.
 
-#### Slide 7: Onde o Python é usado
+#### Slide 7: Nosso compilador
 
-- **Na tela:** Quatro cartas com o nome em cima e um ícone embaixo: inteligência artificial (robô), ciência de dados (gráfico), sites (janela do navegador), automação de tarefas (engrenagem).
-- **Fala:** 30 segundos. "É uma das linguagens mais usadas do mundo e uma das mais fáceis de começar."
+- **Na tela:** Link onecompiler.com/python, "Grátis e sem cadastro.", "Proibido usar o botão AI." e 3 passos: escreva o código no main.py; clique em Run; a saída aparece no Console, e se o programa pedir algo, digite ali e aperte Enter.
+- **Fala:** Abra o link no projetor e mostre ao vivo: apague o exemplo, escreva um print, clique em Run. Não precisa fazer Login. Enquanto o programa espera um input, o botão Run vira Stop.
+- **Interação:** Todos abrem o link agora. Quem não conseguir levanta a mão antes da primeira atividade.
+
+#### Slide 7b: Como mostrar sua resposta
+
+- **Na tela:** 3 passos: escreva e teste no compilador; terminou, levante a mão; um ministrante confere o código na sua tela.
+- **Interação:** Aquecimento sem pontos: todos abrem o compilador e rodam um print de teste. Sem sistema de envio: os ministrantes passam nas carteiras e anotam a ordem de quem terminou.
 
 ### print e comentários (7 a 17 min)
 
@@ -293,6 +293,19 @@ print(dado)
 a = input("Dado 1: ")
 b = input("Dado 2: ")
 print(a + b)
+```
+
+#### Slide 22b: Concatenação: juntando textos
+
+- **Fala:** Esse + entre textos tem nome: concatenação. Ele cola um texto no outro, sem espaço, por isso o espaço vai dentro das aspas. Número não cola direto em texto: o str() transforma o 1500 em texto. Sem ele, o Python dá TypeError.
+
+**Exemplo**
+
+```python
+nome = input("Seu nome: ")
+print("Bem-vindo, " + nome + "!")
+saldo = 1500
+print("Saldo: " + str(saldo))
 ```
 
 #### Slide 23: int(): o conversor
@@ -495,7 +508,7 @@ else:
 
 #### Slide 38: Intervalo
 
-- **Na tela:** Cronômetro de 5 minutos e o teaser: "Na volta, o banqueiro vai jogar rodadas inteiras sozinho."
+- **Na tela:** Cronômetro de 10 minutos e o teaser: "Na volta, o banqueiro vai jogar rodadas inteiras sozinho."
 - **Fala:** Aproveite para entregar os prêmios do Bloco 1.
 
 ## Bloco 2 (50 min)
@@ -576,14 +589,14 @@ while saldo > 0:
 
 #### Slide 45: Atividade 5b: enunciado
 
-- **Na tela:** O jogador foi para a prisão por 3 turnos. Use um while para mostrar os turnos de 3 até 1 e depois imprimir "Você está livre!". Cronômetro de 7 minutos.
+- **Na tela:** O jogador foi para a prisão por 3 turnos. Use um while para contar os turnos de 1 até 3 e depois imprimir "Você está livre!". Cronômetro de 7 minutos. (A professora pediu o while subindo; o exemplo do slide 44 continua descendo.)
 
 **Saída esperada**
 
 ```text
-Turnos na prisão: 3
-Turnos na prisão: 2
-Turnos na prisão: 1
+Turno na prisão: 1
+Turno na prisão: 2
+Turno na prisão: 3
 Você está livre!
 ```
 
@@ -594,10 +607,10 @@ Você está livre!
 **Gabarito**
 
 ```python
-turnos = 3
-while turnos > 0:
-    print("Turnos na prisão:", turnos)
-    turnos = turnos - 1
+turno = 1
+while turno <= 3:
+    print("Turno na prisão:", turno)
+    turno = turno + 1
 print("Você está livre!")
 ```
 
@@ -674,7 +687,7 @@ else:
     print("Cuidado com a falência")
 ```
 
-### Premiação final (46 a 50 min)
+### Premiação final (46 a 55 min)
 
 #### Slide 52: Ranking final
 
@@ -698,6 +711,60 @@ else:
 
 - **Na tela:** Agradecimento e contatos do grupo.
 
+## Plano B: rodada bônus (só se sobrar tempo)
+
+Seção extra depois do Obrigado (slides 57 a 66). Cada bônus vale R$ 300, 200 e 100 no placar e chocolate para o 1º. Entra quando sobrar tempo: o bônus 1 depois do slide 26, o 2 depois do 35, o 3 e o 4 depois do 46. Para voltar ao roteiro: G, número do slide, Enter. Texto rascunhado pelo Claude para o grupo revisar.
+
+#### Slide 57: Rodada bônus
+
+- **Na tela:** "Sobrou tempo? O banqueiro abriu mais quatro rodadas valendo dinheiro."
+
+#### Slides 58 e 59: Bônus 1, o recibo (concatenação, 5 min)
+
+- **Na tela:** Pergunte o nome do jogador e o valor do aluguel. Monte o recibo juntando os textos com +. Saída digitando Ana e 70: `Recibo: Ana pagou R$ 70`.
+
+```python
+nome = input("Nome: ")
+aluguel = input("Aluguel: ")
+print("Recibo: " + nome + " pagou R$ " + aluguel)
+```
+
+#### Slides 60 a 62: %, o resto da divisão, e Bônus 2, par ou ímpar (if, 5 min)
+
+- **Na tela:** `print(7 % 2)` dá 1 (ímpar) e `print(8 % 2)` dá 0 (par). Depois: leia o dado; se for par, imprima "Par: joga de novo!", senão "Ímpar: passa a vez."
+
+```python
+dado = int(input("Dado: "))
+if dado % 2 == 0:
+    print("Par: joga de novo!")
+else:
+    print("Ímpar: passa a vez.")
+```
+
+#### Slides 63 e 64: Bônus 3, a tabuada (for, 6 min)
+
+- **Na tela:** Leia o valor do aluguel e mostre a tabuada dele, de 1 a 5 (`1 x 70 = 70` até `5 x 70 = 350`).
+
+```python
+aluguel = int(input("Aluguel: "))
+for vezes in range(1, 6):
+    print(vezes, "x", aluguel, "=", vezes * aluguel)
+```
+
+#### Slides 65 e 66: Bônus 4, o terreno (while subindo, 7 min)
+
+- **Na tela:** O jogador começa com 0 e ganha 200 a cada turno. Repita até juntar 1000 e conte os turnos.
+
+```python
+saldo = 0
+turnos = 0
+while saldo < 1000:
+    saldo = saldo + 200
+    turnos = turnos + 1
+    print("Saldo:", saldo)
+print("Comprou o terreno em", turnos, "turnos!")
+```
+
 ## Pendências do grupo
 
 - **Ministrantes:** definir quem apresenta cada seção.
@@ -707,6 +774,6 @@ else:
 - **Regras do sistema:** ignorar o texto das perguntas do input na saída; ignorar acentos, maiúsculas e espaços extras ao comparar; limite de 3 tentativas por atividade; painel que mostra o código do top 3.
 - **Plano B:** se a rede cair, vale a mão levantada e um ministrante confere o código na tela do aluno.
 - **Lab:** conferir se o VS Code com Python está instalado e ter um compilador online de reserva.
-- **Forms:** criar o formulário de avaliação e frequência e gerar o QR code.
+- **Forms:** colar o link do formulário em `conteudo/config.js` (`links.forms`); o QR code do slide 55 se gera sozinho a partir dele.
 - **Slides:** montar a identidade visual de tabuleiro com arte própria e aplicar este roteiro.
 - **Ensaio:** rodar todos os gabaritos antes da aula e fazer um ensaio cronometrado.

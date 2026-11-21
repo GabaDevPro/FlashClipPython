@@ -69,14 +69,22 @@
     return s;
   }
 
+  // data-campo diz ao modo edição (js/ui/edicao-ui.js) qual campo do slide o elemento mostra.
+  function campo(no, caminho) {
+    if (no && caminho) { no.setAttribute('data-campo', caminho); }
+    return no;
+  }
+
+  // opcoes.campos: { rotulo, titulo, texto } com o caminho de cada parte no slide (modo edição).
   function carta(opcoes) {
+    var campos = opcoes.campos || {};
     var c = el('div', 'carta');
     var faixa = el('div', 'carta__faixa carta__faixa--' + (opcoes.cor || 'celeste'));
-    if (opcoes.rotulo) { faixa.appendChild(txt('span', 'carta__rotulo', opcoes.rotulo)); }
-    if (opcoes.titulo) { faixa.appendChild(txt('span', 'carta__titulo', opcoes.titulo)); }
+    if (opcoes.rotulo) { faixa.appendChild(campo(txt('span', 'carta__rotulo', opcoes.rotulo), campos.rotulo)); }
+    if (opcoes.titulo) { faixa.appendChild(campo(txt('span', 'carta__titulo', opcoes.titulo), campos.titulo)); }
     c.appendChild(faixa);
     var corpo = el('div', 'carta__corpo');
-    if (opcoes.texto) { corpo.appendChild(txt('p', 'carta__texto', opcoes.texto)); }
+    if (opcoes.texto) { corpo.appendChild(campo(txt('p', 'carta__texto', opcoes.texto), campos.texto)); }
     if (opcoes.arte) { corpo.appendChild(opcoes.arte); }
     c.appendChild(corpo);
     return c;
@@ -123,9 +131,12 @@
       code.textContent = bloco.texto;
     }
     pre.appendChild(code);
-    b.appendChild(el('div', 'codigo__editor', [txt('figcaption', 'codigo__rotulo', bloco.rotulo || ''), pre]));
+    // opcoes.indice: posição do bloco em slide.codigo, para o modo edição.
+    var prefixo = opcoes && typeof opcoes.indice === 'number' ? 'codigo.' + opcoes.indice + '.' : null;
+    campo(pre, prefixo && prefixo + 'texto');
+    b.appendChild(el('div', 'codigo__editor', [campo(txt('figcaption', 'codigo__rotulo', bloco.rotulo || ''), prefixo && prefixo + 'rotulo'), pre]));
     if (mostrarSaida) {
-      b.appendChild(el('div', 'codigo__saida', [txt('span', 'codigo__rotulo', 'Saída'), txt('pre', 'codigo__texto', bloco.saida)]));
+      b.appendChild(el('div', 'codigo__saida', [txt('span', 'codigo__rotulo', 'Saída'), campo(txt('pre', 'codigo__texto', bloco.saida), prefixo && prefixo + 'saida')]));
     }
     return b;
   }
@@ -160,10 +171,47 @@
     return no;
   }
 
+  var QR_MARGEM = 2;
+
+  // QR code gerado aqui mesmo (vendor/qrcode-generator), sem rede. O desenho sai só de isDark(),
+  // então o link nunca vira marcação. Sem link no config, mostra o aviso no lugar do código.
+  function qr(link) {
+    if (!link) { return txt('figure', 'qr qr--pendente', 'O QR code aparece quando o link estiver em conteudo/config.js'); }
+    if (typeof raiz.qrcode !== 'function') {
+      console.error('vendor/qrcode-generator/qrcode.js não carregou: QR code indisponível.');
+      return txt('figure', 'qr qr--pendente', 'QR code indisponível');
+    }
+    var codigo = raiz.qrcode(0, 'M');
+    try {
+      codigo.addData(link);
+      codigo.make();
+    } catch (erro) {
+      console.error('Não deu para gerar o QR code (link grande demais?):', erro && erro.message ? erro.message : erro);
+      return txt('figure', 'qr qr--pendente', 'QR code indisponível');
+    }
+    var n = codigo.getModuleCount();
+    var lado = n + QR_MARGEM * 2;
+    var d = [];
+    for (var lin = 0; lin < n; lin++) {
+      for (var col = 0; col < n; col++) {
+        if (codigo.isDark(lin, col)) { d.push('M' + (col + QR_MARGEM) + ' ' + (lin + QR_MARGEM) + 'h1v1h-1z'); }
+      }
+    }
+    var desenho = document.createElementNS(SVG_NS, 'svg');
+    desenho.setAttribute('viewBox', '0 0 ' + lado + ' ' + lado);
+    desenho.setAttribute('shape-rendering', 'crispEdges');
+    desenho.setAttribute('role', 'img');
+    desenho.setAttribute('aria-label', 'QR code para ' + link);
+    var caminho = document.createElementNS(SVG_NS, 'path');
+    caminho.setAttribute('d', d.join(''));
+    desenho.appendChild(caminho);
+    return el('figure', 'qr', [desenho]);
+  }
+
   raiz.PI = raiz.PI || {};
   raiz.PI.pecas = {
     CASAS: CASAS, el: el, txt: txt, svg: svg, casa: casa, dado: dado, nota: nota, chocolate: chocolate, peao: peao, carta: carta,
     cronometro: cronometro, blocoCodigo: blocoCodigo, cabecalho: cabecalho, faixaCasas: faixaCasas,
-    bordaTabuleiro: bordaTabuleiro, posicionar: posicionar
+    bordaTabuleiro: bordaTabuleiro, posicionar: posicionar, qr: qr, campo: campo
   };
 })(window);

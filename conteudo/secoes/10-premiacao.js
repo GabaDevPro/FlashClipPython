@@ -3,7 +3,7 @@ PI.secao({
   titulo: "Premiação final",
   bloco: 2,
   inicioMin: 46,
-  fimMin: 50,
+  fimMin: 55,
   slides: [
     {
       n: 52,
@@ -39,6 +39,7 @@ PI.secao({
       titulo: "Avaliação",
       texto: ["Avaliação e frequência"],
       link: "forms",
+      qr: "forms",
       fala: "Dar os 10 minutos do Forms antes do coffee break."
     },
     {

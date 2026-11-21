@@ -1,0 +1,144 @@
+/* Modo ao vivo (tecla O): OneCompiler embutido. Na janela principal ocupa o palco 1920x1080 e
+   escala junto com ele (tema claro, para o projetor); no painel cobre a janela, com a cola do
+   código do slide ao lado do OneCompiler (tema escuro). */
+
+.aovivo {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding: 40px 56px 48px;
+  background: var(--cor-fundo);
+  color: var(--cor-tinta);
+}
+.aovivo[hidden] { display: none !important; }
+
+.aovivo--principal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 20;
+  width: 1920px;
+  height: 1080px;
+  transform-origin: 0 0;
+}
+
+.aovivo__topo { display: flex; align-items: center; justify-content: space-between; gap: 32px; }
+.aovivo__marca { display: flex; align-items: center; gap: 22px; font: 700 48px/1 var(--fonte-titulo); white-space: nowrap; }
+.aovivo__selo {
+  padding: 10px 14px;
+  font: 700 22px/1 var(--fonte-texto);
+  letter-spacing: 0.12em;
+  color: var(--cor-carta);
+  background: var(--cor-destaque);
+}
+.aovivo__acoes { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 14px; }
+
+.aovivo__botao {
+  padding: 16px 22px;
+  font: 700 24px/1 var(--fonte-texto);
+  color: var(--cor-carta);
+  background: var(--cor-tinta);
+  border: var(--borda-tinta) solid var(--cor-tinta);
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+.aovivo__botao:hover { background: var(--cor-casa-azul); border-color: var(--cor-casa-azul); }
+.aovivo__botao:focus-visible { outline: 4px solid var(--cor-casa-amarelo); outline-offset: 3px; }
+.aovivo__botao:disabled { cursor: default; opacity: 0.45; }
+.aovivo__botao:disabled:hover { background: var(--cor-tinta); border-color: var(--cor-tinta); }
+.aovivo__botao--rodar { background: var(--cor-casa-verde); border-color: var(--cor-casa-verde); }
+.aovivo__botao--leve { color: var(--cor-tinta); background: transparent; }
+.aovivo__botao--leve:hover { color: var(--cor-carta); }
+
+.aovivo__corpo { flex: 1; min-height: 0; display: flex; gap: 16px; }
+
+.aovivo__oc-caixa { flex: 1; min-width: 0; min-height: 0; display: flex; }
+.aovivo__oc {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  background: var(--cor-carta);
+  border: var(--borda-forte) solid var(--cor-tinta);
+}
+/* Projetor: o OneCompiler inteiro (editor, botões e console) a 200%, como o zoom do navegador.
+   O iframe tem metade do tamanho da caixa e é ampliado 2x; a borda fica na caixa. */
+.aovivo__oc-caixa--principal {
+  --zoom-oc: 2;
+  position: relative;
+  overflow: hidden;
+  background: var(--cor-carta);
+  border: var(--borda-forte) solid var(--cor-tinta);
+}
+.aovivo__oc-caixa--principal .aovivo__oc {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% / var(--zoom-oc));
+  height: calc(100% / var(--zoom-oc));
+  border: 0;
+  transform: scale(var(--zoom-oc));
+  transform-origin: 0 0;
+}
+.aovivo__sem-rede {
+  flex: 1;
+  display: grid;
+  place-content: center;
+  gap: 18px;
+  text-align: center;
+  font: 400 34px/1.3 var(--fonte-texto);
+  border: var(--borda-forte) dashed var(--cor-tinta);
+}
+.aovivo__sem-rede strong { font: 700 56px/1.1 var(--fonte-titulo); }
+
+/* No painel do apresentador (janela comum, sem escala): cola à esquerda, OneCompiler à direita. */
+.aovivo--painel { position: fixed; inset: 0; z-index: 50; gap: 10px; padding: 12px 16px; }
+.aovivo--painel .aovivo__marca { gap: 12px; font-size: 24px; }
+.aovivo--painel .aovivo__selo { padding: 6px 8px; font-size: 13px; }
+.aovivo--painel .aovivo__acoes { gap: 8px; }
+.aovivo--painel .aovivo__botao { padding: 8px 12px; font-size: 15px; }
+.aovivo--painel .aovivo__oc { background: var(--cor-editor-fundo); border-width: var(--borda-tinta); }
+.aovivo--painel .aovivo__sem-rede { font-size: 18px; }
+.aovivo--painel .aovivo__sem-rede strong { font-size: 28px; }
+
+.cola {
+  flex: 0 0 42%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 14px;
+  overflow: auto;
+  background: var(--cor-carta);
+  border: var(--borda-tinta) solid var(--cor-tinta);
+}
+.cola__topo { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.cola__nav { display: flex; gap: 6px; }
+.cola__nav .aovivo__botao { padding: 6px 10px; font-size: 13px; }
+.cola__selo { font: 700 12px/1 var(--fonte-texto); letter-spacing: 0.12em; color: var(--cor-texto-suave); }
+.cola__titulo { margin: 0; font: 700 20px/1.2 var(--fonte-titulo); }
+.cola__aviso { margin: 0; font: 400 15px/1.35 var(--fonte-texto); color: var(--cor-texto-suave); }
+.cola__rotulo { font: 700 12px/1 var(--fonte-texto); letter-spacing: 0.1em; text-transform: uppercase; color: var(--cor-texto-suave); }
+.cola__codigo,
+.cola__saida {
+  margin: 0;
+  padding: 12px 14px;
+  overflow-x: auto;
+  /* 16px: a linha mais longa dos slides (52 caracteres) cabe sem rolar num painel de 1366px. */
+  font: 400 16px/1.45 var(--fonte-codigo);
+  font-variant-ligatures: none;
+  white-space: pre;
+  tab-size: 4;
+  border-radius: var(--raio-carta);
+}
+.cola__codigo { color: var(--cor-editor-texto); background: var(--cor-editor-fundo); }
+.cola__saida { font-size: 15px; color: var(--cor-tinta); background: var(--cor-fundo); border: 2px dashed var(--cor-texto-suave); }
+.cola__entradas { margin: 0; font: 400 16px/1.35 var(--fonte-texto); }
+.cola__entradas code { font: 700 17px/1 var(--fonte-codigo); color: var(--cor-destaque); }
+
+@media (prefers-reduced-motion: reduce) {
+  .aovivo__botao { transition: none; }
+}
+
+@media print {
+  .aovivo { display: none !important; }
+}

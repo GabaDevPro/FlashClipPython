@@ -8,7 +8,7 @@
   var el = P.el, txt = P.txt;
   var ESCALA_ATUAL = 0.36, ESCALA_PROXIMO = 0.16;
   var RELOGIO_MS = 1000;
-  var slides = PI.conteudo.achatarSecoes(PI.secoes());
+  var slides = PI.edicaoUi.slides({});
   var secoes = PI.secoes();
   var config = PI.config;
   var ctx = { config: config };
@@ -132,7 +132,8 @@
             el('div', 'painel__nav', [
               el('div', 'placar-ui__linha', [botao('Anterior', function () { ir(i - 1); }), botao('Próximo', function () { ir(i + 1); })]),
               irPara(),
-              botao('Placar (L)', function () { PI.placarUi.abrir(slide.atividade); }, 'placar-ui__botao--leve')
+              botao('Placar (L)', function () { PI.placarUi.abrir(slide.atividade); }, 'placar-ui__botao--leve'),
+              botao('OneCompiler com a cola (O)', function () { PI.aoVivoUi.alternar(); })
             ])
           ])
         ]),
@@ -173,6 +174,10 @@
       if (e.key === 'Escape') { PI.placarUi.fechar(); }
       return;
     }
+    if (PI.aoVivoUi.aberto()) {
+      if (e.key === 'Escape') { e.preventDefault(); PI.aoVivoUi.fechar(); }
+      return;
+    }
     if (e.ctrlKey || e.metaKey || e.altKey || /^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName)) { return; }
     var r = PI.navegacao.interpretarTecla(e.key, null);
     var acoes = {
@@ -184,7 +189,8 @@
       mais1: function () { mudarCronometro(PI.cronometro.mais1); },
       zerar: function () { mudarCronometro(PI.cronometro.zerar); },
       placar: function () { PI.placarUi.abrir(slides[indiceAtual()].atividade); },
-      roleta: PI.roletaUi.sortearAgora
+      roleta: PI.roletaUi.sortearAgora,
+      oneCompiler: function () { PI.aoVivoUi.alternar(); }
     };
     if (!acoes[r.acao]) { return; }
     e.preventDefault();
@@ -198,6 +204,8 @@
     PI.loja.iniciar(config);
     PI.placarUi.iniciar(config);
     PI.roletaUi.iniciar();
+    PI.aoVivoUi.iniciar({ papel: 'painel', slides: slides, indiceAtual: indiceAtual, ir: ir });
+    PI.edicaoUi.iniciarPainel();
     PI.loja.ouvir(function () { if (!PI.placarUi.aberto()) { desenhar(); } });
     PI.cronometroUi.iniciar({ semSom: true });
     document.addEventListener('keydown', aoTeclar);

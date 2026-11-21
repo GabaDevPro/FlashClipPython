@@ -64,3 +64,50 @@
 @media (prefers-reduced-motion: reduce) {
   .instrucoes__arte .peao, .instrucoes__arte .dado, .cronometro--partida, .revelando, .slide--entrando-avancar, .slide--entrando-voltar, .slide--saindo-avancar, .slide--saindo-voltar, .carta--virando, .ranking__linha--subindo, .dado--rolando, .fantasma { animation: none; }
 }
+
+/* Roleta (js/ui/roleta-ui.js). Só .roleta__giro gira, em torno do centro da roda (260, 260 no viewBox);
+   o ponteiro fica parado e dá um tranco a cada fatia. O giro usa transform (o JS lê o ângulo dele). */
+.roleta__giro, .roleta__ponteiro { transform-box: view-box; }
+.roleta__giro { transform-origin: 260px 260px; }
+.roleta__ponteiro { transform-origin: 260px 548px; }
+@keyframes roleta-balanco { from { transform: rotate(-6deg); } to { transform: rotate(6deg); } }
+.roleta--ociosa .roleta__giro { animation: roleta-balanco 3.6s ease-in-out infinite alternate; }
+@keyframes roleta-tranco { 35% { rotate: -16deg; } }
+.roleta__ponteiro--tranco { animation: roleta-tranco 160ms ease-out; }
+.roleta__fatias path { transition: opacity 400ms ease; }
+.roleta--girando .roleta__resultado { opacity: 0.7; }
+.roleta--revelada .roleta__fatias path:not(.fatia--vencedora) { opacity: 0.35; }
+@keyframes roleta-nome { from { opacity: 0; scale: 0.4; } }
+.roleta--revelada .roleta__resultado { animation: roleta-nome 700ms cubic-bezier(0.2, 1.5, 0.4, 1) both; }
+.roleta__confete { position: absolute; left: 50%; top: 260px; width: 0; height: 0; pointer-events: none; }
+.confete {
+  position: absolute;
+  left: -9px;
+  top: -6px;
+  width: 18px;
+  height: 12px;
+  border: 2px solid var(--cor-tinta);
+  opacity: 0;
+  animation: roleta-confete 1.6s cubic-bezier(0.15, 0.7, 0.3, 1) var(--atraso, 0ms) both;
+}
+.confete--vermelho { background: var(--cor-casa-vermelho); }
+.confete--amarelo { background: var(--cor-casa-amarelo); }
+.confete--verde { background: var(--cor-casa-verde); }
+.confete--azul { background: var(--cor-casa-azul); }
+.confete--laranja { background: var(--cor-casa-laranja); }
+.confete--rosa { background: var(--cor-casa-rosa); }
+.confete--celeste { background: var(--cor-casa-celeste); }
+@keyframes roleta-confete {
+  0% { opacity: 1; translate: 0 0; rotate: 0deg; scale: 0.6; }
+  70% { opacity: 1; }
+  100% { opacity: 0; translate: var(--dx) var(--dy); rotate: var(--giro); scale: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .roleta--ociosa .roleta__giro, .roleta__ponteiro--tranco, .roleta--revelada .roleta__resultado { animation: none; }
+  .roleta__confete { display: none; }
+}
+
+@media print {
+  .roleta--ociosa .roleta__giro { animation: none; }
+}

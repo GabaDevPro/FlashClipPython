@@ -46,6 +46,26 @@ print(a + b)`,
       resposta: `O input sempre entrega texto. Texto mais texto junta, não soma. É o caso do saldo = "1500" de antes.`
     },
     {
+      n: "22b",
+      layout: "conceito",
+      titulo: "Concatenação: juntando textos",
+      codigo: [
+        {
+          rotulo: "Exemplo",
+          linguagem: "python",
+          texto: `nome = input("Seu nome: ")
+print("Bem-vindo, " + nome + "!")
+saldo = 1500
+print("Saldo: " + str(saldo))`,
+          saida: `Bem-vindo, Ana!
+Saldo: 1500`,
+          testes: [{ entradas: ["Ana"], saida: `Bem-vindo, Ana!
+Saldo: 1500` }]
+        }
+      ],
+      fala: "Esse + entre textos tem nome: concatenação. Ele cola um texto no outro, sem espaço, por isso o espaço vai dentro das aspas. Número não cola direto em texto: o str() transforma o 1500 em texto. Sem ele, o Python dá TypeError."
+    },
+    {
       n: 23,
       layout: "conceito",
       titulo: "int(): o conversor",
